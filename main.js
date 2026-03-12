@@ -38,11 +38,19 @@ const PILL_LABEL = {
 };
 
 
-/* ── 2. SCRYFALL IMAGE URL ───────────────────────────────────── */
+/* ── 2. IMAGE URL ────────────────────────────────────────────── */
 
 /**
- * Returns a Scryfall image URL for a given card name.
- * The browser follows the redirect to the actual card image.
+ * Converts a card name to the local filename used in /images/.
+ * Matches the convention in download-images.js.
+ */
+function localImg(name) {
+  var filename = name.replace(/[^a-zA-Z0-9\-_' ]/g, '_').replace(/\s+/g, '_') + '.jpg';
+  return 'images/' + filename;
+}
+
+/**
+ * Returns the Scryfall fallback URL for a card name.
  */
 function scryfallImg(name) {
   return 'https://api.scryfall.com/cards/named?exact=' + encodeURIComponent(name) + '&format=image&version=normal';
@@ -66,7 +74,8 @@ const modalWhyLbl = document.getElementById('modal-why-label');
  * @param {boolean} isWatchlist - true when card comes from the watchlist
  */
 function openModal(card, isWatchlist) {
-  modalImg.src          = scryfallImg(card.name);
+  modalImg.src          = localImg(card.name);
+  modalImg.onerror      = function() { modalImg.src = scryfallImg(card.name); modalImg.onerror = null; };
   modalImg.alt          = card.name;
   modalName.textContent = card.name;
   modalType.textContent = card.type;
@@ -135,7 +144,7 @@ function renderCards(cards) {
 
     el.innerHTML =
       '<div class="ban-card-img-wrap">' +
-        '<img class="ban-card-img" src="' + scryfallImg(card.name) + '" alt="' + safeName + '" loading="lazy" onerror="this.parentElement.classList.add(\'img-error\')">' +
+        '<img class="ban-card-img" src="' + localImg(card.name) + '" alt="' + safeName + '" loading="lazy" onerror="this.src=\'' + scryfallImg(card.name).replace(/'/g, "\\'") + '\';this.onerror=function(){this.parentElement.classList.add(\'img-error\')}">' +
         '<div class="ban-card-overlay">' +
           '<span class="ban-pill ' + card.pill + '">' + pillLabel + '</span>' +
         '</div>' +
@@ -170,7 +179,7 @@ function renderWatchlist() {
 
     el.innerHTML =
       '<div class="ban-card-img-wrap">' +
-        '<img class="ban-card-img" src="' + scryfallImg(card.name) + '" alt="' + safeName + '" loading="lazy" onerror="this.parentElement.classList.add(\'img-error\')">' +
+        '<img class="ban-card-img" src="' + localImg(card.name) + '" alt="' + safeName + '" loading="lazy" onerror="this.src=\'' + scryfallImg(card.name).replace(/'/g, "\\'") + '\';this.onerror=function(){this.parentElement.classList.add(\'img-error\')}">' +
         '<div class="ban-card-overlay">' +
           '<span class="ban-pill pill-watch">Watchlist</span>' +
         '</div>' +

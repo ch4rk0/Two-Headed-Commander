@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node -e \":*)",
       "Bash(node -e \"var fs = require\\(''fs''\\); var content = fs.readFileSync\\(''C:/Users/Admin/Desktop/files/banned-cards.js'', ''utf8''\\); var pattern = /name:\\\\s*\"\"\\([^\"\"]+\\)\"\"[^}]+?cat:\\\\s*\"\"\\([^\"\"]+\\)\"\"/g; var m; while \\(\\(m = pattern.exec\\(content\\)\\) !== null\\) { console.log\\(m[2].padEnd\\(15\\) + '' | '' + m[1]\\); }\")",
-      "Bash(node apply-restructure.js)"
+      "Bash(node apply-restructure.js)",
+      "Bash(node download-images.js)"
     ]
   }
 }
