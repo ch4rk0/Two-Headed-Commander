@@ -1,0 +1,1298 @@
+/* ════════════════════════════════════════════════════════════════
+   TWO-HEADED COMMANDER — styles.css
+   ════════════════════════════════════════════════════════════════
+
+   TABLE OF CONTENTS
+   ─────────────────
+   1.  RESET & BASE
+   2.  CSS VARIABLES (design tokens — edit colours/fonts here)
+   3.  TYPOGRAPHY & GLOBAL ELEMENTS
+   4.  SCROLLBAR
+   5.  BACKGROUND AMBIENT GLOW
+   6.  NAV
+   7.  HERO
+   8.  SECTION SHELLS (shared layout for all sections)
+   9.  HOW TO PLAY — steps
+   10. KEY DIFFERENCES — diff cards
+   11. LGS / EVENT SECTION
+       11a. LGS feature cards
+       11b. Event structure block
+       11c. Extra turn manifesto
+   12. BANNED LIST
+       12a. Filter & search controls
+       12b. Ban cards grid
+   13. FAQ accordion
+   14. FOOTER
+   15. RESPONSIVE / MOBILE
+
+   ════════════════════════════════════════════════════════════════ */
+
+
+/* ── 1. RESET & BASE ─────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* ── 2. CSS VARIABLES ────────────────────────────────────────── */
+/*
+   Edit these tokens to retheme the entire site.
+   Colours are grouped by purpose, not by hue.
+*/
+
+:root {
+  /* -- Backgrounds -- */
+  --bg:      #08070a;       /* deepest background */
+  --bg2:     #0f0d14;       /* slightly lighter alternate background */
+  --surface: #1c1928;       /* card/panel surfaces */
+
+  /* -- Borders -- */
+  --border:        rgba(180, 155, 230, 0.22);
+  --border-bright: rgba(200, 175, 255, 0.5);
+
+  /* -- Brand accent colours -- */
+  --gold:         #d4b05a;
+  --gold2:        #f0d070;
+  --purple:       #8a70d0;
+  --purple2:      #f0eafa;
+  --purple-glow:  rgba(140, 100, 220, 0.3);
+  --red:          #d04050;
+  --red2:         #f07080;
+  --teal:         #3ab8a0;
+
+  /* -- Text hierarchy (all WCAG AA or better on dark surfaces) -- */
+  --text:  #f0eafa;   /* primary   — near-white, very high contrast    */
+  --text2: #f0eafa;   /* secondary — cool light purple, AA on dark     */
+  --text3: #f0eafa;   /* muted     — timestamps / origins only         */
+  --white: #f8f4ff;
+}
+
+
+/* ── 3. TYPOGRAPHY & GLOBAL ELEMENTS ────────────────────────── */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* All body-copy text uses the secondary (slightly muted) colour */
+p,
+.step-text,
+.diff-text,
+.ban-why,
+.faq-a,
+.sec-intro {
+  color: var(--text2);
+  font-size: .97rem;
+  font-weight: 400;
+  line-height: 1.85;
+}
+
+strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Shared animations */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes breathe {
+  0%,  100% { opacity: .6;  transform: translate(-50%, -50%) scale(1);   }
+  50%        { opacity:  1;  transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ── 4. SCROLLBAR ────────────────────────────────────────────── */
+
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: var(--bg); }
+::-webkit-scrollbar-thumb  { background: var(--purple); border-radius: 3px; }
+
+
+/* ── 5. BACKGROUND AMBIENT GLOW ─────────────────────────────── */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(100, 60, 180, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 80%, rgba(180, 40,  80, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* ── 6. NAV ──────────────────────────────────────────────────── */
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 60px;
+  background: rgba(8, 7, 10, 0.95);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 2.5rem;
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.05rem;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--purple2); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Cormorant SC', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--gold2); }
+
+
+/* ── 7. HERO ─────────────────────────────────────────────────── */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Two animated ambient orbs (purple left, red right) */
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120, 80, 200, 0.2) 0%, transparent 70%);
+  top: 50%; left: 25%;
+  transform: translate(-50%, -50%);
+  animation: breathe 6s ease-in-out infinite;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(180, 40, 60, 0.15) 0%, transparent 70%);
+  top: 50%; left: 75%;
+  transform: translate(-50%, -50%);
+  animation: breathe 6s ease-in-out 3s infinite;
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+/* Staggered entrance animations — adjust delays here */
+.hero-eyebrow {
+  font-family: 'Cormorant SC', serif;
+  font-size: .78rem;
+  letter-spacing: .55em;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: riseIn .9s ease .3s forwards;
+}
+
+.hero-crest {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+  filter: drop-shadow(0 0 20px var(--purple-glow));
+  opacity: 0;
+  animation: riseIn .9s ease .5s forwards;
+}
+
+.hero-title {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: clamp(3.2rem, 9vw, 7.5rem);
+  line-height: .95;
+  color: var(--white);
+  text-shadow: 0 0 60px rgba(140, 100, 220, .5), 3px 3px 0 rgba(0, 0, 0, .9);
+  margin-bottom: .4rem;
+  letter-spacing: .02em;
+  opacity: 0;
+  animation: riseIn .9s ease .7s forwards;
+}
+
+.hero-title .line2 {
+  color: var(--gold);
+  display: block;
+  font-size: .65em;
+  letter-spacing: .08em;
+  text-shadow: 0 0 60px rgba(200, 168, 75, .5), 3px 3px 0 rgba(0, 0, 0, .9);
+}
+
+/* The 4 stat badges (2 players / 60 life / 100 cards / 4 commanders) */
+.hero-rule-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 2.5rem auto;
+  opacity: 0;
+  animation: riseIn .9s ease 1s forwards;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+}
+
+.badge-number {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 2.4rem;
+  color: var(--gold2);
+  line-height: 1;
+}
+
+.badge-label {
+  font-family: 'Cormorant SC', serif;
+  font-size: .7rem;
+  letter-spacing: .22em;
+  color: var(--text2);
+  text-transform: uppercase;
+}
+
+.badge-sep {
+  font-size: 1.5rem;
+  color: var(--border-bright);
+  align-self: center;
+}
+
+.hero-desc {
+  max-width: 680px;
+  margin: 0 auto 3rem;
+  font-size: 1.15rem;
+  color: var(--text2);
+  font-style: italic;
+  line-height: 1.9;
+  opacity: 0;
+  animation: riseIn .9s ease 1.2s forwards;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  font-family: 'Cormorant SC', serif;
+  font-size: .85rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--purple2);
+  text-decoration: none;
+  border: 1px solid var(--border-bright);
+  padding: .75rem 2rem;
+  border-radius: 2px;
+  transition: all .3s;
+  opacity: 0;
+  animation: riseIn .9s ease 1.4s forwards;
+}
+
+.hero-cta:hover {
+  background: rgba(140, 100, 220, .15);
+  border-color: var(--purple2);
+  color: var(--white);
+  box-shadow: 0 0 30px var(--purple-glow);
+}
+
+
+/* ── 8. SECTION SHELLS ───────────────────────────────────────── */
+
+section {
+  padding: 6rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.sec-label {
+  font-family: 'Cormorant SC', serif;
+  font-size: .75rem;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: .8rem;
+}
+
+.sec-title {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 1rem;
+  line-height: 1.15;
+}
+
+.sec-intro {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* ── 9. HOW TO PLAY ──────────────────────────────────────────── */
+
+#how {
+  background: linear-gradient(to bottom, var(--bg), var(--bg2));
+}
+
+.steps {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 2.5rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: background .3s;
+}
+
+.step:first-child { border-top: 1px solid var(--border); }
+.step:hover       { background: rgba(140, 100, 220, .05); }
+
+.step-num {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 3rem;
+  color: var(--border-bright);
+  line-height: 1;
+  text-align: center;
+  padding-top: .2rem;
+  transition: color .3s;
+}
+
+.step:hover .step-num { color: var(--purple2); }
+
+.step-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--gold2);
+  margin-bottom: .6rem;
+  letter-spacing: .06em;
+}
+
+.step-callout {
+  display: inline-block;
+  background: rgba(140, 100, 220, .14);
+  border: 1px solid var(--border-bright);
+  border-radius: 3px;
+  padding: .5rem 1rem;
+  margin-top: .75rem;
+  font-family: 'Cormorant SC', serif;
+  font-size: .85rem;
+  color: var(--purple2);
+  letter-spacing: .08em;
+}
+
+
+/* ── 10. KEY DIFFERENCES ─────────────────────────────────────── */
+
+#differences {
+  background: var(--bg2);
+}
+
+.diff-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+/* Shared card base */
+.diff-card {
+  background: rgba(28, 25, 40, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s;
+}
+
+/* Coloured top accent bar — one per variant */
+.diff-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.diff-card.purple::before { background: linear-gradient(to right, transparent, var(--purple2), transparent); }
+.diff-card.gold::before   { background: linear-gradient(to right, transparent, var(--gold2),   transparent); }
+.diff-card.red::before    { background: linear-gradient(to right, transparent, var(--red2),    transparent); }
+.diff-card.teal::before   { background: linear-gradient(to right, transparent, var(--teal),    transparent); }
+
+.diff-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, .5);
+}
+
+.diff-icon  { font-size: 2rem; margin-bottom: 1rem; display: block; }
+
+.diff-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: .7rem;
+  letter-spacing: .05em;
+}
+
+/* Status tags at the bottom of each diff card */
+.diff-tag {
+  display: inline-block;
+  font-family: 'Cormorant SC', serif;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  padding: .28rem .7rem;
+  border-radius: 2px;
+  margin-top: .9rem;
+}
+
+.tag-new      { background: rgba(100, 200, 120, .15); color: #90e0a0; border: 1px solid rgba(100, 200, 120, .35); }
+.tag-modified { background: rgba(210, 176,  90, .14); color: var(--gold2); border: 1px solid rgba(210, 176, 90, .35); }
+.tag-same     { background: rgba(140, 100, 220, .14); color: var(--purple2); border: 1px solid var(--border-bright); }
+
+
+/* ── 11a. LGS FEATURE CARDS ──────────────────────────────────── */
+
+#lgs {
+  background: linear-gradient(to bottom, var(--bg2), var(--bg));
+}
+
+.lgs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.75rem;
+  margin-top: 4rem;
+}
+
+.lgs-card {
+  background: rgba(28, 25, 40, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.lgs-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--teal), transparent);
+}
+
+.lgs-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, .5);
+}
+
+.lgs-icon  { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+
+.lgs-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: .7rem;
+  letter-spacing: .05em;
+}
+
+
+/* ── 11b. EVENT STRUCTURE BLOCK ──────────────────────────────── */
+
+.event-block {
+  margin-top: 4rem;
+  background: rgba(28, 25, 40, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.event-header {
+  padding: 2rem 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.event-header-icon  { font-size: 2.5rem; }
+
+.event-header-title {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.6rem;
+  color: var(--white);
+}
+
+.event-header-sub {
+  font-family: 'Cormorant SC', serif;
+  font-size: .8rem;
+  letter-spacing: .2em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-top: .3rem;
+}
+
+.event-body {
+  padding: 2rem 2.5rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.event-col-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: .78rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+
+.event-steps      { display: flex; flex-direction: column; gap: 1rem; }
+
+.event-step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.event-step-num {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.4rem;
+  color: var(--purple2);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.event-step-text {
+  color: var(--text2);
+  font-size: .97rem;
+  line-height: 1.7;
+  padding-top: .1rem;
+}
+
+.event-step-text strong { color: var(--text); }
+
+/* Timing values table */
+.timing-grid   { display: flex; flex-direction: column; gap: .85rem; }
+
+.timing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  background: rgba(140, 100, 220, .07);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.timing-label {
+  font-family: 'Cormorant SC', serif;
+  font-size: .82rem;
+  letter-spacing: .08em;
+  color: var(--text2);
+}
+
+.timing-value {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.05rem;
+  color: var(--gold2);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.round-note {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(58, 184, 160, .08);
+  border: 1px solid rgba(58, 184, 160, .3);
+  border-radius: 3px;
+  font-size: .92rem;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.round-note strong { color: var(--teal); }
+
+
+/* ── 11c. BAN PHILOSOPHY & EXTRA TURN MANIFESTO ─────────────── */
+
+.ban-philosophy {
+  margin: 0 0 2.5rem 0;
+  background: rgba(28, 25, 40, 0.95);
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ban-philosophy .manifesto-header {
+  background: linear-gradient(135deg, rgba(190, 150, 60, .15), rgba(140, 100, 220, .08));
+}
+
+.ban-philosophy .manifesto-sub { color: var(--gold); }
+
+.ban-phil-body {
+  padding: 1.75rem 2rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.ban-phil-principles {
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.ban-phil-text {
+  color: var(--text2);
+  font-size: .93rem;
+  font-weight: 400;
+  line-height: 1.72;
+}
+
+.ban-phil-text strong { color: var(--text); }
+
+.ban-criteria-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: .72rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.ban-criteria-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  counter-reset: criteria;
+}
+
+.ban-criteria-list li {
+  counter-increment: criteria;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  color: var(--text2);
+  font-size: .93rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.ban-criteria-list li::before {
+  content: counter(criteria);
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Cormorant SC', serif;
+  font-size: .78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: .1rem;
+}
+
+.extraturn-manifesto {
+  margin: 0 0 3.5rem 0;
+  background: rgba(28, 25, 40, 0.95);
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.manifesto-header {
+  padding: 1.75rem 2rem 1.5rem;
+  background: linear-gradient(135deg, rgba(140, 100, 220, .15), rgba(180, 40, 60, .1));
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.manifesto-icon { font-size: 2.2rem; flex-shrink: 0; margin-top: .1rem; }
+
+.manifesto-heading {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.5rem;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: .4rem;
+}
+
+.manifesto-sub {
+  font-family: 'Cormorant SC', serif;
+  font-size: .78rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--red2);
+}
+
+.manifesto-body {
+  padding: 1.75rem 2rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.manifesto-col-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: .72rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.manifesto-col-title.green { color: #90e0a0; }
+.manifesto-col-title.red   { color: var(--red2); }
+
+.manifesto-point {
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+  margin-bottom: .9rem;
+}
+
+.manifesto-point:last-child { margin-bottom: 0; }
+
+.manifesto-bullet { font-size: 1rem; flex-shrink: 0; margin-top: .15rem; }
+
+.manifesto-text {
+  color: var(--text2);
+  font-size: .93rem;
+  font-weight: 400;
+  line-height: 1.72;
+}
+
+.manifesto-text strong { color: var(--text); }
+
+.manifesto-footer {
+  padding: 1.25rem 2rem 1.5rem;
+  border-top: 1px solid var(--border);
+  background: rgba(180, 40, 60, .06);
+}
+
+.manifesto-verdict {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  color: var(--text2);
+  line-height: 1.8;
+}
+
+.manifesto-verdict strong { color: var(--white); }
+
+
+/* ── 12a. BANNED LIST — filters & search ─────────────────────── */
+
+#banned {
+  background: linear-gradient(to bottom, var(--bg2), var(--bg), var(--bg2));
+}
+
+.filter-row {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 3rem 0 1.5rem;
+}
+
+/* Filter pill buttons */
+.filt {
+  font-family: 'Cormorant SC', serif;
+  font-size: .74rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  padding: .45rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.filt:hover,
+.filt.on {
+  border-color: var(--gold);
+  color: var(--gold2);
+  background: rgba(210, 176, 90, .1);
+}
+
+.search-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+#card-search {
+  background: rgba(28, 25, 40, 0.9);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  padding: .6rem 1.25rem;
+  border-radius: 2px;
+  width: 100%;
+  max-width: 420px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+#card-search:focus       { border-color: var(--gold); }
+#card-search::placeholder { color: var(--text3); font-style: italic; }
+
+.ban-count {
+  text-align: center;
+  font-family: 'Cormorant SC', serif;
+  font-size: .82rem;
+  letter-spacing: .2em;
+  color: var(--text3);
+  margin-bottom: 2.5rem;
+}
+
+.ban-count span { color: var(--gold2); }
+
+
+/* ── 12b. BANNED CARDS GRID — image style (Moxfield-inspired) ── */
+
+.banned-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(146px, 1fr));
+  gap: 1rem;
+}
+
+/* Each card is a clickable image tile */
+.ban-card {
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: cardIn .35s ease both;
+  transition: transform .25s, box-shadow .25s;
+}
+
+.ban-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .65), 0 0 0 2px var(--gold);
+}
+
+/* The image container keeps the correct MTG card aspect ratio (5:7) */
+.ban-card-img-wrap {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  background: var(--surface);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ban-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Fallback placeholder shown when the image fails to load */
+.img-error .ban-card-img {
+  opacity: 0;
+}
+
+.img-error::after {
+  content: '?';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--border-bright);
+}
+
+/* Pill overlay fades in on hover at the bottom of the card image */
+.ban-card-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: .5rem .45rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, .85), transparent);
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.ban-card:hover .ban-card-overlay { opacity: 1; }
+
+/* Card name beneath the image */
+.ban-card-label {
+  font-family: 'Cormorant SC', serif;
+  font-size: .82rem;
+  letter-spacing: .05em;
+  color: var(--text2);
+  padding: .4rem .25rem .15rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Watchlist card — amber glow instead of gold on hover */
+.watch-card:hover {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .65), 0 0 0 2px var(--gold2);
+}
+
+/* Ban source pills — one colour per origin */
+.ban-pill {
+  font-family: 'Cormorant SC', serif;
+  font-size: .6rem;
+  letter-spacing: .1em;
+  padding: .22rem .6rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pill-edh   { background: rgba(140, 100, 220, .25); color: var(--purple2); border: 1px solid rgba(140, 100, 220, .5); }
+.pill-2hg   { background: rgba(210, 176,  90, .20); color: var(--gold2);   border: 1px solid rgba(210, 176,  90, .45); }
+.pill-both  { background: rgba(200,  60,  80, .22); color: var(--red2);    border: 1px solid rgba(200,  60,  80, .45); }
+.pill-2hc   { background: rgba( 40, 180, 220, .20); color: #80d8f8;        border: 1px solid rgba( 40, 180, 220, .45); }
+.pill-watch { background: rgba(210, 176,  90, .18); color: var(--gold2);   border: 1px solid rgba(210, 176,  90, .45); }
+
+/* ── Modal text styles (used inside the card detail modal) ────── */
+
+.ban-why-label {
+  font-family: 'Cormorant SC', serif;
+  font-size: .67rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--red2);
+  margin-bottom: .5rem;
+}
+
+.ban-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: .8rem;
+  border-top: 1px solid rgba(255, 255, 255, .07);
+}
+
+.ban-origin {
+  font-size: .82rem;
+  color: var(--text3);
+  font-style: italic;
+}
+
+
+/* ── CARD DETAIL MODAL ───────────────────────────────────────── */
+
+#card-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(4, 3, 8, .85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+
+#card-modal.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  gap: 2.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: 10px;
+  padding: 2.5rem;
+  max-width: 860px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: riseIn .2s ease both;
+}
+
+#modal-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  line-height: 1;
+}
+
+#modal-close:hover {
+  border-color: var(--red2);
+  color: var(--red2);
+}
+
+.modal-img-wrap { flex-shrink: 0; }
+
+#modal-img {
+  width: 260px;
+  border-radius: 14px;
+  display: block;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .75);
+}
+
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  min-width: 0;
+  padding-top: .25rem;
+}
+
+#modal-name {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.7rem;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+#modal-type {
+  font-family: 'Raleway', sans-serif;
+  font-size: .88rem;
+  color: var(--text3);
+  font-style: italic;
+  margin-top: -.4rem;
+}
+
+.modal-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: .1rem 0;
+}
+
+#modal-why {
+  font-size: 1.06rem;
+  font-weight: 600;
+  line-height: 1.85;
+  color: var(--text2);
+}
+
+#modal-origin {
+  margin-top: .5rem;
+}
+
+
+/* ── WATCHLIST SECTION ───────────────────────────────────────── */
+
+#watchlist {
+  background: linear-gradient(to bottom, var(--bg), var(--bg2));
+}
+
+.watch-notice {
+  margin: 2rem auto 3.5rem;
+  max-width: 720px;
+  padding: 1.25rem 1.75rem;
+  background: rgba(210, 176, 90, .07);
+  border: 1px solid rgba(210, 176, 90, .28);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.watch-notice p {
+  color: var(--gold);
+  font-family: 'Raleway', sans-serif;
+  font-size: .95rem;
+  line-height: 1.75;
+}
+
+
+/* ── 13. FAQ ACCORDION ───────────────────────────────────────── */
+
+#faq { background: var(--bg); }
+
+.faq-list {
+  max-width: 800px;
+  margin: 4rem auto 0;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.faq-item:first-child { border-top: 1px solid var(--border); }
+
+.faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 1.4rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  cursor: pointer;
+  font-family: 'Cormorant SC', serif;
+  font-size: .98rem;
+  letter-spacing: .04em;
+  color: var(--text);
+  transition: color .2s;
+}
+
+.faq-q:hover              { color: var(--gold2); }
+.faq-q .arrow             { color: var(--gold); font-size: 1rem; transition: transform .3s; flex-shrink: 0; }
+.faq-item.open .faq-q     { color: var(--gold2); }
+.faq-item.open .arrow     { transform: rotate(180deg); }
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease, padding .3s ease;
+}
+
+.faq-item.open .faq-a {
+  max-height: 300px;
+  padding-bottom: 1.5rem;
+}
+
+
+/* ── 14. FOOTER ──────────────────────────────────────────────── */
+
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-logo {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin-bottom: .75rem;
+}
+
+.footer-logo span { color: var(--purple2); }
+
+.footer-note {
+  color: var(--text3);
+  font-size: .88rem;
+  font-style: italic;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+
+/* ── 15. RESPONSIVE / MOBILE ─────────────────────────────────── */
+
+@media (max-width: 700px) {
+  .diff-grid      { grid-template-columns: 1fr; }
+  .event-body     { grid-template-columns: 1fr; }
+  .manifesto-body { grid-template-columns: 1fr; }
+  .ban-phil-body  { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .nav-links         { display: none; }
+  .hero-title        { font-size: 3rem; }
+  .banned-grid       { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .step              { grid-template-columns: 50px 1fr; }
+  .hero-rule-badge   { flex-wrap: wrap; justify-content: center; }
+  .badge-sep         { display: none; }
+
+  /* Modal stacks vertically on small screens */
+  .modal-content     { flex-direction: column; align-items: center; gap: 1.5rem; padding: 1.75rem 1.25rem; }
+  #modal-img         { width: 180px; }
+}
