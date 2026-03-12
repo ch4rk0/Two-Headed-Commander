@@ -41,9 +41,14 @@ var modalImg    = document.getElementById('modal-img');
 var modalName   = document.getElementById('modal-name');
 var modalType   = document.getElementById('modal-type');
 var modalPill   = document.getElementById('modal-pill');
-var modalOrigin = document.getElementById('modal-origin');
-var modalWhy    = document.getElementById('modal-why');
-var modalWhyLbl = document.getElementById('modal-why-label');
+var modalOrigin   = document.getElementById('modal-origin');
+var modalWhy      = document.getElementById('modal-why');
+var modalWhyLbl   = document.getElementById('modal-why-label');
+var modalScryfall = document.getElementById('modal-scryfall');
+
+function scryfallLink(name) {
+  return 'https://scryfall.com/search?q=!' + encodeURIComponent('"' + name + '"');
+}
 
 function openModal(card, isWatchlist) {
   modalImg.src     = localImg(card.name);
@@ -52,6 +57,7 @@ function openModal(card, isWatchlist) {
 
   modalName.textContent = card.name;
   modalType.textContent = card.type;
+  modalScryfall.href    = scryfallLink(card.name);
 
   if (isWatchlist) {
     modalPill.textContent     = 'Watchlist';

@@ -1310,3 +1310,14 @@ footer {
   .modal-content     { flex-direction: column; align-items: center; gap: 1.5rem; padding: 1.75rem 1.25rem; }
   #modal-img         { width: 180px; }
 }
+
+.modal-scryfall-link {
+  display: inline-block;
+  margin-top: .6rem;
+  font-size: .8rem;
+  color: var(--purple2);
+  text-decoration: none;
+  opacity: .8;
+  transition: opacity .15s;
+}
+.modal-scryfall-link:hover { opacity: 1; text-decoration: underline; }
