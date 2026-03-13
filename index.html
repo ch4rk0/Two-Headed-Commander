@@ -30,7 +30,7 @@
     </div>
   </nav>
 
-  <!-- Hero — content injected by content.js -->
+  <!-- Hero — content injected by content.js, characters appended after render -->
   <section class="hero"></section>
 
   <footer>
@@ -39,7 +39,18 @@
   </footer>
 
   <script src="content.js"></script>
-  <script>renderHero();</script>
+  <script>
+    renderHero();
+    // Append character images after renderHero so innerHTML doesn't wipe them
+    var hero = document.querySelector('section.hero');
+    ['OrcZombie.png', 'HumanElf.png'].forEach(function (src, i) {
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      img.className = 'hero-char ' + (i === 0 ? 'hero-char-left' : 'hero-char-right');
+      hero.appendChild(img);
+    });
+  </script>
 
 </body>
 </html>
