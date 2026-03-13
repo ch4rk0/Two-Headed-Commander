@@ -39,7 +39,7 @@ function renderHero() {
       '<h1 class="hero-title">Two-Headed<br><span class="line2">Commander</span></h1>' +
       '<div class="hero-rule-badge">' + badges + '</div>' +
       '<p class="hero-desc">Two allies. Four commanders. One shared fate.<br>The sovereignty of Commander meets the brotherhood of Two-Headed Giant.</p>' +
-      '<a href="#how" class="hero-cta">Learn the Rules ↓</a>' +
+      '<a href="how-to-play.html" class="hero-cta">Learn the Rules ↓</a>' +
     '</div>';
 }
 

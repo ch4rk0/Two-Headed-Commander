@@ -207,7 +207,8 @@ nav {
   transition: color 0.2s;
 }
 
-.nav-links a:hover { color: var(--gold2); }
+.nav-links a:hover  { color: var(--gold2); }
+.nav-links .nav-active { color: var(--gold2); }
 
 
 /* ── 7. HERO ─────────────────────────────────────────────────── */

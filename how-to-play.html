@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Two-Headed Commander</title>
+  <title>How to Play — Two-Headed Commander</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,15 +23,16 @@
     <div class="nav-inner">
       <a class="nav-logo" href="index.html">Two&#8209;Headed <span>Commander</span></a>
       <ul class="nav-links">
-        <li><a href="how-to-play.html">How to Play</a></li>
+        <li><a href="how-to-play.html" class="nav-active">How to Play</a></li>
         <li><a href="run-an-event.html">Run an Event</a></li>
         <li><a href="banned-list.html">Banned List</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Hero — content injected by content.js -->
-  <section class="hero"></section>
+  <!-- Sections — content injected by content.js -->
+  <section id="how"></section>
+  <section id="differences"></section>
 
   <footer>
     <div class="footer-logo">Two&#8209;Headed <span>Commander</span></div>
@@ -39,7 +40,10 @@
   </footer>
 
   <script src="content.js"></script>
-  <script>renderHero();</script>
+  <script>
+    renderHowToPlay();
+    renderDifferences();
+  </script>
 
 </body>
 </html>
