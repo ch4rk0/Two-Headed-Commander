@@ -64,7 +64,7 @@ var HOW_TO_PLAY_STEPS = [
     num: 'III',
     title: 'Simultaneous Turns',
     text: 'Both teammates <strong>take their turn simultaneously</strong>. The team shares a single combat phase — both players may attack and both draw during their draw step. Each player maintains their own mana pool and hand.',
-    callout: '✦ Both teams draw on their first turn — no player skips their draw step',
+    callout: '✦ Starting team skip their draw on their first turn',
   },
   {
     num: 'IV',
@@ -390,7 +390,7 @@ var LGS_TILES = [
   {
     icon: '⏱',
     title: 'Predictable Round Times',
-    text: 'Hard 1-hour rounds with 3 extra turns then draw keep the event on schedule. Games rarely approach the time limit since both formats incentivise decisive play — teams that drag the game out risk the clock as much as opponents.',
+    text: 'Hard 50 minutes rounds with 3 extra turns then draw keep the event on schedule. Games rarely approach the time limit since both formats incentivise decisive play — teams that drag the game out risk the clock as much as opponents.',
   },
   {
     icon: '🃏',
