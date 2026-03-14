@@ -40,6 +40,7 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 
@@ -104,6 +105,22 @@ p,
 strong {
   color: var(--text);
   font-weight: 600;
+}
+
+/* ── Page content transitions (used by router.js) ────────────── */
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#page-content.page-exit {
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+
+#page-content.page-enter {
+  animation: pageEnter 0.25s ease-out both;
 }
 
 /* Shared animations */
@@ -223,9 +240,26 @@ nav {
   padding: 8rem 2rem 5rem;
   position: relative;
   overflow: hidden;
+  background: var(--bg);
+  isolation: isolate;
+}
+
+/* ── Hero background layer (zoom entry animation) ────────────── */
+
+.hero-bg-anim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--bg);
   background-image: linear-gradient(rgba(8,7,10,0.62), rgba(8,7,10,0.62)), url('hero-bg.jpg');
   background-size: cover;
   background-position: center;
+  animation: heroBgEntry 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes heroBgEntry {
+  from { transform: scale(1.1); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
 }
 
 /* Two animated ambient orbs (purple left, red right) */
@@ -238,6 +272,7 @@ nav {
   top: 50%; left: 25%;
   transform: translate(-50%, -50%);
   animation: breathe 6s ease-in-out infinite;
+  z-index: 1;
 }
 
 .hero::after {
@@ -249,9 +284,19 @@ nav {
   top: 50%; left: 75%;
   transform: translate(-50%, -50%);
   animation: breathe 6s ease-in-out 3s infinite;
+  z-index: 1;
 }
 
-.hero-content { position: relative; z-index: 1; }
+/* ── Particle canvas ─────────────────────────────────────────── */
+
+#hero-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 4; }
 
 /* ── HERO CHARACTERS ─────────────────────────────────────────── */
 
@@ -260,7 +305,7 @@ nav {
   bottom: 0;
   height: 80vh;
   width: auto;
-  z-index: 0;
+  z-index: 3;
   pointer-events: none;
 }
 

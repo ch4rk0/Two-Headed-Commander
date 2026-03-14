@@ -30,49 +30,47 @@
     </div>
   </nav>
 
-  <!-- Sections — content injected by content.js / cards.js -->
-  <section id="banned"></section>
-  <section id="watchlist"></section>
+  <!-- Page content swapped by router on navigation -->
+  <div id="page-content">
+    <!-- Sections — content injected by initBannedList() -->
+    <section id="banned"></section>
+    <section id="watchlist"></section>
+
+    <!-- Card detail modal -->
+    <div id="card-modal">
+      <div class="modal-content">
+        <button id="modal-close" aria-label="Close">✕</button>
+        <div class="modal-img-wrap">
+          <img id="modal-img" alt="">
+        </div>
+        <div class="modal-info">
+          <div id="modal-name"></div>
+          <div id="modal-type"></div>
+          <span id="modal-pill" class="ban-pill"></span>
+          <hr class="modal-divider">
+          <div id="modal-why-label" class="ban-why-label"></div>
+          <p id="modal-why" class="ban-why"></p>
+          <div class="ban-footer">
+            <span id="modal-origin" class="ban-origin"></span>
+            <a id="modal-scryfall" class="modal-scryfall-link" target="_blank" rel="noopener">View on Scryfall ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <div class="footer-logo">Two&#8209;Headed <span>Commander</span></div>
     <p class="footer-note">This is a fan-made format. Magic: The Gathering is property of Wizards of the Coast. Banned list and rulings may be updated as the format evolves — last updated March 2026.</p>
   </footer>
 
-  <!-- Card detail modal -->
-  <div id="card-modal">
-    <div class="modal-content">
-      <button id="modal-close" aria-label="Close">✕</button>
-      <div class="modal-img-wrap">
-        <img id="modal-img" alt="">
-      </div>
-      <div class="modal-info">
-        <div id="modal-name"></div>
-        <div id="modal-type"></div>
-        <span id="modal-pill" class="ban-pill"></span>
-        <hr class="modal-divider">
-        <div id="modal-why-label" class="ban-why-label"></div>
-        <p id="modal-why" class="ban-why"></p>
-        <div class="ban-footer">
-          <span id="modal-origin" class="ban-origin"></span>
-          <a id="modal-scryfall" class="modal-scryfall-link" target="_blank" rel="noopener">View on Scryfall ↗</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Scripts — load order matters -->
   <script src="banned-cards.js"></script>
   <script src="content.js"></script>
   <script src="cards.js"></script>
   <script src="filters.js"></script>
-  <script>
-    renderBanned();
-    renderWatchlistSection();
-    renderCards(CARDS);
-    renderWatchlist();
-    initFilters();
-  </script>
+  <script src="particles.js"></script>
+  <script src="router.js"></script>
 
 </body>
 </html>

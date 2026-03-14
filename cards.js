@@ -36,15 +36,27 @@ function scryfallImg(name) {
 
 /* ── MODAL ───────────────────────────────────────────────────── */
 
-var modal       = document.getElementById('card-modal');
-var modalImg    = document.getElementById('modal-img');
-var modalName   = document.getElementById('modal-name');
-var modalType   = document.getElementById('modal-type');
-var modalPill   = document.getElementById('modal-pill');
-var modalOrigin   = document.getElementById('modal-origin');
-var modalWhy      = document.getElementById('modal-why');
-var modalWhyLbl   = document.getElementById('modal-why-label');
-var modalScryfall = document.getElementById('modal-scryfall');
+var modal, modalImg, modalName, modalType, modalPill, modalOrigin, modalWhy, modalWhyLbl, modalScryfall;
+var _modalKeyHandler = null;
+
+function initCardModal() {
+  modal         = document.getElementById('card-modal');
+  modalImg      = document.getElementById('modal-img');
+  modalName     = document.getElementById('modal-name');
+  modalType     = document.getElementById('modal-type');
+  modalPill     = document.getElementById('modal-pill');
+  modalOrigin   = document.getElementById('modal-origin');
+  modalWhy      = document.getElementById('modal-why');
+  modalWhyLbl   = document.getElementById('modal-why-label');
+  modalScryfall = document.getElementById('modal-scryfall');
+
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+
+  if (_modalKeyHandler) document.removeEventListener('keydown', _modalKeyHandler);
+  _modalKeyHandler = function (e) { if (e.key === 'Escape') closeModal(); };
+  document.addEventListener('keydown', _modalKeyHandler);
+}
 
 function scryfallLink(name) {
   return 'https://scryfall.com/search?q=!' + encodeURIComponent('"' + name + '"');
@@ -86,9 +98,6 @@ function closeModal() {
   }, 300);
 }
 
-modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
-document.getElementById('modal-close').addEventListener('click', closeModal);
-document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
 
 /* ── RENDER BANNED CARDS ─────────────────────────────────────── */

@@ -30,27 +30,23 @@
     </div>
   </nav>
 
-  <!-- Hero — content injected by content.js, characters appended after render -->
-  <section class="hero"></section>
+  <!-- Page content swapped by router on navigation -->
+  <div id="page-content">
+    <!-- Hero — content injected by initIndex() -->
+    <section class="hero"></section>
+  </div>
 
   <footer>
     <div class="footer-logo">Two&#8209;Headed <span>Commander</span></div>
     <p class="footer-note">This is a fan-made format. Magic: The Gathering is property of Wizards of the Coast. Banned list and rulings may be updated as the format evolves — last updated March 2026.</p>
   </footer>
 
+  <script src="banned-cards.js"></script>
   <script src="content.js"></script>
-  <script>
-    renderHero();
-    // Append character images after renderHero so innerHTML doesn't wipe them
-    var hero = document.querySelector('section.hero');
-    ['OrcZombie.png', 'HumanElf.png'].forEach(function (src, i) {
-      var img = document.createElement('img');
-      img.src = src;
-      img.alt = '';
-      img.className = 'hero-char ' + (i === 0 ? 'hero-char-left' : 'hero-char-right');
-      hero.appendChild(img);
-    });
-  </script>
+  <script src="cards.js"></script>
+  <script src="filters.js"></script>
+  <script src="particles.js"></script>
+  <script src="router.js"></script>
 
 </body>
 </html>

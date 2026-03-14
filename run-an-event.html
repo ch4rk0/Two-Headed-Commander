@@ -30,16 +30,23 @@
     </div>
   </nav>
 
-  <!-- Section — content injected by content.js -->
-  <section id="lgs"></section>
+  <!-- Page content swapped by router on navigation -->
+  <div id="page-content">
+    <!-- Section — content injected by initRunEvent() -->
+    <section id="lgs"></section>
+  </div>
 
   <footer>
     <div class="footer-logo">Two&#8209;Headed <span>Commander</span></div>
     <p class="footer-note">This is a fan-made format. Magic: The Gathering is property of Wizards of the Coast. Banned list and rulings may be updated as the format evolves — last updated March 2026.</p>
   </footer>
 
+  <script src="banned-cards.js"></script>
   <script src="content.js"></script>
-  <script>renderLgs();</script>
+  <script src="cards.js"></script>
+  <script src="filters.js"></script>
+  <script src="particles.js"></script>
+  <script src="router.js"></script>
 
 </body>
 </html>
