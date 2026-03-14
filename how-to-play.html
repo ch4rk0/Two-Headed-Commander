@@ -36,14 +36,8 @@
   }
   </script>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T25XEGD3QJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-T25XEGD3QJ');
-  </script>
+  <!-- Cookie consent + Analytics (GA loads only after user accepts) -->
+  <script src="cookie-consent.js"></script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,6 +106,11 @@
   <footer>
     <div class="footer-logo">Two&#8209;Headed <span>Commander</span></div>
     <p class="footer-note">This is a fan-made format. Magic: The Gathering is property of Wizards of the Coast. Banned list and rulings may be updated as the format evolves — last updated March 2026.</p>
+    <div class="footer-legal">
+      <a href="privacy.html" class="footer-legal-link">Privacy Policy</a>
+      <span class="footer-legal-sep">·</span>
+      <button onclick="window.showCookiePreferences()" class="footer-legal-link footer-legal-btn">Cookie Settings</button>
+    </div>
   </footer>
 
   <script src="banned-cards.js"></script>

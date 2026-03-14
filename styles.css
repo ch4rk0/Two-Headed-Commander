@@ -1411,6 +1411,86 @@ section {
 }
 
 
+/* ── COOKIE CONSENT BANNER ───────────────────────────────────── */
+
+#cookie-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 600;
+  background: var(--surface);
+  border-top: 1px solid var(--border-bright);
+  transform: translateY(100%);
+  transition: transform 0.35s ease;
+}
+
+#cookie-banner.visible {
+  transform: translateY(0);
+}
+
+.cookie-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.cookie-text {
+  flex: 1;
+  font-size: .88rem;
+  color: var(--text2);
+  line-height: 1.6;
+  min-width: 240px;
+}
+
+.cookie-text strong { color: var(--text); }
+
+.cookie-link {
+  color: var(--purple2);
+  text-decoration: underline;
+}
+
+.cookie-actions {
+  display: flex;
+  gap: .75rem;
+  flex-shrink: 0;
+}
+
+.cookie-btn {
+  font-family: 'Cormorant SC', serif;
+  font-size: .75rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  padding: .5rem 1.25rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.cookie-btn-decline {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.cookie-btn-decline:hover {
+  border-color: var(--border-bright);
+  color: var(--text);
+}
+
+.cookie-btn-accept {
+  background: rgba(140, 100, 220, .15);
+  border: 1px solid var(--border-bright);
+  color: var(--purple2);
+}
+
+.cookie-btn-accept:hover {
+  background: rgba(140, 100, 220, .28);
+  color: var(--white);
+}
+
 /* ── 14. FOOTER ──────────────────────────────────────────────── */
 
 footer {
@@ -1433,6 +1513,38 @@ footer {
 
 .footer-logo span { color: var(--purple2); }
 
+.footer-legal {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.footer-legal-link {
+  font-size: .78rem;
+  color: var(--text3);
+  text-decoration: none;
+  opacity: .6;
+  transition: opacity .15s;
+  font-family: 'Cormorant SC', serif;
+  letter-spacing: .06em;
+}
+
+.footer-legal-link:hover { opacity: 1; }
+
+.footer-legal-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.footer-legal-sep {
+  color: var(--border-bright);
+  font-size: .7rem;
+}
+
 .footer-note {
   color: var(--text3);
   font-size: .88rem;
@@ -1442,6 +1554,101 @@ footer {
   line-height: 1.75;
 }
 
+
+/* ── PRIVACY POLICY PAGE ─────────────────────────────────────── */
+
+.privacy-section { background: transparent; }
+
+.privacy-wrap { max-width: 780px; }
+
+.privacy-meta {
+  text-align: center;
+  font-size: .82rem;
+  color: var(--text3);
+  font-style: italic;
+  margin-bottom: 3rem;
+}
+
+.privacy-body h2 {
+  font-family: 'Cormorant SC', serif;
+  font-size: 1rem;
+  letter-spacing: .08em;
+  color: var(--gold);
+  margin: 2rem 0 .6rem;
+}
+
+.privacy-body p,
+.privacy-body li {
+  font-size: .95rem;
+  color: var(--text2);
+  line-height: 1.85;
+  margin-bottom: .6rem;
+}
+
+.privacy-body ul {
+  padding-left: 1.4rem;
+  margin-bottom: .8rem;
+}
+
+.privacy-body ul li { margin-bottom: .3rem; }
+
+.privacy-link {
+  color: var(--purple2);
+  text-decoration: underline;
+}
+
+.privacy-cookie-btn {
+  display: inline-block;
+  margin: .5rem 0 1.5rem;
+  background: rgba(140, 100, 220, .12);
+  border: 1px solid var(--border-bright);
+  color: var(--purple2);
+  font-family: 'Cormorant SC', serif;
+  font-size: .8rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  padding: .55rem 1.5rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.privacy-cookie-btn:hover {
+  background: rgba(140, 100, 220, .25);
+  color: var(--white);
+}
+
+.privacy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: .75rem 0 1.25rem;
+  font-size: .88rem;
+}
+
+.privacy-table th,
+.privacy-table td {
+  text-align: left;
+  padding: .6rem .9rem;
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.privacy-table th {
+  background: rgba(140, 100, 220, .08);
+  font-family: 'Cormorant SC', serif;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  color: var(--gold);
+}
+
+.privacy-body code {
+  font-family: monospace;
+  font-size: .85rem;
+  background: rgba(255,255,255,.06);
+  padding: .1rem .35rem;
+  border-radius: 3px;
+  color: var(--purple2);
+}
 
 /* ── 15. RESPONSIVE / MOBILE ─────────────────────────────────── */
 
