@@ -533,7 +533,7 @@ var FILTER_BUTTONS = [
   { filter: 'combo',            label: 'Combo'                            },
   { filter: 'hard-stax',        label: 'Hard Stax'                        },
   { filter: 'misc',             label: 'Misc'                             },
-  { filter: 'official',         label: 'Official'                         },
+  { filter: 'commander',        label: 'Commander Ban'                    },
 ];
 
 function renderBanned() {
