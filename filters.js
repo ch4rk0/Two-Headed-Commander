@@ -36,9 +36,18 @@ function initFilters() {
     });
   });
 
+  var searchDebounce = null;
   document.getElementById('card-search').addEventListener('input', function (e) {
     currentSearch = e.target.value.trim();
     applyFilters();
+    clearTimeout(searchDebounce);
+    if (currentSearch.length >= 2) {
+      searchDebounce = setTimeout(function () {
+        if (window.gtag) {
+          gtag('event', 'search', { search_term: currentSearch });
+        }
+      }, 800);
+    }
   });
 
   var skipBtn = document.getElementById('skip-to-cards');
