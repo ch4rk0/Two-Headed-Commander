@@ -561,7 +561,6 @@ function renderBanned() {
     '<div class="container">' +
       '<div class="sec-label">The Forbidden Codex</div>' +
       '<h2 class="sec-title">Banned Cards</h2>' +
-      '<p class="sec-intro">These cards are forbidden in Two-Headed Commander. The ban source reflects whether the restriction originates in Commander, Two-Headed Giant, or is unique to this format\'s cooperative dynamics.</p>' +
 
       '<div id="manifesto" class="ban-philosophy">' +
         '<div class="manifesto-header">' +
