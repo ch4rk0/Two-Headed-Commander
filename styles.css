@@ -937,6 +937,53 @@ section {
 
 .manifesto-verdict strong { color: var(--white); }
 
+.et-toggle-wrap {
+  border-top: 1px solid var(--border);
+}
+
+.et-toggle-btn {
+  width: 100%;
+  padding: .85rem 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Cormorant SC', serif;
+  font-size: .72rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(240, 234, 250, 0.45);
+  transition: color .2s;
+  text-align: left;
+}
+
+.et-toggle-btn:hover { color: var(--text); }
+
+.et-card-list {
+  display: none;
+  padding: .25rem 2rem 1.5rem;
+  column-count: 3;
+  column-gap: 2rem;
+}
+
+.et-card-list.open { display: block; }
+
+.et-card-name {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .88rem;
+  color: rgba(240, 234, 250, 0.5);
+  padding: .18rem 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 700px) {
+  .et-card-list { column-count: 2; }
+}
+
+@media (max-width: 480px) {
+  .et-card-list { column-count: 1; }
+}
+
 
 /* ── 12a. BANNED LIST — filters & search ─────────────────────── */
 

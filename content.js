@@ -525,7 +525,6 @@ var EXTRA_TURN_MANIFESTO = {
 var FILTER_BUTTONS = [
   { filter: 'all',              label: 'All',                active: true },
   { filter: 'banned-commander', label: 'Banned as Commander'              },
-  { filter: 'extra-turn',       label: 'Extra Turns'                      },
   { filter: 'tutor',            label: 'Tutors'                           },
   { filter: 'fast-mana',        label: 'Fast Mana'                        },
   { filter: 'big-life',         label: 'Big Life Total'                   },
@@ -544,6 +543,9 @@ function renderBanned() {
   var criteria = BAN_CRITERIA.map(function (c) {
     return '<li>' + c + '</li>';
   }).join('');
+
+  var etCards = BANNED_CARDS.filter(function (c) { return c.cat === 'extra-turn'; });
+  var etNames = etCards.map(function (c) { return '<span class="et-card-name">' + c.name + '</span>'; }).join('');
 
   var pros = EXTRA_TURN_MANIFESTO.pros.map(function (p) {
     return '<div class="manifesto-point"><span class="manifesto-bullet">✦</span><p class="manifesto-text">' + p + '</p></div>';
@@ -593,6 +595,10 @@ function renderBanned() {
         '</div>' +
         '<div class="manifesto-footer">' +
           '<p class="manifesto-verdict">' + EXTRA_TURN_MANIFESTO.verdict + '</p>' +
+        '</div>' +
+        '<div class="et-toggle-wrap">' +
+          '<button class="et-toggle-btn" id="et-toggle">See the banned cards ▾</button>' +
+          '<div class="et-card-list" id="et-card-list">' + etNames + '</div>' +
         '</div>' +
       '</div>' +
 

@@ -10,6 +10,7 @@ var _seen = new Set();
 var CARDS = BANNED_CARDS.filter(function (card) {
   if (_seen.has(card.name)) return false;
   _seen.add(card.name);
+  if (card.cat === 'extra-turn') return false;  // listed separately in the manifesto
   return true;
 });
 

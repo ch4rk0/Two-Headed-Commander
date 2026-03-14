@@ -40,4 +40,13 @@ function initFilters() {
     currentSearch = e.target.value.trim();
     applyFilters();
   });
+
+  var etBtn = document.getElementById('et-toggle');
+  if (etBtn) {
+    etBtn.addEventListener('click', function () {
+      var list = document.getElementById('et-card-list');
+      var isOpen = list.classList.toggle('open');
+      etBtn.textContent = isOpen ? 'Hide banned cards ▴' : 'See the banned cards ▾';
+    });
+  }
 }
