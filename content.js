@@ -561,6 +561,7 @@ function renderBanned() {
     '<div class="container">' +
       '<div class="sec-label">The Forbidden Codex</div>' +
       '<h2 class="sec-title">Banned Cards</h2>' +
+      '<div class="skip-to-cards-wrap"><button class="skip-to-cards-btn" id="skip-to-cards">↓ Skip to card list</button></div>' +
 
       '<div id="manifesto" class="ban-philosophy">' +
         '<div class="manifesto-header">' +

@@ -4,6 +4,21 @@
 
   var pageContent = document.getElementById('page-content');
 
+  var hamburger  = document.getElementById('nav-hamburger');
+  var navLinks   = document.querySelector('.nav-links');
+
+  function closeMobileNav() {
+    if (navLinks)  navLinks.classList.remove('open');
+    if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  if (hamburger) {
+    hamburger.addEventListener('click', function () {
+      var isOpen = navLinks.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
   /* ── Page init functions ────────────────────────────────────── */
 
   function initIndex() {
@@ -58,6 +73,12 @@
     renderCards(CARDS);
     renderWatchlist();
     initFilters();
+    if (window.innerWidth <= 600) {
+      setTimeout(function () {
+        var target = document.querySelector('.filter-row');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
   }
 
   /* ── Page shell HTML (empty containers — content injected by init fns) ── */
@@ -144,7 +165,9 @@
     if (!html) { location.href = url.href; return; }
 
     // Stop particle loops before leaving current page
-    if (window.destroyParticles) destroyParticles();
+    if (window.destroyParticles)     destroyParticles();
+    closeMobileNav();
+    if (window.destroyPageParticles) destroyPageParticles();
     document.body.style.overflow = '';
 
     pageContent.classList.add('page-exit');
@@ -157,6 +180,7 @@
 
       var fn = PAGE_INIT[key];
       if (fn) fn();
+      if (window.initPageParticles) initPageParticles();
 
       pageContent.classList.remove('page-exit');
       pageContent.classList.add('page-enter');
@@ -188,6 +212,7 @@
   var firstKey = getPageKey(location.pathname);
   var firstFn  = PAGE_INIT[firstKey];
   if (firstFn) firstFn();
+  if (window.initPageParticles) initPageParticles();
 
   try { history.replaceState({ key: firstKey, href: location.href }, '', location.href); } catch (err) {}
 

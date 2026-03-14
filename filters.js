@@ -41,6 +41,14 @@ function initFilters() {
     applyFilters();
   });
 
+  var skipBtn = document.getElementById('skip-to-cards');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', function () {
+      var target = document.querySelector('.filter-row');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   var etBtn = document.getElementById('et-toggle');
   if (etBtn) {
     etBtn.addEventListener('click', function () {
