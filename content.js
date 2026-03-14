@@ -95,7 +95,6 @@ function renderHowToPlay() {
     '<div class="container">' +
       '<div class="sec-label">The Codex</div>' +
       '<h2 class="sec-title">How to Play</h2>' +
-      '<p class="sec-intro">Two-Headed Commander fuses the singleton deckbuilding and legendary commanders of EDH with the cooperative, simultaneous-turn structure of Two-Headed Giant.</p>' +
       '<div class="steps">' + steps + '</div>' +
     '</div>';
 }
@@ -145,7 +144,6 @@ var KEY_DIFFERENCES = [
 function renderDifferences() {
   var cards = KEY_DIFFERENCES.map(function (d) {
     return '<div class="diff-card ' + d.color + '">' +
-      '<span class="diff-icon">' + d.icon + '</span>' +
       '<div class="diff-title">' + d.title + '</div>' +
       '<p class="diff-text">' + d.text + '</p>' +
       '<span class="diff-tag ' + d.tagClass + '">' + d.tag + '</span>' +
