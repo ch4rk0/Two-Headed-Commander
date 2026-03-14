@@ -8,9 +8,10 @@
    1.  HERO
    2.  HOW TO PLAY
    3.  KEY DIFFERENCES
-   4.  LGS / WHY RUN THIS FORMAT
-   5.  BANNED LIST  (manifestos + filter UI)
-   6.  WATCHLIST
+   4.  TWO-HEADED GIANT FOUNDATION
+   5.  LGS / WHY RUN THIS FORMAT
+   6.  BANNED LIST  (manifestos + filter UI)
+   7.  WATCHLIST
 
    ════════════════════════════════════════════════════════════════ */
 
@@ -57,13 +58,13 @@ var HOW_TO_PLAY_STEPS = [
     num: 'II',
     title: 'Shared Life Total',
     text: 'Each team begins with a <strong>shared life total of 60</strong>, following Two-Headed Giant rules. All damage dealt to either player reduces this shared pool. Life gain by either teammate increases the shared total.',
-    callout: '✦ Poison counters are also shared — 15 poison = team defeat',
+    callout: '✦ Poison counters are tracked per player — the team loses when either player reaches 15',
   },
   {
     num: 'III',
     title: 'Simultaneous Turns',
     text: 'Both teammates <strong>take their turn simultaneously</strong>. The team shares a single combat phase — both players may attack and both draw during their draw step. Each player maintains their own mana pool and hand.',
-    callout: '✦ Only the second team draw on their first turn',
+    callout: '✦ Both teams draw on their first turn — no player skips their draw step',
   },
   {
     num: 'IV',
@@ -130,13 +131,13 @@ var KEY_DIFFERENCES = [
   {
     color: 'purple', icon: '☠',
     title: 'Infect &amp; Poison',
-    text: 'Poison counters are tracked per-team. At <strong>15 poison counters</strong> (scaled from the standard 10) the team loses — adjusted to match the higher life total of this format.',
-    tag: 'Modified from 2HG', tagClass: 'tag-modified',
+    text: 'Poison counters are tracked <strong>per player</strong>, not shared. A team loses when <strong>either</strong> player accumulates 15 or more poison counters — scaled up from the standard 10 to match the higher life total of this format.',
+    tag: 'Inherited from 2HG', tagClass: 'tag-same',
   },
   {
     color: 'gold', icon: '🎯',
     title: 'Targeting Restrictions',
-    text: 'You cannot target your teammate with harmful spells but <strong>can</strong> target them with beneficial effects. "Each opponent" deals damage to each opposing player but only reduces the shared life total once per damage source.',
+    text: 'You cannot target your teammate with harmful spells but <strong>can</strong> target them with beneficial effects. A spell dealing damage to "each opponent" deals that damage to <strong>each player</strong> on the opposing team separately — the shared life total is reduced by the full sum.',
     tag: 'Inherited from 2HG', tagClass: 'tag-same',
   },
 ];
@@ -161,7 +162,224 @@ function renderDifferences() {
 }
 
 
-/* ── 4. LGS / WHY RUN THIS FORMAT ───────────────────────────── */
+/* ── 4. TWO-HEADED GIANT OFFICIAL RULES ──────────────────────── */
+/* Verbatim from MtG Comprehensive Rules, June 6 2025 edition    */
+
+var TWO_HG_OFFICIAL_RULES = [
+  {
+    title: 'Overview',
+    subs: [{ entries: [
+      { type: 'text', text: 'Two-Headed Giant (THG) is a multiplayer variant of Magic: The Gathering in which two teams of two players compete against each other. The variant introduces fundamental rule changes: shared life totals, shared turns, unique combat rules, and team-based win/loss conditions. All rules below are extracted directly from the June 6, 2025 edition of the Magic: The Gathering Comprehensive Rules.' },
+    ]}],
+  },
+  {
+    title: '1. Game Setup',
+    subs: [
+      { title: '1.1 Teams and Seating', entries: [
+        { type: 'rule', ref: '810.1', text: 'Two-Headed Giant games are played with two teams of two players each.' },
+        { type: 'rule', ref: '810.3', text: 'Each team sits together on one side of the table. Each team decides the order in which its players sit.' },
+      ]},
+      { title: '1.2 Deck Construction — Limited Play', entries: [
+        { type: 'rule', ref: '100.4c', text: 'In limited play involving the Two-Headed Giant multiplayer variant, all cards in a team\'s card pool but not in either player\'s deck are in that team\'s sideboard.' },
+      ]},
+      { title: '1.3 Starting Life Total', entries: [
+        { type: 'rule', ref: '810.4',  text: 'Each team has a shared life total, which starts at 30 life.' },
+        { type: 'rule', ref: '103.4a', text: 'In a Two-Headed Giant game, each team\'s starting life total is 30.' },
+        { type: 'rule', ref: '119.1a', text: 'In a Two-Headed Giant game, each team\'s starting life total is 30. See rule 810, "Two-Headed Giant Variant."' },
+      ]},
+      { title: '1.4 Shared Team Turns', entries: [
+        { type: 'rule', ref: '810.2',  text: 'The Two-Headed Giant variant uses the shared team turns option. (See rule 805.)' },
+        { type: 'rule', ref: '805.1',  text: 'Some multiplayer games between teams use the shared team turns option. It\'s always used in the Two-Headed Giant variant (see rule 810) and the Archenemy casual variant (see rule 904). It can be used only if the members of each team are sitting in adjacent seats.' },
+        { type: 'rule', ref: '805.2',  text: 'Within each team, the player seated in the rightmost seat from that team\'s perspective is the primary player. If the players on a team can\'t agree on a choice, such as which creatures attack or what order triggered abilities are put on the stack, the primary player makes that choice.' },
+        { type: 'rule', ref: '805.4',  text: 'Each team takes turns rather than each player.' },
+        { type: 'rule', ref: '805.4a', text: 'The team whose turn it is is the active team. Each other team is a nonactive team.' },
+        { type: 'rule', ref: '805.4b', text: 'Each player on a team draws a card during that team\'s draw step.' },
+        { type: 'rule', ref: '805.4c', text: 'Each player on a team may play a land during each of that team\'s turns.' },
+        { type: 'rule', ref: '805.5',  text: 'Teams have priority, not individual players.' },
+        { type: 'rule', ref: '805.5a', text: 'A player may cast a spell, activate an ability, or take a special action when their team has priority.' },
+      ]},
+      { title: '1.5 First Turn', entries: [
+        { type: 'rule', ref: '810.6',  text: 'The team who plays first skips the draw step of its first turn.' },
+        { type: 'rule', ref: '103.8b', text: 'In a Two-Headed Giant game, the team who plays first skips the draw step of their first turn.' },
+        { type: 'rule', ref: '800.7',  text: 'In a multiplayer game other than a Two-Headed Giant game, the starting player doesn\'t skip the draw step of their first turn. In a Two-Headed Giant game, the team who plays first skips the draw step of their first turn. See rule 103.8.' },
+      ]},
+    ],
+  },
+  {
+    title: '2. Team Resources and Shared Elements',
+    subs: [
+      { entries: [
+        { type: 'rule', ref: '810.5', text: 'With the exception of life total and poison counters, a team\'s resources (cards in hand, mana, and so on) are not shared in the Two-Headed Giant variant. Teammates may review each other\'s hands and discuss strategies at any time. Teammates can\'t manipulate each other\'s cards or permanents.' },
+        { type: 'note', text: 'In summary: life totals and poison counters are shared; all other resources (hand, mana, permanents) belong to individual players.' },
+      ]},
+      { title: '2.1 Drawing Cards', entries: [
+        { type: 'rule', ref: '121.2d', text: 'If more than one player is instructed to draw cards in a game that\'s using the shared team turns option (such as a Two-Headed Giant game), first each player on the active team, in whatever order that team likes, performs their draws, then each player on each nonactive team in turn order does the same.' },
+      ]},
+    ],
+  },
+  {
+    title: '3. Life Totals',
+    subs: [
+      { entries: [
+        { type: 'rule',    ref: '810.9', text: 'Damage, loss of life, and gaining life happen to each player individually. The result is applied to the team\'s shared life total.' },
+        { type: 'example', text: 'A player casts Flame Rift, which reads, "Flame Rift deals 4 damage to each player." Each team is dealt a total of 8 damage.' },
+      ]},
+      { title: '3.1 Individual Life Total References', entries: [
+        { type: 'rule',    ref: '810.9a', text: 'If a cost or effect needs to know the value of an individual player\'s life total, that cost or effect uses the team\'s life total instead.' },
+        { type: 'example', text: 'A player on a team that has 17 life is targeted by Beacon of Immortality ("Double target player\'s life total"). That player gains 17 life, so the team winds up at 34 life.' },
+        { type: 'example', text: 'A player controls Test of Endurance ("At the beginning of your upkeep, if you have 50 or more life, you win the game"). The team wins the game if their team\'s life total is 50 or more.' },
+        { type: 'example', text: 'A player on a team that has 11 life controls Lurking Evil ("Pay half your life, rounded up: Lurking Evil becomes a 4/4 Horror creature with flying"). That player must pay 6 life. The team winds up at 5 life.' },
+      ]},
+      { title: '3.2 Paying Life', entries: [
+        { type: 'rule', ref: '119.4a', text: 'If a cost or effect allows a player to pay an amount of life greater than 0 in a Two-Headed Giant game, the player may do so only if their team\'s life total is greater than or equal to the total amount of life both team members are paying for that cost or effect. If a player pays life, the payment is subtracted from their team\'s life total.' },
+        { type: 'rule', ref: '810.9b', text: 'If a cost or effect allows both members of a team to pay life simultaneously, the total amount of life they pay may not exceed their team\'s life total. (Players can always pay 0 life.)' },
+      ]},
+      { title: '3.3 Setting Life Totals', entries: [
+        { type: 'rule',    ref: '810.9c', text: 'If an effect sets a single player\'s life total to a specific number, the player gains or loses the necessary amount of life to end up with the new total. The team\'s life total is adjusted by the amount of life that player gained or lost.' },
+        { type: 'example', text: 'A player on a team that has 25 life is targeted by an ability that reads, "Target player\'s life total becomes 10." That player\'s life total is considered to be 25, so that player loses 15 life. The team winds up at 10 life.' },
+        { type: 'rule',    ref: '810.9d', text: 'If an effect would set the life total of each player on a team to a number, that team chooses one of its members. On that team, only that player is affected.' },
+        { type: 'example', text: 'One team has 7 life and the other has 13 life. A player casts Repay in Kind ("Each player\'s life total becomes the lowest life total among all players"). Each team chooses one of its members to be affected. The chosen player on the team with 13 life loses 6 life, so that team\'s life total winds up at 7.' },
+      ]},
+      { title: '3.4 Life Restrictions', entries: [
+        { type: 'rule', ref: '810.9e', text: 'A player can\'t exchange life totals with their teammate. If an effect would cause that to occur, the exchange won\'t happen.' },
+        { type: 'rule', ref: '810.9f', text: 'If an effect instructs a player to redistribute any number of players\' life totals, that player may not affect more than one member of each team this way.' },
+        { type: 'rule', ref: '810.9g', text: 'If an effect says that a player can\'t gain life, no player on that player\'s team can gain life.' },
+        { type: 'rule', ref: '810.9h', text: 'If an effect says that a player can\'t lose life, no player on that player\'s team can lose life or pay any amount of life other than 0.' },
+      ]},
+    ],
+  },
+  {
+    title: '4. Poison Counters',
+    subs: [
+      { entries: [
+        { type: 'rule',   ref: '810.10',  text: 'Effects that cause players to get poison counters happen to each player individually. The poison counters are shared by the team.' },
+        { type: 'rule',   ref: '810.10a', text: 'If an effect needs to know how many poison counters an individual player has, that effect uses the number of poison counters that player\'s team has. If an effect needs to know how many poison counters a player\'s opponents have, that effect uses the number of poison counters opposing teams have.' },
+        { type: 'rule',   ref: '810.10b', text: 'If an effect says that a player loses poison counters, that player\'s team loses that many poison counters.' },
+        { type: 'rule',   ref: '810.10c', text: 'If an effect says that a player can\'t get poison counters, no player on that player\'s team can get poison counters.' },
+        { type: 'rule',   ref: '810.10d', text: 'If a rule or effect needs to know what kinds of counters an individual player has, that effect uses the kinds of counters that player has and the kinds of counters that player\'s team has. A player is "poisoned" if that player\'s team has one or more poison counters.' },
+        { type: 'change', text: 'Rule 810.10d is updated in 2025 to also account for all counter types on the player (not just poison), and clarifies the "poisoned" definition.' },
+      ]},
+      { title: '4.1 Proliferate and Poison', entries: [
+        { type: 'rule',   ref: '701.34b', text: 'In a Two-Headed Giant game, poison counters are shared by the team. If more than one player on a team is chosen this way, only one of those players can be given an additional poison counter. The player who proliferates chooses which player that is. See rule 810, "Two-Headed Giant Variant."' },
+        { type: 'change', text: 'The 2025 Proliferate rule (701.34b) is now more concise and explicitly states only one player per team can receive the additional poison counter when proliferating, replacing the older 701.24c wording.' },
+      ]},
+    ],
+  },
+  {
+    title: '5. Combat Rules',
+    subs: [
+      { entries: [
+        { type: 'rule',   ref: '810.7', text: 'The Two-Headed Giant variant uses the combat rules for the shared team turns option (see rule 805.10).' },
+        { type: 'change', text: 'In the 2025 rules, the detailed THG combat rules have been consolidated into rule 805.10 (Shared Team Turns Option) and are no longer repeated separately under 810.7. This avoids duplication and ensures consistency across all variants using shared team turns.' },
+      ]},
+      { title: '5.1 Attacking', entries: [
+        { type: 'rule',   ref: '805.10a', text: 'Each team\'s creatures attack the other team as a group. During the combat phase, the active team is the attacking team and each player on the active team is an attacking player. Likewise, the nonactive team is the defending team and each player on the nonactive team is a defending player.' },
+        { type: 'rule',   ref: '805.10b', text: 'As the declare attackers step begins, the active team declares attackers. For each attacking creature, the attacking team announces which defending player, planeswalker, or battle that creature is attacking. The active team has one combined attack, and that set of attacking creatures must be legal as a whole. See rule 508.1.' },
+        { type: 'change', text: 'Rule 805.10b (2025) now includes battles as valid attack targets, reflecting the introduction of the Battle card type. Previously only players and planeswalkers could be attacked.' },
+      ]},
+      { title: '5.2 "Attacking Player" Reference', entries: [
+        { type: 'rule', ref: '805.10c', text: 'Any rule, object, or effect that refers to an "attacking player" refers to one specific attacking player, not to all attacking players. If an ability of a blocking creature refers to an attacking player, or a spell or ability refers to both a blocking creature and an attacking player, then unless otherwise specified, the attacking player it\'s referring to is the player who controls the attacking creature that blocking creature is blocking. If a spell or ability could apply to multiple blocking creatures, the appropriate attacking player is individually determined for each of those blocking creatures. If there are multiple attacking players that could be chosen, the controller of the spell or ability chooses one.' },
+      ]},
+      { title: '5.3 Blocking', entries: [
+        { type: 'rule',   ref: '805.10d', text: 'As the declare blockers step begins, the defending team declares blockers. Creatures controlled by the defending players can block creatures attacking any player on the defending team, attacking a planeswalker controlled by one of those players, or a battle protected by one of those players. The defending team has one combined block, and that set of blocking creatures must be legal as a whole. See rule 509.1.' },
+        { type: 'change', text: 'Rule 805.10d (2025) extends blocking eligibility to include creatures attacking battles protected by defending players, in addition to creatures attacking players or their planeswalkers.' },
+      ]},
+      { title: '5.4 "Defending Player" Reference', entries: [
+        { type: 'rule',   ref: '805.10e', text: 'Any rule, object, or effect that refers to a "defending player" refers to one specific defending player, not to all of the defending players. If an ability of an attacking creature refers to a defending player, or a spell or ability refers to both an attacking creature and a defending player, then unless otherwise specified, the defending player it\'s referring to is the player that creature is attacking, the controller of the planeswalker that creature is attacking, or the protector of the battle that creature is attacking. If that creature is no longer attacking, the defending player it\'s referring to is the player/planeswalker controller/battle protector the creature was attacking before it was removed from combat. If there are multiple defending players that could be chosen, the controller of the spell or ability chooses one.' },
+        { type: 'change', text: 'The 2025 "defending player" definition (805.10e) is significantly expanded to handle battles and planeswalkers with greater precision, and clarifies behavior when a creature is removed from combat mid-resolution.' },
+      ]},
+      { title: '5.5 Damage Assignment', entries: [
+        { type: 'rule', ref: '805.10f', text: 'As the combat damage step begins, the active team announces how each attacking creature will assign its combat damage. Then the defending team announces how each blocking creature will assign its combat damage. See rule 510.1.' },
+      ]},
+    ],
+  },
+  {
+    title: '6. Winning and Losing',
+    subs: [
+      { entries: [
+        { type: 'rule', ref: '810.8', text: 'The Two-Headed Giant variant uses the normal rules for winning or losing the game (see rule 104), with the following additions and specifications.' },
+      ]},
+      { title: '6.1 Team Win/Loss', entries: [
+        { type: 'rule',    ref: '810.8a', text: 'Players win and lose the game only as a team, not as individuals. If either player on a team loses the game, the team loses the game. If either player on a team wins the game, the entire team wins the game. If an effect says that a player can\'t win the game, that player\'s team can\'t win the game. If an effect says that a player can\'t lose the game, that player\'s team can\'t lose the game.' },
+        { type: 'example', text: 'A player controls Transcendence ("You don\'t lose the game for having 0 or less life"). If that player\'s team\'s life total is 0 or less, that team doesn\'t lose the game.' },
+        { type: 'example', text: 'A player attempts to draw a card while there are no cards in that player\'s library. That player loses the game, so that player\'s entire team loses the game.' },
+        { type: 'example', text: 'A player controls Platinum Angel ("You can\'t lose the game and your opponents can\'t win the game"). Neither that player nor their teammate can lose the game while Platinum Angel is on the battlefield, and neither player on the opposing team can win the game.' },
+      ]},
+      { title: '6.2 Conceding', entries: [
+        { type: 'rule', ref: '810.8b', text: 'If a player concedes, their team leaves the game immediately. That team loses the game.' },
+      ]},
+      { title: '6.3 State-Based Loss Conditions', entries: [
+        { type: 'rule',   ref: '810.8c', text: 'If a team\'s life total is 0 or less, the team loses the game. (This is a state-based action. See rule 704.)' },
+        { type: 'rule',   ref: '810.8d', text: 'If a team has fifteen or more poison counters, that team loses the game. (This is a state-based action. See rule 704.)' },
+        { type: 'rule',   ref: '704.6a', text: 'In a Two-Headed Giant game, if a team has 0 or less life, that team loses the game. See rule 810, "Two-Headed Giant Variant."' },
+        { type: 'rule',   ref: '704.6b', text: 'In a Two-Headed Giant game, if a team has fifteen or more poison counters, that team loses the game. See rule 810, "Two-Headed Giant Variant."' },
+        { type: 'rule',   ref: '704.5c', text: 'If a player has ten or more poison counters, that player loses the game. Ignore this rule in Two-Headed Giant games; see rule 704.6b instead.' },
+        { type: 'change', text: 'In the 2025 rules, Two-Headed Giant state-based actions are now housed under rule 704.6 (a new sub-section for variant-specific state-based actions) rather than inline with 704.5.' },
+        { type: 'note',   text: 'Note: In standard games a player loses at 10 poison counters. In Two-Headed Giant, the threshold is 15 counters and it applies to the whole team.' },
+      ]},
+    ],
+  },
+  {
+    title: '7. Two-Headed Giant Planechase',
+    subs: [{ entries: [
+      { type: 'rule',   ref: '901.12',  text: 'A Two-Headed Giant Planechase game uses all the rules for the Two-Headed Giant multiplayer variant and all the rules for the Planechase casual variant, with the following additions.' },
+      { type: 'rule',   ref: '901.12a', text: 'Each player has their own planar deck.' },
+      { type: 'rule',   ref: '901.12b', text: 'The planar controller is normally the primary player of the active team. However, if the current planar controller\'s team would leave the game, instead the primary player of the next team in turn order that wouldn\'t leave the game becomes the planar controller, then the old planar controller\'s team leaves the game. The new planar controller retains that designation until they leave the game or a different team becomes the active team, whichever comes first.' },
+      { type: 'rule',   ref: '901.12c', text: 'Even though the face-up plane or phenomenon is controlled by just one player, any ability of that plane or phenomenon that refers to "you" applies to both members of the planar controller\'s team.' },
+      { type: 'rule',   ref: '901.12d', text: 'Since each member of the active team is an active player, each of them may roll the planar die. Each player\'s cost to roll the planar die is based on the number of times that particular player has already rolled the planar die that turn.' },
+      { type: 'change', text: 'Rules 901.12c and 901.12d are new additions in 2025, clarifying "you" references on plane cards and the planar die roll costs per player in THG Planechase games.' },
+    ]}],
+  },
+  {
+    title: '8. Archenemy Commander Interaction',
+    subs: [{ entries: [
+      { type: 'rule',   ref: '904.13b', text: 'The archenemy starts with 60 life. The opposing team has a shared life total that starts at 60 life rather than individual life totals. The use of a shared life total is detailed in rules 810.8 and 810.9 of the Two-Headed Giant variant.' },
+      { type: 'rule',   ref: '904.13c', text: 'Poison counters are not shared [in Archenemy Commander]. If the archenemy has ten or more poison counters, they lose the game. If any individual member of the opposing team has ten or more poison counters, they lose the game. (This is a state-based action. See rule 704.)' },
+      { type: 'change', text: 'Rule 904.13 (Archenemy Commander Option) is new in 2025. It directly references the Two-Headed Giant shared life total rules (810.8 and 810.9) for the opposing team, but notably does NOT share poison counters (unlike standard THG).' },
+    ]}],
+  },
+  {
+    title: '9. Scaling the Variant (Three-Headed Giant and Beyond)',
+    subs: [{ entries: [
+      { type: 'rule', ref: '810.11', text: 'The Two-Headed Giant variant can also be played with equally sized teams of more than two players. For each player a team has beyond the second, that team\'s starting life total is increased by 15 and the number of poison counters required for the team to lose is increased by five. (These variants are called Three-Headed Giant, Four-Headed Giant, and so on.)' },
+    ]}],
+  },
+  {
+    title: '10. Key Glossary Terms',
+    subs: [{ entries: [
+      { type: 'gloss', term: 'Two-Headed Giant Variant',  text: 'A multiplayer variant played among two-player teams that each have a shared life total and take a simultaneous turn. See rule 810, "Two-Headed Giant Variant."' },
+      { type: 'gloss', term: 'Shared Life Total',         text: 'In the Two-Headed Giant multiplayer variant, each team has a "shared life total" rather than each player having an individual life total. See rule 810, "Two-Headed Giant Variant."' },
+      { type: 'gloss', term: 'Shared Team Turns Option',  text: 'An option that may be used in certain multiplayer variants, such as Two-Headed Giant and Archenemy. See rule 805, "Shared Team Turns Option."' },
+      { type: 'gloss', term: 'Defending Team',            text: 'The team who can be attacked, and whose planeswalkers can be attacked, during the combat phase of a Two-Headed Giant game. See rule 805.10.' },
+      { type: 'gloss', term: 'Poisoned',                  text: 'In Two-Headed Giant, a player is "poisoned" if that player\'s team has one or more poison counters. See rule 810.10d.' },
+    ]}],
+  },
+];
+
+function renderRulesModal() {
+  var html = TWO_HG_OFFICIAL_RULES.map(function (section) {
+    var subsHtml = section.subs.map(function (sub) {
+      var entriesHtml = sub.entries.map(function (e) {
+        switch (e.type) {
+          case 'rule':    return '<div class="rm-rule"><span class="rm-ref">Rule ' + e.ref + ':</span> ' + e.text + '</div>';
+          case 'example': return '<div class="rm-example"><span class="rm-ex-label">Example:</span> ' + e.text + '</div>';
+          case 'change':  return '<div class="rm-change"><span class="rm-change-label">⚑ 2025 Change:</span> ' + e.text + '</div>';
+          case 'note':    return '<div class="rm-note">' + e.text + '</div>';
+          case 'text':    return '<p class="rm-text">' + e.text + '</p>';
+          case 'gloss':   return '<div class="rm-gloss"><span class="rm-gloss-term">' + e.term + ':</span> ' + e.text + '</div>';
+          default: return '';
+        }
+      }).join('');
+      return (sub.title ? '<div class="rm-sub-title">' + sub.title + '</div>' : '') + entriesHtml;
+    }).join('');
+    return '<div class="rm-section"><div class="rm-section-title">' + section.title + '</div>' + subsHtml + '</div>';
+  }).join('');
+
+  document.getElementById('rules-modal-body').innerHTML = html;
+}
+
+
+/* ── 5. LGS / WHY RUN THIS FORMAT ───────────────────────────── */
 
 var LGS_TILES = [
   {

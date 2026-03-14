@@ -7,7 +7,10 @@
       "Bash(node download-images.js)",
       "Bash(grep -v \"^d.*\\\\.$\")",
       "Bash(wc -l \"c:\\\\Users\\\\Admin\\\\Documents\\\\GitHub\\\\Two-Headed-Commander\"/*.js)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "WebSearch",
+      "WebFetch(domain:magic.wizards.com)",
+      "WebFetch(domain:media.wizards.com)"
     ]
   }
 }
