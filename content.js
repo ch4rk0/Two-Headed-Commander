@@ -381,39 +381,39 @@ function renderRulesModal() {
 
 var LGS_TILES = [
   {
-    icon: '🎲',
     title: 'Built-in Socialising',
-    text: 'Random team assignments every event mean players regularly partner with someone new. The 10-minute deck selection window becomes a high-energy moment of discovery — two strangers rapidly figuring out which of their decks synergise best.',
+    image: 'Built-in Socialising.jpg',
+    text: 'Random teams every event. Two strangers get 10 minutes to figure out which of their decks pair best — and walk away with a new connection.',
   },
   {
-    icon: '⏱',
-    title: 'Predictable Round Times',
-    text: 'Hard 50 minutes rounds with 3 extra turns then draw keep the event on schedule. Games rarely approach the time limit since both formats incentivise decisive play — teams that drag the game out risk the clock as much as opponents.',
+    title: 'Timed Rounds',
+    image: 'Predictable Round Times.jpeg',
+    text: 'Hard 50-minute rounds with 3 extra turns then draw keep the night on schedule. Teams that stall risk the clock as much as their opponents.',
   },
   {
-    icon: '🃏',
     title: 'Two Decks Per Player',
-    text: 'Each player registers two decks and chooses one after teams are announced. This rewards both collection breadth and format knowledge — knowing when to pivot from your go-wide deck to your combo deck based on your partner\'s list is a real skill.',
+    image: 'Two Decks Per Player.jpg',
+    text: 'Each player registers two decks and picks one after teams are revealed. Format knowledge and collection depth both matter.',
   },
   {
-    icon: '🏆',
     title: 'Competitive with Heart',
-    text: 'Three rounds of best-of-one keeps the night tight and the energy high. Because teams are randomised, strong players carry weaker ones and everyone contributes — reducing the gap between competitive and casual players in a way 1v1 events rarely achieve.',
+    image: 'Competitive with Heart.jpg',
+    text: 'Three rounds of best-of-one, randomised teams. Strong players lift weaker ones — closing the gap between competitive and casual in ways 1v1 rarely does.',
   },
   {
-    icon: '🔧',
     title: 'Curated for Fairness',
-    text: 'The ban list specifically removes cards that create degenerate loops, lock games down indefinitely, or produce wins through attrition rather than board presence. Players are rewarded for building efficient, proactive decks — not prison strategies.',
+    image: 'Curated for Fairness.jpg',
+    text: 'The ban list removes infinite loops, lock strategies, and attrition wins. Proactive, board-based play is rewarded.',
   },
   {
-    icon: '✨',
     title: 'Memorable Moments',
-    text: 'Two commanders in play at once means twice the legendary synergy, twice the unexpected interactions, and twice the stories to tell. Team victories feel earned and shared — Commander\'s social magic amplified by partnership.',
+    image: 'Memorable Moments.jpeg',
+    text: 'Two commanders in play means twice the synergy and twice the stories. Team victories feel earned and shared.',
   },
   {
-    icon: '💰',
-    title: 'Budget Friendly by Design',
-    text: 'Most of the expensive cards that are staples in cEDH are banned in this format. Players compete on equal footing without needing to invest in the priciest cards in the game — a well-built budget deck can win the whole event.',
+    title: 'Budget Friendly',
+    image: 'Budget Friendly by Design.jpg',
+    text: 'Most cEDH staples are banned here. A well-built budget deck can win the whole event.',
   },
 ];
 
@@ -427,7 +427,7 @@ var EVENT_STEPS = [
 
 var TIMING_ROWS = [
   { label: 'Team Reveal &amp; Deck Selection',     value: '10 min'      },
-  { label: 'Round Duration (Hard Limit)',           value: '60 min'      },
+  { label: 'Round Duration (Hard Limit)',           value: '50 min'      },
   { label: 'Extra Turns After Time Called',         value: '3 turns'     },
   { label: 'Result if No Winner After Extra Turns', value: 'Draw'        },
   { label: 'Rounds Per Event',                      value: '3 rounds'    },
@@ -438,10 +438,14 @@ var ROUND_NOTE = 'The time constraint removes hard stax, mass land destruction, 
 
 function renderLgs() {
   var tiles = LGS_TILES.map(function (t) {
-    return '<div class="lgs-card">' +
-      '<span class="lgs-icon">' + t.icon + '</span>' +
-      '<div class="lgs-title">' + t.title + '</div>' +
-      '<p class="lgs-text">' + t.text + '</p>' +
+    var bgStyle = t.image
+      ? ' style="background-image: url(\'' + t.image.replace(/'/g, '%27') + '\')"'
+      : '';
+    return '<div class="lgs-card"' + bgStyle + '>' +
+      '<div class="lgs-card-content">' +
+        '<div class="lgs-title">' + t.title + '</div>' +
+        '<p class="lgs-text">' + t.text + '</p>' +
+      '</div>' +
     '</div>';
   }).join('');
 
@@ -467,7 +471,6 @@ function renderLgs() {
       '<div class="lgs-grid">' + tiles + '</div>' +
       '<div class="event-block">' +
         '<div class="event-header">' +
-          '<div class="event-header-icon">📋</div>' +
           '<div>' +
             '<div class="event-header-title">Event Structure</div>' +
             '<div class="event-header-sub">Recommended LGS Tournament Format</div>' +
@@ -481,7 +484,7 @@ function renderLgs() {
           '<div>' +
             '<div class="event-col-title">Timing Rules</div>' +
             '<div class="timing-grid">' + timingRows + '</div>' +
-            '<div class="round-note"><strong>Why 1-hour rounds shape the ban list:</strong> ' + ROUND_NOTE + '</div>' +
+            '<div class="round-note"><strong>Why 50-minute rounds shape the ban list:</strong> ' + ROUND_NOTE + '</div>' +
           '</div>' +
         '</div>' +
       '</div>' +

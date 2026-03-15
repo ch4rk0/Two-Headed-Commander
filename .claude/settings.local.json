@@ -10,7 +10,18 @@
       "Bash(xargs ls:*)",
       "WebSearch",
       "WebFetch(domain:magic.wizards.com)",
-      "WebFetch(domain:media.wizards.com)"
+      "WebFetch(domain:media.wizards.com)",
+      "Bash(ls \"c:\\\\Users\\\\Admin\\\\Documents\\\\GitHub\\\\Two-Headed-Commander\\\\images\"\" | grep -i -E \"social)",
+      "Bash(round)",
+      "Bash(deck)",
+      "Bash(compet)",
+      "Bash(fair)",
+      "Bash(moment)",
+      "Bash(budget)",
+      "Bash(friendly)",
+      "Bash(lgs)",
+      "Bash(run)",
+      "Bash(event \")"
     ]
   }
 }

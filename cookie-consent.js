@@ -1,7 +1,7 @@
 /* cookie-consent.js — GDPR consent manager
    Blocks Google Analytics until the user explicitly accepts.
    Consent choice is stored in localStorage.
-   Expose window.showCookiePreferences() for the "Cookie Settings" footer link. */
+   Exposes window.showCookiePreferences() for the "Cookie Settings" footer link. */
 
 (function () {
   'use strict';
@@ -36,30 +36,34 @@
     try { localStorage.setItem(CONSENT_KEY, value); } catch (e) {}
   }
 
-  /* ── Banner ─────────────────────────────────────────────────── */
+  /* ── Modal overlay ──────────────────────────────────────────── */
 
   function injectBanner() {
-    if (document.getElementById('cookie-banner')) return;
+    if (document.getElementById('cookie-overlay')) return;
 
-    var div = document.createElement('div');
-    div.id = 'cookie-banner';
-    div.setAttribute('role', 'dialog');
-    div.setAttribute('aria-label', 'Cookie consent');
-    div.innerHTML =
-      '<div class="cookie-inner">' +
-        '<div class="cookie-text">' +
-          '<strong>Cookie notice</strong> — ' +
-          'We use Google Analytics to understand how visitors use this site. ' +
-          'No data is collected until you accept. ' +
-          '<a href="privacy.html" class="cookie-link">Privacy Policy</a>' +
-        '</div>' +
+    var overlay = document.createElement('div');
+    overlay.id = 'cookie-overlay';
+
+    overlay.innerHTML =
+      '<div id="cookie-banner" role="dialog" aria-modal="true" aria-label="Cookie consent">' +
+        '<div class="cookie-icon">🍪</div>' +
+        '<h2 class="cookie-title">Before you explore</h2>' +
+        '<p class="cookie-body">' +
+          'We use <strong>Google Analytics</strong> to understand how visitors use this site — ' +
+          'which pages are read, how long people stay, and where they come from. ' +
+          'No data is collected until you choose to accept.' +
+        '</p>' +
+        '<p class="cookie-body">' +
+          'You can change your mind at any time via the <strong>Cookie Settings</strong> link in the footer.' +
+        '</p>' +
+        '<a href="privacy.html" class="cookie-link">Read our Privacy Policy →</a>' +
         '<div class="cookie-actions">' +
-          '<button id="cookie-decline" class="cookie-btn cookie-btn-decline">Decline</button>' +
+          '<button id="cookie-decline" class="cookie-btn cookie-btn-decline">No thanks, decline</button>' +
           '<button id="cookie-accept"  class="cookie-btn cookie-btn-accept">Accept analytics</button>' +
         '</div>' +
       '</div>';
 
-    document.body.appendChild(div);
+    document.body.appendChild(overlay);
 
     document.getElementById('cookie-accept').addEventListener('click', function () {
       setConsent('accepted');
@@ -74,27 +78,26 @@
 
     /* Animate in on next paint */
     requestAnimationFrame(function () {
-      requestAnimationFrame(function () { div.classList.add('visible'); });
+      requestAnimationFrame(function () { overlay.classList.add('visible'); });
     });
   }
 
   function hideBanner() {
-    var b = document.getElementById('cookie-banner');
-    if (!b) return;
-    b.classList.remove('visible');
-    setTimeout(function () { if (b.parentNode) b.parentNode.removeChild(b); }, 400);
+    var o = document.getElementById('cookie-overlay');
+    if (!o) return;
+    o.classList.remove('visible');
+    setTimeout(function () { if (o.parentNode) o.parentNode.removeChild(o); }, 350);
   }
 
-  /* ── Public API (used by footer "Cookie Settings" button) ───── */
+  /* ── Public API (footer "Cookie Settings" button) ───────────── */
 
   window.showCookiePreferences = function () {
-    /* Clear stored choice so the banner re-asks */
     try { localStorage.removeItem(CONSENT_KEY); } catch (e) {}
-    /* If GA was loaded this session, flag it so the user knows a reload is needed */
     if (window._gaLoaded) {
-      var note = 'Google Analytics was already loaded this session. ' +
-                 'To stop data collection, please reload the page after declining.';
-      if (window.confirm(note + '\n\nClick OK to reload now.')) {
+      if (window.confirm(
+        'Google Analytics was already loaded this session.\n\n' +
+        'Click OK to reload the page — then decline to stop data collection.'
+      )) {
         location.reload();
         return;
       }
@@ -109,7 +112,6 @@
   if (consent === 'accepted') {
     loadGA();
   } else if (consent !== 'declined') {
-    /* No decision yet — show banner once DOM is ready */
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', injectBanner);
     } else {
