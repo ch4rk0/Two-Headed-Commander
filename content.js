@@ -36,7 +36,6 @@ function renderHero() {
 
   document.querySelector('section.hero').innerHTML =
     '<div class="hero-content">' +
-      '<span class="hero-crest">⚔ ⚔</span>' +
       '<h1 class="hero-title">Two-Headed<br><span class="line2">Commander</span></h1>' +
       '<div class="hero-rule-badge">' + badges + '</div>' +
       '<p class="hero-desc">Two allies. Four commanders. One shared fate.<br>The sovereignty of Commander meets the brotherhood of Two-Headed Giant.</p>' +
