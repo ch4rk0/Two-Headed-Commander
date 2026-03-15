@@ -27,7 +27,7 @@ var PILL_LABEL = {
 
 function localImg(name) {
   var filename = name.replace(/[^a-zA-Z0-9\-_' ]/g, '_').replace(/\s+/g, '_') + '.jpg';
-  return 'images/' + filename;
+  return 'images/cards/' + filename;
 }
 
 function scryfallImg(name) {

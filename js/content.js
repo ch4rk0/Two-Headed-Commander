@@ -381,37 +381,37 @@ function renderRulesModal() {
 var LGS_TILES = [
   {
     title: 'Built-in Socialising',
-    image: 'Built-in Socialising.jpg',
+    image: 'images/lgs/built-in-socialising.jpg',
     text: 'Random teams every event. Two strangers get 10 minutes to figure out which of their decks pair best — and walk away with a new connection.',
   },
   {
     title: 'Timed Rounds',
-    image: 'Predictable Round Times.jpeg',
+    image: 'images/lgs/predictable-round-times.jpeg',
     text: 'Hard 50-minute rounds with 3 extra turns then draw keep the night on schedule. Teams that stall risk the clock as much as their opponents.',
   },
   {
     title: 'Two Decks Per Player',
-    image: 'Two Decks Per Player.jpg',
+    image: 'images/lgs/two-decks-per-player.jpg',
     text: 'Each player registers two decks and picks one after teams are revealed. Format knowledge and collection depth both matter.',
   },
   {
     title: 'Competitive with Heart',
-    image: 'Competitive with Heart.jpg',
+    image: 'images/lgs/competitive-with-heart.jpg',
     text: 'Three rounds of best-of-one, randomised teams. Strong players lift weaker ones — closing the gap between competitive and casual in ways 1v1 rarely does.',
   },
   {
     title: 'Curated for Fairness',
-    image: 'Curated for Fairness.jpg',
+    image: 'images/lgs/curated-for-fairness.jpg',
     text: 'The ban list removes infinite loops, lock strategies, and attrition wins. Proactive, board-based play is rewarded.',
   },
   {
     title: 'Memorable Moments',
-    image: 'Memorable Moments.jpeg',
+    image: 'images/lgs/memorable-moments.jpeg',
     text: 'Two commanders in play means twice the synergy and twice the stories. Team victories feel earned and shared.',
   },
   {
     title: 'Budget Friendly',
-    image: 'Budget Friendly by Design.jpg',
+    image: 'images/lgs/budget-friendly.jpg',
     text: 'Most cEDH staples are banned here. A well-built budget deck can win the whole event.',
   },
 ];

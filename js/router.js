@@ -34,7 +34,7 @@
     cvs.id = 'hero-particles';
     hero.appendChild(cvs);
 
-    ['OrcZombie.png', 'HumanElf.png'].forEach(function (src, i) {
+    ['images/characters/orc-zombie.png', 'images/characters/human-elf.png'].forEach(function (src, i) {
       var img = document.createElement('img');
       img.src = src;
       img.alt = '';

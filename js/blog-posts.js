@@ -74,7 +74,7 @@ var BLOG_POSTS = [
     title: 'Why Every Extra Turn Card Is Banned',
     date: '2026-03-10',
     excerpt: 'In a 2v2 format, an extra turn doesn\'t just skip one opponent — it skips two. Here\'s the full reasoning behind one of the format\'s most sweeping category bans.',
-    coverImage: 'hero-bg.jpg',
+    coverImage: 'images/hero-bg.jpg',
     coverAlt: 'Two players sharing a turn — Two-Headed Commander banner',
     content: [
       { type: 'p', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.' },
@@ -91,7 +91,7 @@ var BLOG_POSTS = [
 
       { type: 'p', text: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.' },
 
-      { type: 'img', src: 'hero-bg.jpg', alt: 'Placeholder article image', caption: 'Replace this image with a relevant card art crop or photo.' },
+      { type: 'img', src: 'images/hero-bg.jpg', alt: 'Placeholder article image', caption: 'Replace this image with a relevant card art crop or photo.' },
 
       { type: 'p', text: 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur.' },
 

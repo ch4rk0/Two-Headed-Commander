@@ -256,7 +256,7 @@ nav {
   inset: 0;
   z-index: 0;
   background-color: var(--bg);
-  background-image: linear-gradient(rgba(8,7,10,0.62), rgba(8,7,10,0.62)), url('hero-bg.jpg');
+  background-image: linear-gradient(rgba(8,7,10,0.62), rgba(8,7,10,0.62)), url('images/hero-bg.jpg');
   background-size: cover;
   background-position: center;
   animation: heroBgEntry 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
