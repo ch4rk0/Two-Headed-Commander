@@ -75,17 +75,15 @@ function openModal(card, isWatchlist) {
   if (isWatchlist) {
     modalPill.textContent     = 'Watchlist';
     modalPill.className       = 'ban-pill pill-watch';
-    modalWhyLbl.textContent   = 'Why It\'s Being Watched';
-    modalWhy.textContent      = card.discuss;
     modalOrigin.style.display = 'none';
   } else {
     modalPill.textContent     = PILL_LABEL[card.pill] || 'Banned';
     modalPill.className       = 'ban-pill ' + card.pill;
-    modalWhyLbl.textContent   = 'Why It\'s Banned';
-    modalWhy.textContent      = card.reason;
     modalOrigin.textContent   = card.origin || '';
     modalOrigin.style.display = '';
   }
+  modalWhyLbl.style.display = 'none';
+  modalWhy.style.display    = 'none';
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';

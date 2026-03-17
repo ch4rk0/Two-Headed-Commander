@@ -21,7 +21,10 @@
       "Bash(friendly)",
       "Bash(lgs)",
       "Bash(run)",
-      "Bash(event \")"
+      "Bash(event \")",
+      "Bash(for f:*)",
+      "Bash(do sed:*)",
+      "Bash(done)"
     ]
   }
 }

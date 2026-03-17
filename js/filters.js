@@ -16,8 +16,7 @@ function applyFilters() {
   if (currentSearch) {
     var q = currentSearch.toLowerCase();
     results = results.filter(function (card) {
-      return card.name.toLowerCase().includes(q)   ||
-             card.reason.toLowerCase().includes(q) ||
+      return card.name.toLowerCase().includes(q) ||
              card.type.toLowerCase().includes(q);
     });
   }

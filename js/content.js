@@ -115,12 +115,6 @@ var KEY_DIFFERENCES = [
     tag: 'New to this format', tagClass: 'tag-new',
   },
   {
-    color: 'red', icon: '⚡',
-    title: 'No Mana Sharing',
-    text: 'Players <strong>do not share mana pools</strong>. Each player taps their own lands and uses their own mana. This prevents degenerate pooling interactions while preserving individual deck identity.',
-    tag: 'Modified from 2HG', tagClass: 'tag-modified',
-  },
-  {
     color: 'teal', icon: '🤝',
     title: 'Open Communication',
     text: 'Teammates may freely discuss strategy, show each other their hands, and coordinate plays openly. There is no hidden information between allies — secrets are only kept from opponents.',

@@ -168,23 +168,10 @@ body::after {
 
 /* ── 6. NAV ──────────────────────────────────────────────────── */
 
-#beta-banner {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 300;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #b45309;
-  color: #fff;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-}
 
 nav {
   position: fixed;
-  top: 36px; left: 0; right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 200;
   height: 60px;
   background: rgba(8, 7, 10, 0.95);
@@ -2070,7 +2057,7 @@ footer {
     gap: 0;
     background: #0d0918;
     z-index: 198;
-    padding-top: 96px; /* 36px banner + 60px nav */
+    padding-top: 60px; /* nav height */
   }
   .nav-links.open    { display: flex; }
   .nav-links li      { padding: 0; width: 100%; text-align: center; border-bottom: 1px solid var(--border); }
