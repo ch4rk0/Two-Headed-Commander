@@ -85,6 +85,14 @@ function openModal(card, isWatchlist) {
   modalWhyLbl.style.display = 'none';
   modalWhy.style.display    = 'none';
 
+  if (window.gtag) {
+    window.gtag('event', 'card_view', {
+      card_name:     card.name,
+      card_category: card.cat,
+      card_origin:   card.origin || (isWatchlist ? 'watchlist' : 'banned')
+    });
+  }
+
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
