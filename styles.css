@@ -1180,6 +1180,28 @@ section {
 
 .ban-card:hover .ban-card-overlay { opacity: 1; }
 
+.cmdr-ban {
+  overflow: visible;
+}
+.cmdr-ban .ban-card-img-wrap {
+  outline: 2px solid rgba(40, 180, 220, .55);
+  outline-offset: 0;
+}
+.cmdr-ban:hover .ban-card-img-wrap {
+  outline-color: rgba(40, 180, 220, .95);
+}
+
+.filt[data-filter="banned-commander"] {
+  border-color: rgba(40, 180, 220, .45);
+  color: #80d8f8;
+}
+.filt[data-filter="banned-commander"]:hover,
+.filt[data-filter="banned-commander"].on {
+  border-color: rgba(40, 180, 220, .8);
+  color: #80d8f8;
+  background: rgba(40, 180, 220, .12);
+}
+
 /* Card name beneath the image */
 .ban-card-label {
   font-family: 'Cormorant SC', serif;

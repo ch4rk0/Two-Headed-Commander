@@ -107,7 +107,7 @@ function renderCards(cards) {
 
   cards.forEach(function (card, index) {
     var el = document.createElement('div');
-    el.className = 'ban-card';
+    el.className = 'ban-card' + (card.cat === 'banned-commander' ? ' cmdr-ban' : '');
     el.style.animationDelay = (index * 0.02) + 's';
 
     var safeName    = card.name.replace(/"/g, '&quot;');
