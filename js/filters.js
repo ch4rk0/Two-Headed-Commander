@@ -57,6 +57,14 @@ function initFilters() {
     });
   }
 
+  var skipWatchBtn = document.getElementById('skip-to-watchlist');
+  if (skipWatchBtn) {
+    skipWatchBtn.addEventListener('click', function () {
+      var target = document.getElementById('watchlist');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   var etBtn = document.getElementById('et-toggle');
   if (etBtn) {
     etBtn.addEventListener('click', function () {

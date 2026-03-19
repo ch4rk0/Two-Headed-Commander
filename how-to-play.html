@@ -26,15 +26,61 @@
 
   <!-- Structured data -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://twoheadedcommander.com/" },
-      { "@type": "ListItem", "position": 2, "name": "How to Play", "item": "https://twoheadedcommander.com/how-to-play.html" }
-    ]
-  }
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://twoheadedcommander.com/" },
+        { "@type": "ListItem", "position": 2, "name": "How to Play", "item": "https://twoheadedcommander.com/how-to-play.html" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Two-Headed Commander?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Two-Headed Commander (2HC) is a fan-made Magic: The Gathering format where two teams of two players compete. Each player builds their own 100-card Commander singleton deck. Teams share a 60-life total and take their turns simultaneously." }
+        },
+        {
+          "@type": "Question",
+          "name": "How much life do teams start with in Two-Headed Commander?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Teams start with 60 shared life in Two-Headed Commander. This is double the 30 life used in standard Two-Headed Giant, scaled up to accommodate Commander's longer, more complex games." }
+        },
+        {
+          "@type": "Question",
+          "name": "How many cards are in a Two-Headed Commander deck?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Each player builds a 100-card singleton Commander deck — exactly the same as regular Commander (EDH). One copy of each card except basic lands, built around a chosen legendary creature as the Commander." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does poison work in Two-Headed Commander?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Poison counters are tracked per player, not shared between teammates. A team loses when either player accumulates 15 or more poison counters. The threshold is scaled up from the standard 10 to match the higher 60-life starting total." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does commander damage work in Two-Headed Commander?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Commander damage is tracked per-commander per player. A team is eliminated when either player takes 21 or more combat damage from a single opposing commander. Each player tracks their own damage from each commander separately." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can teammates share mana in Two-Headed Commander?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Each player maintains their own mana pool and taps their own lands. Resources such as mana, hand cards, and permanents are not shared between teammates — only the life total and poison counters are shared." }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Two-Headed Commander different from regular Commander (EDH)?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Two-Headed Commander is played 2v2 in teams rather than free-for-all. Teams share a 60-life total (instead of each player having 40 individual life). Both teammates take their turns simultaneously. The ban list is also different, prohibiting fast mana, all extra-turn cards, and powerful tutors to balance the team format." }
+        }
+      ]
+    }
+  ]
   </script>
+
+  <!-- LLMs hint -->
+  <link rel="alternate" type="text/plain" title="LLMs" href="/llms.txt">
 
   <!-- Cookie consent + Analytics (GA loads only after user accepts) -->
   <script src="js/cookie-consent.js"></script>

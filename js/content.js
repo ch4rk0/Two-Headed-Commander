@@ -557,7 +557,10 @@ function renderBanned() {
     '<div class="container">' +
       '<div class="sec-label">The Forbidden Codex</div>' +
       '<h2 class="sec-title">Banned Cards</h2>' +
-      '<div class="skip-to-cards-wrap"><button class="skip-to-cards-btn" id="skip-to-cards">↓ Skip to card list</button></div>' +
+      '<div class="skip-to-cards-wrap">' +
+        '<button class="skip-to-cards-btn" id="skip-to-cards">↓ Skip to card list</button>' +
+        '<button class="skip-to-cards-btn" id="skip-to-watchlist">↓ Skip to watchlist</button>' +
+      '</div>' +
 
       '<div id="manifesto" class="ban-philosophy">' +
         '<div class="manifesto-header">' +
@@ -612,10 +615,7 @@ function renderWatchlistSection() {
     '<div class="container">' +
       '<div class="sec-label">Under Discussion</div>' +
       '<h2 class="sec-title">Watchlist</h2>' +
-      '<p class="sec-intro">These cards are legal to play but are being actively reviewed by the format committee. They may be added to the ban list in a future update.</p>' +
-      '<div class="watch-notice">' +
-        '<p>Watchlisted cards can still be played at your events. Click any card to read why it\'s being discussed. This list reflects ongoing community conversation, not final rulings.</p>' +
-      '</div>' +
+      '<p class="sec-intro">These cards are legal to play but are regularly discussed among the ban committee.</p>' +
       '<div class="banned-grid" id="watchlist-grid"></div>' +
     '</div>';
 }

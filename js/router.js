@@ -91,7 +91,10 @@
       '<section id="differences"></section>' +
       '<div class="rules-cta-wrap">' +
         '<p class="rules-cta-lead">Curious about the underlying Two-Headed Giant rules?</p>' +
-        '<button id="open-rules-modal" class="rules-cta-btn">View Official Two-Headed Giant Rules ↗</button>' +
+        '<div class="rules-cta-btns">' +
+          '<button id="open-rules-modal" class="rules-cta-btn">View Official Two-Headed Giant Rules ↗</button>' +
+          '<a href="https://magic.wizards.com/en/formats/two-headed-giant" target="_blank" rel="noopener" class="rules-cta-btn rules-cta-link">Two-Headed Giant on Wizards.com ↗</a>' +
+        '</div>' +
       '</div>' +
       '<div id="rules-modal">' +
         '<div class="rules-modal-inner">' +
