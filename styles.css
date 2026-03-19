@@ -2014,6 +2014,26 @@ footer {
 
 /* ── Mobile nav hamburger ────────────────────────────────────── */
 
+/* ── Language toggle button ─────────────────────────────────── */
+.nav-lang-item {
+  border-left: 1px solid rgba(255,255,255,.15);
+  padding-left: 1.75rem;
+  margin-left: .25rem;
+}
+.lang-toggle-btn {
+  font-family: 'Cormorant SC', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text2);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color .2s;
+}
+.lang-toggle-btn:hover { color: var(--gold2); }
+
 .nav-hamburger {
   display: none;
   flex-direction: column;
@@ -2067,6 +2087,8 @@ footer {
   }
   .nav-links.open    { display: flex; }
   .nav-links li      { padding: 0; width: 100%; text-align: center; border-bottom: 1px solid var(--border); }
+  .nav-lang-item     { border-left: none; padding-left: 0; margin-left: 0; }
+  .lang-toggle-btn   { display: block; padding: 1.4rem 2rem; font-size: 1.1rem; letter-spacing: .2em; width: 100%; }
   .nav-links li:first-child { border-top: 1px solid var(--border); }
   .nav-links li a    { display: block; padding: 1.4rem 2rem; font-size: 1.1rem; letter-spacing: .2em; }
   .hero-title        { font-size: 3rem; }
@@ -2320,6 +2342,17 @@ footer {
   font-weight: 700;
   font-style: normal;
   color: var(--red2);
+}
+
+.rm-lang-note {
+  font-size: .82rem;
+  color: rgba(240, 234, 250, .5);
+  font-style: italic;
+  background: rgba(255,255,255,.04);
+  border-left: 2px solid rgba(255,255,255,.15);
+  padding: .5rem .75rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0 4px 4px 0;
 }
 
 .rm-note {

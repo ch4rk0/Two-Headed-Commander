@@ -14,13 +14,16 @@ var CARDS = BANNED_CARDS.filter(function (card) {
   return true;
 });
 
-var PILL_LABEL = {
-  'pill-edh':  'EDH Ban',
-  'pill-2hg':  '2HG Ban',
-  'pill-both': 'EDH + 2HG',
-  'pill-2hc':  '2HC-Specific',
-  'pill-new':  'New Ban',
-};
+function PILL_LABEL(pill) {
+  var map = {
+    'pill-edh':  'pill.edh',
+    'pill-2hg':  'pill.2hg',
+    'pill-both': 'pill.both',
+    'pill-2hc':  'pill.2hc',
+    'pill-new':  'pill.new',
+  };
+  return map[pill] ? T(map[pill]) : T('pill.edh');
+}
 
 
 /* ── IMAGE URLS ──────────────────────────────────────────────── */
@@ -70,14 +73,15 @@ function openModal(card, isWatchlist) {
 
   modalName.textContent = card.name;
   modalType.textContent = card.type;
-  modalScryfall.href    = scryfallLink(card.name);
+  modalScryfall.href        = scryfallLink(card.name);
+  modalScryfall.textContent = T('modal.scryfall');
 
   if (isWatchlist) {
-    modalPill.textContent     = 'Watchlist';
+    modalPill.textContent     = T('pill.watch');
     modalPill.className       = 'ban-pill pill-watch';
     modalOrigin.style.display = 'none';
   } else {
-    modalPill.textContent     = PILL_LABEL[card.pill] || 'Banned';
+    modalPill.textContent     = PILL_LABEL(card.pill);
     modalPill.className       = 'ban-pill ' + card.pill;
     modalOrigin.textContent   = card.origin || '';
     modalOrigin.style.display = '';
@@ -119,7 +123,7 @@ function renderCards(cards) {
     el.style.animationDelay = (index * 0.02) + 's';
 
     var safeName    = card.name.replace(/"/g, '&quot;');
-    var pillLabel   = PILL_LABEL[card.pill] || 'Banned';
+    var pillLabel   = PILL_LABEL(card.pill);
     var fallbackSrc = scryfallImg(card.name).replace(/'/g, "\\'");
 
     el.innerHTML =

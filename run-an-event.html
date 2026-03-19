@@ -69,9 +69,9 @@
         <span></span>
       </button>
       <ul class="nav-links">
-        <li><a href="how-to-play.html">How to Play</a></li>
-        <li><a href="run-an-event.html" class="nav-active">Run an Event</a></li>
-        <li><a href="banned-list.html">Banned List</a></li>
+        <li><a href="how-to-play.html" data-i18n="nav.how-to-play">How to Play</a></li>
+        <li><a href="run-an-event.html" class="nav-active" data-i18n="nav.run-event">Run an Event</a></li>
+        <li><a href="banned-list.html" data-i18n="nav.banned">Banned List</a></li>
       </ul>
     </div>
   </nav>
@@ -84,14 +84,15 @@
 
   <footer>
     <div class="footer-logo">Two&#8209;Headed <span>Commander</span></div>
-    <p class="footer-note">This is a fan-made format. Magic: The Gathering is property of Wizards of the Coast. Banned list and rulings may be updated as the format evolves — last updated March 2026.</p>
+    <p class="footer-note" data-i18n="footer.note">This is a fan-made format. Magic: The Gathering is property of Wizards of the Coast. Banned list and rulings may be updated as the format evolves — last updated March 2026.</p>
     <div class="footer-legal">
-      <a href="privacy.html" class="footer-legal-link">Privacy Policy</a>
+      <a href="privacy.html" class="footer-legal-link" data-i18n="footer.privacy">Privacy Policy</a>
       <span class="footer-legal-sep">·</span>
-      <button onclick="window.showCookiePreferences()" class="footer-legal-link footer-legal-btn">Cookie Settings</button>
+      <button onclick="window.showCookiePreferences()" class="footer-legal-link footer-legal-btn" data-i18n="footer.cookies">Cookie Settings</button>
     </div>
   </footer>
 
+  <script src="js/i18n.js"></script>
   <script src="js/banned-cards.js"></script>
   <script src="js/content.js"></script>
   <script src="js/cards.js"></script>

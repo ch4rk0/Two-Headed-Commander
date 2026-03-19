@@ -44,22 +44,18 @@
     var overlay = document.createElement('div');
     overlay.id = 'cookie-overlay';
 
+    var tFn = (typeof window.T === 'function') ? window.T : function (k) { return k; };
+
     overlay.innerHTML =
       '<div id="cookie-banner" role="dialog" aria-modal="true" aria-label="Cookie consent">' +
         '<div class="cookie-icon">🍪</div>' +
-        '<h2 class="cookie-title">Before you explore</h2>' +
-        '<p class="cookie-body">' +
-          'We use <strong>Google Analytics</strong> to understand how visitors use this site — ' +
-          'which pages are read, how long people stay, and where they come from. ' +
-          'No data is collected until you choose to accept.' +
-        '</p>' +
-        '<p class="cookie-body">' +
-          'You can change your mind at any time via the <strong>Cookie Settings</strong> link in the footer.' +
-        '</p>' +
-        '<a href="privacy.html" class="cookie-link">Read our Privacy Policy →</a>' +
+        '<h2 class="cookie-title">' + tFn('cookie.title') + '</h2>' +
+        '<p class="cookie-body">' + tFn('cookie.desc') + '</p>' +
+        '<p class="cookie-body">' + tFn('cookie.footer-note') + '</p>' +
+        '<a href="privacy.html" class="cookie-link">' + tFn('cookie.privacy') + '</a>' +
         '<div class="cookie-actions">' +
-          '<button id="cookie-decline" class="cookie-btn cookie-btn-decline">No thanks, decline</button>' +
-          '<button id="cookie-accept"  class="cookie-btn cookie-btn-accept">Accept analytics</button>' +
+          '<button id="cookie-decline" class="cookie-btn cookie-btn-decline">' + tFn('cookie.decline') + '</button>' +
+          '<button id="cookie-accept"  class="cookie-btn cookie-btn-accept">'  + tFn('cookie.accept')  + '</button>' +
         '</div>' +
       '</div>';
 
@@ -94,10 +90,8 @@
   window.showCookiePreferences = function () {
     try { localStorage.removeItem(CONSENT_KEY); } catch (e) {}
     if (window._gaLoaded) {
-      if (window.confirm(
-        'Google Analytics was already loaded this session.\n\n' +
-        'Click OK to reload the page — then decline to stop data collection.'
-      )) {
+      var tFn2 = (typeof window.T === 'function') ? window.T : function (k) { return k; };
+      if (window.confirm(tFn2('cookie.reload-alert'))) {
         location.reload();
         return;
       }

@@ -70,7 +70,7 @@ function initFilters() {
     etBtn.addEventListener('click', function () {
       var list = document.getElementById('et-card-list');
       var isOpen = list.classList.toggle('open');
-      etBtn.textContent = isOpen ? 'Hide banned cards ▴' : 'See the banned cards ▾';
+      etBtn.textContent = isOpen ? T('btn.et-hide') : T('btn.et-show');
     });
   }
 }

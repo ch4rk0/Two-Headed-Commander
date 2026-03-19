@@ -19,10 +19,10 @@
 /* ── 1. HERO ─────────────────────────────────────────────────── */
 
 var HERO_BADGES = [
-  { num: '2',   label: 'Per Team'    },
-  { num: '60',  label: 'Shared Life' },
-  { num: '100', label: 'Card Decks'  },
-  { num: '4',   label: 'Commanders'  },
+  { num: '2',   key: 'badge.per-team'   },
+  { num: '60',  key: 'badge.shared-life'},
+  { num: '100', key: 'badge.card-decks' },
+  { num: '4',   key: 'badge.commanders' },
 ];
 
 function renderHero() {
@@ -30,7 +30,7 @@ function renderHero() {
     return (i > 0 ? '<span class="badge-sep">✦</span>' : '') +
       '<div class="badge-item">' +
         '<span class="badge-number">' + b.num + '</span>' +
-        '<span class="badge-label">'  + b.label + '</span>' +
+        '<span class="badge-label">'  + T(b.key) + '</span>' +
       '</div>';
   }).join('');
 
@@ -38,8 +38,8 @@ function renderHero() {
     '<div class="hero-content">' +
       '<h1 class="hero-title">Two-Headed<br><span class="line2">Commander</span></h1>' +
       '<div class="hero-rule-badge">' + badges + '</div>' +
-      '<p class="hero-desc">Two allies. Four commanders. One shared fate.<br>The sovereignty of Commander meets the brotherhood of Two-Headed Giant.</p>' +
-      '<a href="how-to-play.html" class="hero-cta">Learn the Rules ↓</a>' +
+      '<p class="hero-desc">' + T('hero.desc') + '</p>' +
+      '<a href="how-to-play.html" class="hero-cta">' + T('hero.cta') + '</a>' +
     '</div>';
 }
 
@@ -49,32 +49,59 @@ function renderHero() {
 var HOW_TO_PLAY_STEPS = [
   {
     num: 'I',
-    title: 'Form Your Alliance',
-    text: 'Two players form a team. Each player builds their own <strong>100-card Commander deck</strong>, following standard Commander singleton rules — one copy of each card (except basic lands), built around a chosen legendary creature as their Commander.',
-    callout: '✦ Each teammate selects their own Commander independently',
+    title: { en: 'Form Your Alliance', fr: 'Formez Votre Alliance' },
+    text: {
+      en: 'Two players form a team. Each player builds their own <strong>100-card Commander deck</strong>, following standard Commander singleton rules — one copy of each card (except basic lands), built around a chosen legendary creature as their Commander.',
+      fr: 'Deux joueurs forment une équipe. Chaque joueur construit son propre <strong>deck Commander de 100 cartes</strong>, en suivant les règles Commander standard — une copie de chaque carte (sauf les terres de base), construite autour d\'une créature légendaire choisie comme commandant.',
+    },
+    callout: {
+      en: '✦ Each teammate selects their own Commander independently',
+      fr: '✦ Chaque coéquipier choisit son propre commandant indépendamment',
+    },
   },
   {
     num: 'II',
-    title: 'Shared Life Total',
-    text: 'Each team begins with a <strong>shared life total of 60</strong>, following Two-Headed Giant rules. All damage dealt to either player reduces this shared pool. Life gain by either teammate increases the shared total.',
-    callout: '✦ Poison counters are tracked per player — the team loses when either player reaches 15',
+    title: { en: 'Shared Life Total', fr: 'Total de Vie Partagé' },
+    text: {
+      en: 'Each team begins with a <strong>shared life total of 60</strong>, following Two-Headed Giant rules. All damage dealt to either player reduces this shared pool. Life gain by either teammate increases the shared total.',
+      fr: 'Chaque équipe commence avec un <strong>total de vie partagé de 60</strong>, conformément aux règles du Géant à Deux Têtes. Tous les dégâts infligés à l\'un ou l\'autre joueur réduisent ce total commun. Les gains de vie d\'un coéquipier augmentent le total partagé.',
+    },
+    callout: {
+      en: '✦ Poison counters are tracked per player — the team loses when either player reaches 15',
+      fr: '✦ Les marqueurs poison sont comptés par joueur — l\'équipe perd lorsqu\'un joueur atteint 15',
+    },
   },
   {
     num: 'III',
-    title: 'Simultaneous Turns',
-    text: 'Both teammates <strong>take their turn simultaneously</strong>. The team shares a single combat phase — both players may attack and both draw during their draw step. Each player maintains their own mana pool and hand.',
-    callout: '✦ Starting team skip their draw on their first turn',
+    title: { en: 'Simultaneous Turns', fr: 'Tours Simultanés' },
+    text: {
+      en: 'Both teammates <strong>take their turn simultaneously</strong>. The team shares a single combat phase — both players may attack and both draw during their draw step. Each player maintains their own mana pool and hand.',
+      fr: 'Les deux coéquipiers <strong>jouent leur tour simultanément</strong>. L\'équipe partage une seule phase de combat — les deux joueurs peuvent attaquer et les deux piochent durant leur phase de pioche. Chaque joueur gère sa propre réserve de mana et sa main.',
+    },
+    callout: {
+      en: '✦ Starting team skip their draw on their first turn',
+      fr: '✦ L\'équipe qui commence passe sa pioche au premier tour',
+    },
   },
   {
     num: 'IV',
-    title: 'Commander Rules Remain',
-    text: 'All standard Commander rules apply: the <strong>commander tax</strong> (+2 per prior casting) applies per commander individually, and <strong>commander damage</strong> is tracked per-commander per player (21 combat damage from one commander eliminates that player\'s team).',
-    callout: '✦ Color identity rules still apply to each deck separately',
+    title: { en: 'Commander Rules Remain', fr: 'Les Règles Commander S\'Appliquent' },
+    text: {
+      en: 'All standard Commander rules apply: the <strong>commander tax</strong> (+2 per prior casting) applies per commander individually, and <strong>commander damage</strong> is tracked per-commander per player (21 combat damage from one commander eliminates that player\'s team).',
+      fr: 'Toutes les règles Commander standard s\'appliquent : la <strong>taxe de commandant</strong> (+2 par lancement précédent) s\'applique par commandant individuellement, et les <strong>dégâts de commandant</strong> sont suivis par commandant par joueur (21 dégâts de combat d\'un même commandant élimine l\'équipe de ce joueur).',
+    },
+    callout: {
+      en: '✦ Color identity rules still apply to each deck separately',
+      fr: '✦ Les règles d\'identité de couleur s\'appliquent à chaque deck séparément',
+    },
   },
   {
     num: 'V',
-    title: 'Winning &amp; Losing',
-    text: 'A team loses when their <strong>shared life total reaches 0</strong>, when either player receives 21 commander damage from a single commander, when either player accumulates 15 or more poison counters, or when either player must draw from an empty library. Teams win and lose together.',
+    title: { en: 'Winning &amp; Losing', fr: 'Victoire &amp; Défaite' },
+    text: {
+      en: 'A team loses when their <strong>shared life total reaches 0</strong>, when either player receives 21 commander damage from a single commander, when either player accumulates 15 or more poison counters, or when either player must draw from an empty library. Teams win and lose together.',
+      fr: 'Une équipe perd lorsque son <strong>total de vie partagé atteint 0</strong>, lorsqu\'un joueur reçoit 21 dégâts de commandant d\'un seul commandant, lorsqu\'un joueur accumule 15 marqueurs poison ou plus, ou lorsqu\'un joueur doit piocher depuis une bibliothèque vide. Les équipes gagnent et perdent ensemble.',
+    },
   },
 ];
 
@@ -83,17 +110,17 @@ function renderHowToPlay() {
     return '<div class="step">' +
       '<div class="step-num">' + s.num + '</div>' +
       '<div class="step-content">' +
-        '<div class="step-title">' + s.title + '</div>' +
-        '<p class="step-text">' + s.text + '</p>' +
-        (s.callout ? '<span class="step-callout">' + s.callout + '</span>' : '') +
+        '<div class="step-title">' + L(s.title) + '</div>' +
+        '<p class="step-text">' + L(s.text) + '</p>' +
+        (s.callout ? '<span class="step-callout">' + L(s.callout) + '</span>' : '') +
       '</div>' +
     '</div>';
   }).join('');
 
   document.getElementById('how').innerHTML =
     '<div class="container">' +
-      '<div class="sec-label">The Codex</div>' +
-      '<h2 class="sec-title">How to Play</h2>' +
+      '<div class="sec-label">' + T('sec.how-label') + '</div>' +
+      '<h2 class="sec-title">' + T('sec.how-title') + '</h2>' +
       '<div class="steps">' + steps + '</div>' +
     '</div>';
 }
@@ -103,51 +130,57 @@ function renderHowToPlay() {
 
 var KEY_DIFFERENCES = [
   {
-    color: 'purple', icon: '🛡',
-    title: 'Shared Life: 60, Not 30',
-    text: 'Standard 2HG uses 30 life per team. Here, teams start at <strong>60 life</strong> to accommodate Commander\'s longer, more complex games and prevent aggro from ending games before commanders hit the table.',
-    tag: 'Modified from 2HG', tagClass: 'tag-modified',
+    color: 'purple',
+    title: { en: 'Shared Life: 60, Not 30', fr: 'Vie Partagée : 60, Pas 30' },
+    text: {
+      en: 'Standard 2HG uses 30 life per team. Here, teams start at <strong>60 life</strong> to accommodate Commander\'s longer, more complex games and prevent aggro from ending games before commanders hit the table.',
+      fr: 'Le 2TG standard utilise 30 points de vie par équipe. Ici, les équipes commencent à <strong>60 points de vie</strong> pour s\'adapter aux parties Commander plus longues et complexes, et éviter que l\'agressivité termine les parties avant que les commandants n\'entrent en jeu.',
+    },
+    tag: { en: 'Modified from 2HG', fr: 'Modifié du 2TG' }, tagClass: 'tag-modified',
   },
   {
-    color: 'gold', icon: '👑',
-    title: 'Four Commanders, Four Threats',
-    text: 'Each player controls their own Commander. Opponents must track and respond to <strong>two separate commanders</strong> per team. Synergistic commander pairs — one threat, one support — are the heart of the format\'s strategy.',
-    tag: 'New to this format', tagClass: 'tag-new',
+    color: 'gold',
+    title: { en: 'Four Commanders, Four Threats', fr: 'Quatre Commandants, Quatre Menaces' },
+    text: {
+      en: 'Each player controls their own Commander. Opponents must track and respond to <strong>two separate commanders</strong> per team. Synergistic commander pairs — one threat, one support — are the heart of the format\'s strategy.',
+      fr: 'Chaque joueur contrôle son propre commandant. Les adversaires doivent surveiller et répondre à <strong>deux commandants distincts</strong> par équipe. Les duos de commandants synergiques — une menace, un soutien — sont au cœur de la stratégie du format.',
+    },
+    tag: { en: 'New to this format', fr: 'Nouveau dans ce format' }, tagClass: 'tag-new',
   },
   {
-    color: 'teal', icon: '🤝',
-    title: 'Open Communication',
-    text: 'Teammates may freely discuss strategy, show each other their hands, and coordinate plays openly. There is no hidden information between allies — secrets are only kept from opponents.',
-    tag: 'Inherited from 2HG', tagClass: 'tag-same',
+    color: 'teal',
+    title: { en: 'Open Communication', fr: 'Communication Ouverte' },
+    text: {
+      en: 'Teammates may freely discuss strategy, show each other their hands, and coordinate plays openly. There is no hidden information between allies — secrets are only kept from opponents.',
+      fr: 'Les coéquipiers peuvent librement discuter de stratégie, se montrer leurs mains et coordonner leurs actions ouvertement. Il n\'y a pas d\'information cachée entre alliés — les secrets ne sont gardés que des adversaires.',
+    },
+    tag: { en: 'Inherited from 2HG', fr: 'Hérité du 2TG' }, tagClass: 'tag-same',
   },
   {
-    color: 'purple', icon: '☠',
-    title: 'Infect &amp; Poison',
-    text: 'Poison counters are tracked <strong>per player</strong>, not shared. A team loses when <strong>either</strong> player accumulates 15 or more poison counters — scaled up from the standard 10 to match the higher life total of this format.',
-    tag: 'Inherited from 2HG', tagClass: 'tag-same',
-  },
-  {
-    color: 'gold', icon: '🎯',
-    title: 'Targeting Restrictions',
-    text: 'You cannot target your teammate with harmful spells but <strong>can</strong> target them with beneficial effects. A spell dealing damage to "each opponent" deals that damage to <strong>each player</strong> on the opposing team separately — the shared life total is reduced by the full sum.',
-    tag: 'Inherited from 2HG', tagClass: 'tag-same',
+    color: 'purple',
+    title: { en: 'Infect &amp; Poison', fr: 'Infecter &amp; Poison' },
+    text: {
+      en: 'Poison counters are tracked <strong>per player</strong>, not shared. A team loses when <strong>either</strong> player accumulates 15 or more poison counters — scaled up from the standard 10 to match the higher life total of this format.',
+      fr: 'Les marqueurs poison sont comptés <strong>par joueur</strong>, pas en commun. Une équipe perd lorsque <strong>l\'un des</strong> joueurs accumule 15 marqueurs poison ou plus — augmenté du seuil standard de 10 pour correspondre au total de vie plus élevé de ce format.',
+    },
+    tag: { en: 'Inherited from 2HG', fr: 'Hérité du 2TG' }, tagClass: 'tag-same',
   },
 ];
 
 function renderDifferences() {
   var cards = KEY_DIFFERENCES.map(function (d) {
     return '<div class="diff-card ' + d.color + '">' +
-      '<div class="diff-title">' + d.title + '</div>' +
-      '<p class="diff-text">' + d.text + '</p>' +
-      '<span class="diff-tag ' + d.tagClass + '">' + d.tag + '</span>' +
+      '<div class="diff-title">' + L(d.title) + '</div>' +
+      '<p class="diff-text">' + L(d.text) + '</p>' +
+      '<span class="diff-tag ' + d.tagClass + '">' + L(d.tag) + '</span>' +
     '</div>';
   }).join('');
 
   document.getElementById('differences').innerHTML =
     '<div class="container">' +
-      '<div class="sec-label">Rule Modifications</div>' +
-      '<h2 class="sec-title">Key Differences</h2>' +
-      '<p class="sec-intro">Two-Headed Commander is not simply stacking two formats together — specific rules from each parent format are modified, preserved, or replaced.</p>' +
+      '<div class="sec-label">' + T('sec.diff-label') + '</div>' +
+      '<h2 class="sec-title">' + T('sec.diff-title') + '</h2>' +
+      '<p class="sec-intro">' + T('sec.diff-intro') + '</p>' +
       '<div class="diff-grid">' + cards + '</div>' +
     '</div>';
 }
@@ -348,7 +381,11 @@ var TWO_HG_OFFICIAL_RULES = [
 ];
 
 function renderRulesModal() {
-  var html = TWO_HG_OFFICIAL_RULES.map(function (section) {
+  var noteHtml = window.LANG === 'fr'
+    ? '<p class="rm-lang-note">' + T('modal.rules-note') + '</p>'
+    : '';
+
+  var html = noteHtml + TWO_HG_OFFICIAL_RULES.map(function (section) {
     var subsHtml = section.subs.map(function (sub) {
       var entriesHtml = sub.entries.map(function (e) {
         switch (e.type) {
@@ -374,60 +411,99 @@ function renderRulesModal() {
 
 var LGS_TILES = [
   {
-    title: 'Built-in Socialising',
+    title: { en: 'Built-in Socialising',   fr: 'Socialisation Intégrée'   },
     image: 'images/lgs/built-in-socialising.jpg',
-    text: 'Random teams every event. Two strangers get 10 minutes to figure out which of their decks pair best — and walk away with a new connection.',
+    text: {
+      en: 'Random teams every event. Two strangers get 10 minutes to figure out which of their decks pair best — and walk away with a new connection.',
+      fr: 'Des équipes aléatoires à chaque événement. Deux inconnus ont 10 minutes pour déterminer quels decks s\'associent le mieux — et repartent avec une nouvelle connexion.',
+    },
   },
   {
-    title: 'Timed Rounds',
+    title: { en: 'Timed Rounds',           fr: 'Rondes Chronométrées'     },
     image: 'images/lgs/predictable-round-times.jpeg',
-    text: 'Hard 50-minute rounds with 3 extra turns then draw keep the night on schedule. Teams that stall risk the clock as much as their opponents.',
+    text: {
+      en: 'Hard 50-minute rounds with 3 extra turns then draw keep the night on schedule. Teams that stall risk the clock as much as their opponents.',
+      fr: 'Des rondes strictes de 50 minutes avec 3 tours supplémentaires puis match nul maintiennent la soirée dans les délais. Les équipes qui traînent risquent l\'horloge autant que leurs adversaires.',
+    },
   },
   {
-    title: 'Two Decks Per Player',
+    title: { en: 'Two Decks Per Player',   fr: 'Deux Decks par Joueur'    },
     image: 'images/lgs/two-decks-per-player.jpg',
-    text: 'Each player registers two decks and picks one after teams are revealed. Format knowledge and collection depth both matter.',
+    text: {
+      en: 'Each player registers two decks and picks one after teams are revealed. Format knowledge and collection depth both matter.',
+      fr: 'Chaque joueur enregistre deux decks et en choisit un après la révélation des équipes. La connaissance du format et la profondeur de la collection comptent toutes les deux.',
+    },
   },
   {
-    title: 'Competitive with Heart',
+    title: { en: 'Competitive with Heart', fr: 'Compétitif avec Cœur'     },
     image: 'images/lgs/competitive-with-heart.jpg',
-    text: 'Three rounds of best-of-one, randomised teams. Strong players lift weaker ones — closing the gap between competitive and casual in ways 1v1 rarely does.',
+    text: {
+      en: 'Three rounds of best-of-one, randomised teams. Strong players lift weaker ones — closing the gap between competitive and casual in ways 1v1 rarely does.',
+      fr: 'Trois rondes en partie unique, équipes aléatoires. Les joueurs forts élèvent les plus faibles — comblant l\'écart entre compétitif et casual d\'une façon que le 1v1 fait rarement.',
+    },
   },
   {
-    title: 'Curated for Fairness',
+    title: { en: 'Curated for Fairness',   fr: 'Équilibré pour l\'Équité' },
     image: 'images/lgs/curated-for-fairness.jpg',
-    text: 'The ban list removes infinite loops, lock strategies, and attrition wins. Proactive, board-based play is rewarded.',
+    text: {
+      en: 'The ban list removes infinite loops, lock strategies, and attrition wins. Proactive, board-based play is rewarded.',
+      fr: 'La liste de bannissement supprime les boucles infinies, les stratégies de verrouillage et les victoires par attrition. Le jeu proactif basé sur le plateau est récompensé.',
+    },
   },
   {
-    title: 'Memorable Moments',
+    title: { en: 'Memorable Moments',      fr: 'Moments Mémorables'       },
     image: 'images/lgs/memorable-moments.jpeg',
-    text: 'Two commanders in play means twice the synergy and twice the stories. Team victories feel earned and shared.',
+    text: {
+      en: 'Two commanders in play means twice the synergy and twice the stories. Team victories feel earned and shared.',
+      fr: 'Deux commandants en jeu signifient deux fois plus de synergies et deux fois plus d\'histoires. Les victoires d\'équipe se sentent méritées et partagées.',
+    },
   },
   {
-    title: 'Budget Friendly',
+    title: { en: 'Budget Friendly',        fr: 'Accessible au Budget'     },
     image: 'images/lgs/budget-friendly.jpg',
-    text: 'Most cEDH staples are banned here. A well-built budget deck can win the whole event.',
+    text: {
+      en: 'Most cEDH staples are banned here. A well-built budget deck can win the whole event.',
+      fr: 'La plupart des incontournables cEDH sont bannis ici. Un deck bien construit avec un budget limité peut remporter tout l\'événement.',
+    },
   },
 ];
 
 var EVENT_STEPS = [
-  'Players register <strong>two legal decks</strong> before the event begins. Both decks must comply with the Two-Headed Commander banned list.',
-  '<strong>Teams are randomly assigned</strong> at the start of the event. Neither player knows their partner until the draw — fostering new connections every event.',
-  'Teammates have <strong>10 minutes</strong> to discuss both of their registered decks and choose which one each player will pilot for the night. Once selected, the deck cannot be changed between rounds.',
-  'Play <strong>3 rounds</strong> of Swiss pairings. Teams are matched against randomly selected opponents each round — there is no intentional draw or concession for seeding.',
-  'At the end of 3 rounds, the team with the best record wins. Tiebreakers are resolved by total game wins, then life total differential at time.',
+  {
+    en: 'Players register <strong>two legal decks</strong> before the event begins. Both decks must comply with the Two-Headed Commander banned list.',
+    fr: 'Les joueurs enregistrent <strong>deux decks légaux</strong> avant le début de l\'événement. Les deux decks doivent respecter la liste de bannissement de Two-Headed Commander.',
+  },
+  {
+    en: '<strong>Teams are randomly assigned</strong> at the start of the event. Neither player knows their partner until the draw — fostering new connections every event.',
+    fr: '<strong>Les équipes sont assignées aléatoirement</strong> au début de l\'événement. Aucun joueur ne connaît son partenaire avant le tirage — favorisant de nouvelles connexions à chaque événement.',
+  },
+  {
+    en: 'Teammates have <strong>10 minutes</strong> to discuss both of their registered decks and choose which one each player will pilot for the night. Once selected, the deck cannot be changed between rounds.',
+    fr: 'Les coéquipiers ont <strong>10 minutes</strong> pour discuter de leurs deux decks enregistrés et choisir lequel chaque joueur pilotera pour la soirée. Une fois sélectionné, le deck ne peut pas être changé entre les rondes.',
+  },
+  {
+    en: 'Play <strong>3 rounds</strong> of Swiss pairings. Teams are matched against randomly selected opponents each round — there is no intentional draw or concession for seeding.',
+    fr: 'Jouez <strong>3 rondes</strong> en système suisse. Les équipes sont appariées contre des adversaires sélectionnés aléatoirement à chaque ronde — il n\'y a pas de match nul intentionnel ou de concession pour le classement.',
+  },
+  {
+    en: 'At the end of 3 rounds, the team with the best record wins. Tiebreakers are resolved by total game wins, then life total differential at time.',
+    fr: 'À la fin des 3 rondes, l\'équipe avec le meilleur bilan remporte l\'événement. Les égalités sont départagées par le nombre total de victoires, puis par le différentiel de points de vie au moment du temps.',
+  },
 ];
 
 var TIMING_ROWS = [
-  { label: 'Team Reveal &amp; Deck Selection',     value: '10 min'      },
-  { label: 'Round Duration (Hard Limit)',           value: '50 min'      },
-  { label: 'Extra Turns After Time Called',         value: '3 turns'     },
-  { label: 'Result if No Winner After Extra Turns', value: 'Draw'        },
-  { label: 'Rounds Per Event',                      value: '3 rounds'    },
-  { label: 'Format',                                value: 'Best of One' },
+  { label: { en: 'Team Reveal &amp; Deck Selection',     fr: 'Révélation des Équipes &amp; Sélection'  }, value: '10 min'                                    },
+  { label: { en: 'Round Duration (Hard Limit)',           fr: 'Durée de Ronde (Limite Stricte)'         }, value: '50 min'                                    },
+  { label: { en: 'Extra Turns After Time Called',         fr: 'Tours Supplémentaires Après le Temps'   }, value: { en: '3 turns',     fr: '3 tours'           }},
+  { label: { en: 'Result if No Winner After Extra Turns', fr: 'Résultat Sans Gagnant Après les Tours'  }, value: { en: 'Draw',        fr: 'Match nul'         }},
+  { label: { en: 'Rounds Per Event',                      fr: 'Rondes par Événement'                   }, value: { en: '3 rounds',    fr: '3 rondes'          }},
+  { label: { en: 'Format',                                fr: 'Format'                                 }, value: { en: 'Best of One', fr: 'Partie Unique'     }},
 ];
 
-var ROUND_NOTE = 'The time constraint removes hard stax, mass land destruction, and other slow-attrition strategies from the competitive space. A deck that wins by locking opponents out of mana for 45 minutes doesn\'t produce a result before the clock — so those strategies were removed from the format entirely. Players are rewarded for building toward a <em>decisive, board-based win</em>, not a prolonged prison.';
+var ROUND_NOTE = {
+  en: 'The time constraint removes hard stax, mass land destruction, and other slow-attrition strategies from the competitive space. A deck that wins by locking opponents out of mana for 45 minutes doesn\'t produce a result before the clock — so those strategies were removed from the format entirely. Players are rewarded for building toward a <em>decisive, board-based win</em>, not a prolonged prison.',
+  fr: 'La contrainte de temps supprime le hard stax, la destruction massive de terrains et autres stratégies d\'attrition lente de l\'espace compétitif. Un deck qui gagne en bloquant les adversaires sans mana pendant 45 minutes ne produit pas de résultat avant l\'horloge — ces stratégies ont donc été retirées du format entièrement. Les joueurs sont récompensés pour avoir construit vers une <em>victoire décisive basée sur le plateau</em>, pas une prison prolongée.',
+};
 
 function renderLgs() {
   var tiles = LGS_TILES.map(function (t) {
@@ -436,48 +512,48 @@ function renderLgs() {
       : '';
     return '<div class="lgs-card"' + bgStyle + '>' +
       '<div class="lgs-card-content">' +
-        '<div class="lgs-title">' + t.title + '</div>' +
-        '<p class="lgs-text">' + t.text + '</p>' +
+        '<div class="lgs-title">' + L(t.title) + '</div>' +
+        '<p class="lgs-text">' + L(t.text) + '</p>' +
       '</div>' +
     '</div>';
   }).join('');
 
-  var eventSteps = EVENT_STEPS.map(function (text, i) {
+  var eventSteps = EVENT_STEPS.map(function (step, i) {
     return '<div class="event-step">' +
       '<div class="event-step-num">' + (i + 1) + '</div>' +
-      '<p class="event-step-text">' + text + '</p>' +
+      '<p class="event-step-text">' + L(step) + '</p>' +
     '</div>';
   }).join('');
 
   var timingRows = TIMING_ROWS.map(function (r) {
     return '<div class="timing-row">' +
-      '<span class="timing-label">' + r.label + '</span>' +
-      '<span class="timing-value">' + r.value + '</span>' +
+      '<span class="timing-label">' + L(r.label) + '</span>' +
+      '<span class="timing-value">' + L(r.value) + '</span>' +
     '</div>';
   }).join('');
 
   document.getElementById('lgs').innerHTML =
     '<div class="container">' +
-      '<div class="sec-label">Local Game Store</div>' +
-      '<h2 class="sec-title">Why Run This Format?</h2>' +
-      '<p class="sec-intro">Two-Headed Commander is designed to be LGS-friendly — exciting to spectate, fast to organise, and rewarding for players of all experience levels who want a team experience.</p>' +
+      '<div class="sec-label">' + T('sec.lgs-label') + '</div>' +
+      '<h2 class="sec-title">' + T('sec.lgs-title') + '</h2>' +
+      '<p class="sec-intro">' + T('sec.lgs-intro') + '</p>' +
       '<div class="lgs-grid">' + tiles + '</div>' +
       '<div class="event-block">' +
         '<div class="event-header">' +
           '<div>' +
-            '<div class="event-header-title">Event Structure</div>' +
-            '<div class="event-header-sub">Recommended LGS Tournament Format</div>' +
+            '<div class="event-header-title">' + T('sec.event-title') + '</div>' +
+            '<div class="event-header-sub">' + T('sec.event-sub') + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="event-body">' +
           '<div>' +
-            '<div class="event-col-title">How the Night Runs</div>' +
+            '<div class="event-col-title">' + T('sec.col-how') + '</div>' +
             '<div class="event-steps">' + eventSteps + '</div>' +
           '</div>' +
           '<div>' +
-            '<div class="event-col-title">Timing Rules</div>' +
+            '<div class="event-col-title">' + T('sec.col-timing') + '</div>' +
             '<div class="timing-grid">' + timingRows + '</div>' +
-            '<div class="round-note"><strong>Why 50-minute rounds shape the ban list:</strong> ' + ROUND_NOTE + '</div>' +
+            '<div class="round-note"><strong>' + T('sec.round-note-lbl') + '</strong> ' + L(ROUND_NOTE) + '</div>' +
           '</div>' +
         '</div>' +
       '</div>' +
@@ -485,95 +561,120 @@ function renderLgs() {
 }
 
 
-/* ── 5. BANNED LIST ──────────────────────────────────────────── */
+/* ── 6. BANNED LIST ──────────────────────────────────────────── */
 
 var BAN_PHILOSOPHY = [
-  'Magic\'s diversity of playstyles is a strength — the ban list exists to address <strong>genuine imbalance</strong>, not to eliminate strategies that some players simply dislike.',
-  'The ban list is a <strong>living tool, not a permanent verdict</strong> — cards can be added or removed as the meta and community feedback evolves.',
-  'The goal is to <strong>maximise the number of viable decks</strong> and encourage a varied meta, while keeping the format competitive and accessible.',
+  {
+    en: 'Magic\'s diversity of playstyles is a strength — the ban list exists to address <strong>genuine imbalance</strong>, not to eliminate strategies that some players simply dislike.',
+    fr: 'La diversité des styles de jeu de Magic est une force — la liste de bannissement existe pour remédier aux <strong>véritables déséquilibres</strong>, et non pour éliminer des stratégies que certains joueurs n\'aiment tout simplement pas.',
+  },
+  {
+    en: 'The ban list is a <strong>living tool, not a permanent verdict</strong> — cards can be added or removed as the meta and community feedback evolves.',
+    fr: 'La liste de bannissement est un <strong>outil évolutif, pas un verdict permanent</strong> — des cartes peuvent être ajoutées ou retirées selon l\'évolution de la méta et des retours de la communauté.',
+  },
+  {
+    en: 'The goal is to <strong>maximise the number of viable decks</strong> and encourage a varied meta, while keeping the format competitive and accessible.',
+    fr: 'L\'objectif est de <strong>maximiser le nombre de decks viables</strong> et d\'encourager une méta variée, tout en maintenant le format compétitif et accessible.',
+  },
 ];
 
 var BAN_CRITERIA = [
-  'Cards that force everyone to build around them, homogenizing the meta',
-  'Cards whose cost is too low relative to their actual impact',
-  'Cards enabling combos too fast or with insufficient mana investment',
-  'Cards too oppressive against reasonably or minimally optimized decks',
-  'Cards that exploit 2HG\'s high shared life totals disproportionately',
-  'Cards that stall, drag out, or make games unresolvable within one hour — mass land destruction and highly random effects that remove agency are incompatible with the format\'s structure',
+  { en: 'Cards that force everyone to build around them, homogenizing the meta',              fr: 'Cartes qui forcent tout le monde à construire autour d\'elles, homogénéisant la méta'            },
+  { en: 'Cards whose cost is too low relative to their actual impact',                        fr: 'Cartes dont le coût est trop faible par rapport à leur impact réel'                               },
+  { en: 'Cards enabling combos too fast or with insufficient mana investment',                fr: 'Cartes permettant des combos trop rapides ou avec un investissement de mana insuffisant'           },
+  { en: 'Cards too oppressive against reasonably or minimally optimized decks',               fr: 'Cartes trop oppressives contre des decks raisonnablement ou minimalement optimisés'               },
+  { en: 'Cards that exploit 2HG\'s high shared life totals disproportionately',              fr: 'Cartes qui exploitent de manière disproportionnée les totaux de vie élevés du 2TG'                },
+  { en: 'Cards that stall, drag out, or make games unresolvable within one hour — mass land destruction and highly random effects that remove agency are incompatible with the format\'s structure',
+    fr: 'Cartes qui bloquent, prolongent ou rendent les parties irrésolvables en une heure — la destruction de terres en masse et les effets très aléatoires qui suppriment l\'initiative sont incompatibles avec la structure du format' },
 ];
 
 var EXTRA_TURN_MANIFESTO = {
-  prosTitle: 'Why They\'re Great Cards',
+  prosTitle: { en: 'Why They\'re Great Cards', fr: 'Pourquoi ce sont de Bonnes Cartes' },
   pros: [
-    'In solo Commander, extra turns require <strong>real mana investment</strong>, reward careful setup, and remain answerable — a legitimate expression of blue\'s identity.',
-    'The design space — protecting a planeswalker, clocking an opponent, resolving a combo — is <strong>valid, skillful gameplay</strong> in their native formats.',
+    {
+      en: 'In solo Commander, extra turns require <strong>real mana investment</strong>, reward careful setup, and remain answerable — a legitimate expression of blue\'s identity.',
+      fr: 'En Commander solo, les tours supplémentaires nécessitent un <strong>véritable investissement de mana</strong>, récompensent une préparation minutieuse et restent contrables — une expression légitime de l\'identité bleue.',
+    },
+    {
+      en: 'The design space — protecting a planeswalker, clocking an opponent, resolving a combo — is <strong>valid, skillful gameplay</strong> in their native formats.',
+      fr: 'L\'espace de conception — protéger un planeswalker, faire pression sur un adversaire, résoudre un combo — représente un <strong>gameplay valide et habile</strong> dans leurs formats natifs.',
+    },
   ],
-  consTitle: 'Why They\'re Banned Here',
+  consTitle: { en: 'Why They\'re Banned Here', fr: 'Pourquoi Ils Sont Bannis Ici' },
   cons: [
-    'In Two-Headed Commander, one extra turn is <strong>two players untapping simultaneously</strong> — the power doubles with no increase in cost.',
-    'Turn chains are a <strong>degenerate, unfun win pattern</strong> — the opposing team sits idle while two players loop turns with no meaningful interaction possible.',
+    {
+      en: 'In Two-Headed Commander, one extra turn is <strong>two players untapping simultaneously</strong> — the power doubles with no increase in cost.',
+      fr: 'Dans Two-Headed Commander, un tour supplémentaire représente <strong>deux joueurs se dégageant simultanément</strong> — la puissance double sans augmentation du coût.',
+    },
+    {
+      en: 'Turn chains are a <strong>degenerate, unfun win pattern</strong> — the opposing team sits idle while two players loop turns with no meaningful interaction possible.',
+      fr: 'Les chaînes de tours sont un <strong>schéma de victoire dégénéré et frustrant</strong> — l\'équipe adverse reste inactive pendant que deux joueurs enchaînent les tours sans interaction significative possible.',
+    },
   ],
-  verdict: 'The format rewards <strong>board-present, decisive wins</strong>. Every extra turn card is banned not for individual power level — but because the entire category produces gameplay that undermines what makes Two-Headed Commander worth playing.',
+  verdict: {
+    en: 'The format rewards <strong>board-present, decisive wins</strong>. Every extra turn card is banned not for individual power level — but because the entire category produces gameplay that undermines what makes Two-Headed Commander worth playing.',
+    fr: 'Le format récompense les <strong>victoires décisives et présentes sur le plateau</strong>. Chaque carte de tour supplémentaire est bannie non pas pour son niveau de puissance individuel — mais parce que toute la catégorie produit un gameplay qui compromet ce qui rend Two-Headed Commander valable à jouer.',
+  },
 };
 
 var FILTER_BUTTONS = [
-  { filter: 'all',              label: 'All',                active: true },
-  { filter: 'banned-commander', label: 'Banned as Commander'              },
-  { filter: 'tutor',            label: 'Tutors'                           },
-  { filter: 'fast-mana',        label: 'Fast Mana'                        },
-  { filter: 'big-life',         label: 'Big Life Total'                   },
-  { filter: 'life-manip',       label: 'Life Manipulation'                },
-  { filter: 'combo',            label: 'Combo'                            },
-  { filter: 'hard-stax',        label: 'Hard Stax'                        },
-  { filter: 'misc',             label: 'Misc'                             },
-  { filter: 'commander',        label: 'Commander Ban'                    },
+  { filter: 'all',              label: { en: 'All',                 fr: 'Tout'                   }, active: true },
+  { filter: 'banned-commander', label: { en: 'Banned as Commander', fr: 'Banni comme commandant' }              },
+  { filter: 'tutor',            label: { en: 'Tutors',              fr: 'Tuteurs'                }              },
+  { filter: 'fast-mana',        label: { en: 'Fast Mana',           fr: 'Mana Rapide'            }              },
+  { filter: 'big-life',         label: { en: 'Big Life Total',      fr: 'Grand Total de Vie'     }              },
+  { filter: 'life-manip',       label: { en: 'Life Manipulation',   fr: 'Manipulation de Vie'    }              },
+  { filter: 'combo',            label: { en: 'Combo',               fr: 'Combo'                  }              },
+  { filter: 'hard-stax',        label: { en: 'Hard Stax',           fr: 'Hard Stax'              }              },
+  { filter: 'misc',             label: { en: 'Misc',                fr: 'Divers'                 }              },
+  { filter: 'commander',        label: { en: 'Commander Ban',       fr: 'Banni en Commander'     }              },
 ];
 
 function renderBanned() {
   var philosophy = BAN_PHILOSOPHY.map(function (p) {
-    return '<p class="ban-phil-text">' + p + '</p>';
+    return '<p class="ban-phil-text">' + L(p) + '</p>';
   }).join('');
 
   var criteria = BAN_CRITERIA.map(function (c) {
-    return '<li>' + c + '</li>';
+    return '<li>' + L(c) + '</li>';
   }).join('');
 
   var etCards = BANNED_CARDS.filter(function (c) { return c.cat === 'extra-turn'; });
   var etNames = etCards.map(function (c) { return '<span class="et-card-name">' + c.name + '</span>'; }).join('');
 
   var pros = EXTRA_TURN_MANIFESTO.pros.map(function (p) {
-    return '<div class="manifesto-point"><span class="manifesto-bullet">✦</span><p class="manifesto-text">' + p + '</p></div>';
+    return '<div class="manifesto-point"><span class="manifesto-bullet">✦</span><p class="manifesto-text">' + L(p) + '</p></div>';
   }).join('');
 
   var cons = EXTRA_TURN_MANIFESTO.cons.map(function (p) {
-    return '<div class="manifesto-point"><span class="manifesto-bullet">✖</span><p class="manifesto-text">' + p + '</p></div>';
+    return '<div class="manifesto-point"><span class="manifesto-bullet">✖</span><p class="manifesto-text">' + L(p) + '</p></div>';
   }).join('');
 
   var filterBtns = FILTER_BUTTONS.map(function (b) {
-    return '<button class="filt' + (b.active ? ' on' : '') + '" data-filter="' + b.filter + '">' + b.label + '</button>';
+    return '<button class="filt' + (b.active ? ' on' : '') + '" data-filter="' + b.filter + '">' + L(b.label) + '</button>';
   }).join('');
 
   document.getElementById('banned').innerHTML =
     '<div class="container">' +
-      '<div class="sec-label">The Forbidden Codex</div>' +
-      '<h2 class="sec-title">Banned Cards</h2>' +
+      '<div class="sec-label">' + T('sec.banned-label') + '</div>' +
+      '<h2 class="sec-title">' + T('sec.banned-title') + '</h2>' +
       '<div class="skip-to-cards-wrap">' +
-        '<button class="skip-to-cards-btn" id="skip-to-cards">↓ Skip to card list</button>' +
-        '<button class="skip-to-cards-btn" id="skip-to-watchlist">↓ Skip to watchlist</button>' +
+        '<button class="skip-to-cards-btn" id="skip-to-cards">' + T('btn.skip-cards') + '</button>' +
+        '<button class="skip-to-cards-btn" id="skip-to-watchlist">' + T('btn.skip-watchlist') + '</button>' +
       '</div>' +
 
       '<div id="manifesto" class="ban-philosophy">' +
         '<div class="manifesto-header">' +
           '<div class="manifesto-icon">⚖</div>' +
           '<div>' +
-            '<div class="manifesto-heading">Ban Philosophy</div>' +
-            '<div class="manifesto-sub">The principles behind every decision on this list</div>' +
+            '<div class="manifesto-heading">' + T('sec.manifesto-title') + '</div>' +
+            '<div class="manifesto-sub">' + T('sec.manifesto-sub') + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="ban-phil-body">' +
           '<div class="ban-phil-principles">' + philosophy + '</div>' +
           '<div>' +
-            '<div class="ban-criteria-title">Six criteria justify a ban</div>' +
+            '<div class="ban-criteria-title">' + T('sec.criteria-title') + '</div>' +
             '<ol class="ban-criteria-list">' + criteria + '</ol>' +
           '</div>' +
         '</div>' +
@@ -583,39 +684,39 @@ function renderBanned() {
         '<div class="manifesto-header">' +
           '<div class="manifesto-icon">⏳</div>' +
           '<div>' +
-            '<div class="manifesto-heading">On Extra Turns: A Format Statement</div>' +
-            '<div class="manifesto-sub">Why every extra turn card is banned — as a category</div>' +
+            '<div class="manifesto-heading">' + T('sec.et-title') + '</div>' +
+            '<div class="manifesto-sub">' + T('sec.et-sub') + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="manifesto-body">' +
-          '<div><div class="manifesto-col-title green">' + EXTRA_TURN_MANIFESTO.prosTitle + '</div>' + pros + '</div>' +
-          '<div><div class="manifesto-col-title red">'   + EXTRA_TURN_MANIFESTO.consTitle + '</div>' + cons + '</div>' +
+          '<div><div class="manifesto-col-title green">' + L(EXTRA_TURN_MANIFESTO.prosTitle) + '</div>' + pros + '</div>' +
+          '<div><div class="manifesto-col-title red">'   + L(EXTRA_TURN_MANIFESTO.consTitle) + '</div>' + cons + '</div>' +
         '</div>' +
         '<div class="manifesto-footer">' +
-          '<p class="manifesto-verdict">' + EXTRA_TURN_MANIFESTO.verdict + '</p>' +
+          '<p class="manifesto-verdict">' + L(EXTRA_TURN_MANIFESTO.verdict) + '</p>' +
         '</div>' +
         '<div class="et-toggle-wrap">' +
-          '<button class="et-toggle-btn" id="et-toggle">See the banned cards ▾</button>' +
+          '<button class="et-toggle-btn" id="et-toggle">' + T('btn.et-show') + '</button>' +
           '<div class="et-card-list" id="et-card-list">' + etNames + '</div>' +
         '</div>' +
       '</div>' +
 
       '<div class="filter-row">' + filterBtns + '</div>' +
-      '<div class="search-row"><input type="text" id="card-search" placeholder="Search banned cards…" autocomplete="off"></div>' +
-      '<p class="ban-count">Showing <span id="visible-count">0</span> of <span id="total-count">0</span> banned cards</p>' +
+      '<div class="search-row"><input type="text" id="card-search" placeholder="' + T('search.placeholder') + '" autocomplete="off"></div>' +
+      '<p class="ban-count">' + T('ban.showing') + ' <span id="visible-count">0</span> ' + T('ban.of') + ' <span id="total-count">0</span> ' + T('ban.cards') + '</p>' +
       '<div class="banned-grid" id="banned-grid"></div>' +
     '</div>';
 }
 
 
-/* ── 6. WATCHLIST ────────────────────────────────────────────── */
+/* ── 7. WATCHLIST ────────────────────────────────────────────── */
 
 function renderWatchlistSection() {
   document.getElementById('watchlist').innerHTML =
     '<div class="container">' +
-      '<div class="sec-label">Under Discussion</div>' +
-      '<h2 class="sec-title">Watchlist</h2>' +
-      '<p class="sec-intro">These cards are legal to play but are regularly discussed among the ban committee.</p>' +
+      '<div class="sec-label">' + T('sec.watch-label') + '</div>' +
+      '<h2 class="sec-title">' + T('sec.watch-title') + '</h2>' +
+      '<p class="sec-intro">' + T('sec.watch-intro') + '</p>' +
       '<div class="banned-grid" id="watchlist-grid"></div>' +
     '</div>';
 }

@@ -83,63 +83,74 @@
 
   /* ── Page shell HTML (empty containers — content injected by init fns) ── */
 
-  var PAGE_HTML = {
-    'index.html': '<section class="hero"></section>',
+  function buildPageHtml(key) {
+    switch (key) {
+      case 'index.html':
+        return '<section class="hero"></section>';
 
-    'how-to-play.html':
-      '<section id="how"></section>' +
-      '<section id="differences"></section>' +
-      '<div class="rules-cta-wrap">' +
-        '<p class="rules-cta-lead">Curious about the underlying Two-Headed Giant rules?</p>' +
-        '<div class="rules-cta-btns">' +
-          '<button id="open-rules-modal" class="rules-cta-btn">View Official Two-Headed Giant Rules ↗</button>' +
-          '<a href="https://magic.wizards.com/en/formats/two-headed-giant" target="_blank" rel="noopener" class="rules-cta-btn rules-cta-link">Two-Headed Giant on Wizards.com ↗</a>' +
-        '</div>' +
-      '</div>' +
-      '<div id="rules-modal">' +
-        '<div class="rules-modal-inner">' +
-          '<div class="rules-modal-header">' +
-            '<div>' +
-              '<div class="rules-modal-title">Official Two-Headed Giant Rules</div>' +
-              '<div class="rules-modal-source">Source: MtG Comprehensive Rules · June 2025</div>' +
-            '</div>' +
-            '<button id="rules-modal-close" aria-label="Close">✕</button>' +
-          '</div>' +
-          '<div class="rules-modal-body" id="rules-modal-body"></div>' +
-        '</div>' +
-      '</div>',
-
-    'run-an-event.html': '<section id="lgs"></section>',
-
-    'banned-list.html':
-      '<section id="banned"></section>' +
-      '<section id="watchlist"></section>' +
-      '<div id="card-modal">' +
-        '<div class="modal-content">' +
-          '<button id="modal-close" aria-label="Close">✕</button>' +
-          '<div class="modal-img-wrap"><img id="modal-img" alt=""></div>' +
-          '<div class="modal-info">' +
-            '<div id="modal-name"></div>' +
-            '<div id="modal-type"></div>' +
-            '<span id="modal-pill" class="ban-pill"></span>' +
-            '<hr class="modal-divider">' +
-            '<div id="modal-why-label" class="ban-why-label"></div>' +
-            '<p id="modal-why" class="ban-why"></p>' +
-            '<div class="ban-footer">' +
-              '<span id="modal-origin" class="ban-origin"></span>' +
-              '<a id="modal-scryfall" class="modal-scryfall-link" target="_blank" rel="noopener">View on Scryfall ↗</a>' +
+      case 'how-to-play.html':
+        return '<section id="how"></section>' +
+          '<section id="differences"></section>' +
+          '<div class="rules-cta-wrap">' +
+            '<p class="rules-cta-lead">' + T('cta.rules-lead') + '</p>' +
+            '<div class="rules-cta-btns">' +
+              '<button id="open-rules-modal" class="rules-cta-btn">' + T('cta.rules-btn') + '</button>' +
+              '<a href="https://magic.wizards.com/en/formats/two-headed-giant" target="_blank" rel="noopener" class="rules-cta-btn rules-cta-link">' + T('cta.wizards-btn') + '</a>' +
             '</div>' +
           '</div>' +
-        '</div>' +
-      '</div>',
+          '<div id="rules-modal">' +
+            '<div class="rules-modal-inner">' +
+              '<div class="rules-modal-header">' +
+                '<div>' +
+                  '<div class="rules-modal-title">' + T('modal.rules-title') + '</div>' +
+                  '<div class="rules-modal-source">' + T('modal.rules-source') + '</div>' +
+                '</div>' +
+                '<button id="rules-modal-close" aria-label="Close">✕</button>' +
+              '</div>' +
+              '<div class="rules-modal-body" id="rules-modal-body"></div>' +
+            '</div>' +
+          '</div>';
+
+      case 'run-an-event.html':
+        return '<section id="lgs"></section>';
+
+      case 'banned-list.html':
+        return '<section id="banned"></section>' +
+          '<section id="watchlist"></section>' +
+          '<div id="card-modal">' +
+            '<div class="modal-content">' +
+              '<button id="modal-close" aria-label="Close">✕</button>' +
+              '<div class="modal-img-wrap"><img id="modal-img" alt=""></div>' +
+              '<div class="modal-info">' +
+                '<div id="modal-name"></div>' +
+                '<div id="modal-type"></div>' +
+                '<span id="modal-pill" class="ban-pill"></span>' +
+                '<hr class="modal-divider">' +
+                '<div id="modal-why-label" class="ban-why-label"></div>' +
+                '<p id="modal-why" class="ban-why"></p>' +
+                '<div class="ban-footer">' +
+                  '<span id="modal-origin" class="ban-origin"></span>' +
+                  '<a id="modal-scryfall" class="modal-scryfall-link" target="_blank" rel="noopener">' + T('modal.scryfall') + '</a>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+      default:
+        return null;
+    }
+  }
+
+  var PAGE_TITLE_KEYS = {
+    'index.html':        'page.home',
+    'how-to-play.html':  'page.how',
+    'run-an-event.html': 'page.run',
+    'banned-list.html':  'page.banned',
   };
 
-  var PAGE_TITLES = {
-    'index.html':        'Two-Headed Commander',
-    'how-to-play.html':  'How to Play \u2014 Two-Headed Commander',
-    'run-an-event.html': 'Run an Event \u2014 Two-Headed Commander',
-    'banned-list.html':  'Banned List \u2014 Two-Headed Commander',
-  };
+  function getPageTitle(key) {
+    return PAGE_TITLE_KEYS[key] ? T(PAGE_TITLE_KEYS[key]) : document.title;
+  }
 
   var PAGE_INIT = {
     '':                  initIndex,
@@ -164,7 +175,7 @@
   function navigate(href) {
     var url  = new URL(href, location.href);
     var key  = getPageKey(url.pathname);
-    var html = PAGE_HTML[key];
+    var html = buildPageHtml(key);
     if (!html) { location.href = url.href; return; }
 
     // Stop particle loops before leaving current page
@@ -177,7 +188,7 @@
 
     setTimeout(function () {
       pageContent.innerHTML = html;
-      document.title = PAGE_TITLES[key] || document.title;
+      document.title = getPageTitle(key);
       updateNavActive(key);
       window.scrollTo(0, 0);
 
@@ -201,7 +212,7 @@
     var href = a.getAttribute('href');
     if (!href || href.charAt(0) === '#' || href.indexOf('://') !== -1 || href.indexOf('mailto:') === 0) return;
     var key = getPageKey(new URL(a.href, location.href).pathname);
-    if (!PAGE_HTML[key]) return;
+    if (!buildPageHtml(key)) return;
     e.preventDefault();
     navigate(a.href);
   });
@@ -216,6 +227,20 @@
   var firstFn  = PAGE_INIT[firstKey];
   if (firstFn) firstFn();
   if (window.initPageParticles) initPageParticles();
+
+  /* ── Re-render hook for language switching ───────────────────── */
+  window._rerenderPage = function () {
+    var key  = getPageKey(location.pathname);
+    var html = buildPageHtml(key);
+    if (!html) return;
+    if (window.destroyParticles)     destroyParticles();
+    if (window.destroyPageParticles) destroyPageParticles();
+    pageContent.innerHTML = html;
+    document.title = getPageTitle(key);
+    var fn = PAGE_INIT[key];
+    if (fn) fn();
+    if (window.initPageParticles) initPageParticles();
+  };
 
   try { history.replaceState({ key: firstKey, href: location.href }, '', location.href); } catch (err) {}
 
