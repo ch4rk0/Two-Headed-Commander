@@ -66,6 +66,39 @@ function scryfallLink(name) {
   return 'https://scryfall.com/search?q=!' + encodeURIComponent('"' + name + '"');
 }
 
+var ORIGIN_FR = {
+  'Banned — 2HC specific':                    'Banni — spécifique 2HC',
+  'Banned in 2HC':                            'Banni en 2HC',
+  'Banned — 2HG specific':                    'Banni — spécifique 2TG',
+  'Banned — EDH banned list':                 'Banni — liste officielle EDH',
+  'Banned — alt win condition':               'Banni — condition de victoire alternative',
+  'Banned — alternate win condition':         'Banni — condition de victoire alternative',
+  'Banned — combo enabler':                   'Banni — facilitateur de combo',
+  'Banned — combo tutor':                     'Banni — recherche de combo',
+  'Banned — combo win condition':             'Banni — condition de victoire par combo',
+  'Banned — control combo':                   'Banni — combo de contrôle',
+  "Banned — council's dilemma":              "Banni — dilemme du conseil",
+  'Banned — draw engine':                     'Banni — moteur de pioche',
+  'Banned — extra turns (see manifesto)':     'Banni — tours supplémentaires (voir manifeste)',
+  'Banned — fast mana':                       'Banni — mana rapide',
+  'Banned — fast mana / infinite combo':      'Banni — mana rapide / combo infini',
+  'Banned — free cheat':                      'Banni — déploiement gratuit',
+  'Banned — free mana counter':               'Banni — contre-sort à mana gratuit',
+  'Banned — free spell cheat':                'Banni — lancement gratuit de sort',
+  'Banned — free tutor':                      'Banni — recherche gratuite',
+  'Banned — game-winning threat':             'Banni — menace décisive',
+  'Banned — infinite combo':                  'Banni — combo infini',
+  'Banned — infinite mana':                   'Banni — mana infini',
+  'Banned — instant win combo':               'Banni — combo de victoire instantanée',
+  'Banned — library cheat':                   'Banni — mise en jeu depuis la bibliothèque',
+  'Banned — library mill combo':              'Banni — combo de défausse de bibliothèque',
+  'Banned — life drain':                      'Banni — drainage de points de vie',
+  'Banned — lock combo':                      'Banni — combo de verrouillage',
+  'Banned — mana/life combo':                 'Banni — combo mana/vie',
+  'Banned — targeted life halving':           'Banni — réduction ciblée des points de vie',
+  'Banned — tutor':                           'Banni — recherche',
+};
+
 function openModal(card, isWatchlist) {
   modalImg.src     = localImg(card.name);
   modalImg.onerror = function () { modalImg.src = scryfallImg(card.name); modalImg.onerror = null; };
@@ -83,11 +116,19 @@ function openModal(card, isWatchlist) {
   } else {
     modalPill.textContent     = PILL_LABEL(card.pill);
     modalPill.className       = 'ban-pill ' + card.pill;
-    modalOrigin.textContent   = card.origin || '';
+    var originText = card.origin || '';
+    modalOrigin.textContent   = (window.LANG === 'fr' && ORIGIN_FR[originText]) ? ORIGIN_FR[originText] : originText;
     modalOrigin.style.display = '';
   }
-  modalWhyLbl.style.display = 'none';
-  modalWhy.style.display    = 'none';
+  if (!isWatchlist && card.reason) {
+    modalWhyLbl.textContent   = T('modal.ban-reason');
+    modalWhyLbl.style.display = '';
+    modalWhy.textContent      = L(card.reason);
+    modalWhy.style.display    = '';
+  } else {
+    modalWhyLbl.style.display = 'none';
+    modalWhy.style.display    = 'none';
+  }
 
   if (window.gtag) {
     window.gtag('event', 'card_view', {

@@ -85,6 +85,7 @@ var LANG_STRINGS = {
     'modal.rules-note':   '(Official rules are provided in English only)',
 
     /* ── Card Modal ──────────────────────────────────────────── */
+    'modal.ban-reason':   'Why it\'s banned',
     'modal.scryfall':     'View on Scryfall ↗',
     'pill.edh':           'EDH Ban',
     'pill.2hg':           '2HG Ban',
@@ -178,6 +179,7 @@ var LANG_STRINGS = {
     'modal.rules-note':   '(Les règles officielles sont disponibles en anglais uniquement)',
 
     /* ── Card Modal ──────────────────────────────────────────── */
+    'modal.ban-reason':   'Pourquoi c\'est banni',
     'modal.scryfall':     'Voir sur Scryfall ↗',
     'pill.edh':           'Banni EDH',
     'pill.2hg':           'Banni 2HG',
