@@ -25,8 +25,8 @@ export default function Blog() {
                 )}
                 <div className="blog-card-body">
                   <div className="blog-card-date">{post.date}</div>
-                  <div className="blog-card-title">{L(post.title as any)}</div>
-                  <p className="blog-card-excerpt">{L(post.excerpt as any)}</p>
+                  <div className="blog-card-title">{L(post.title)}</div>
+                  <p className="blog-card-excerpt">{L(post.excerpt)}</p>
                 </div>
               </Link>
             ))}

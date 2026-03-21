@@ -132,12 +132,17 @@ function CardModal({ state, onClose, T, L, lang }: { state: ModalState; onClose:
             </>
           )}
           <hr className="modal-divider" />
-          {!isWatchlist && bc.reason && (
+          {isWatchlist && (card as WatchlistCard).discuss ? (
+            <>
+              <div id="modal-why-label" className="ban-why-label">{T('modal.discuss-note')}</div>
+              <p id="modal-why" className="ban-why">{L((card as WatchlistCard).discuss)}</p>
+            </>
+          ) : !isWatchlist && bc.reason ? (
             <>
               <div id="modal-why-label" className="ban-why-label">{T('modal.ban-reason')}</div>
               <p id="modal-why" className="ban-why">{L(bc.reason)}</p>
             </>
-          )}
+          ) : null}
           <div className="ban-footer">
             {!isWatchlist && bc.origin && (
               <span id="modal-origin" className="ban-origin">
@@ -332,7 +337,7 @@ export default function BannedList() {
           <h2 className="sec-title">{T('sec.watch-title')}</h2>
           <p className="sec-intro">{T('sec.watch-intro')}</p>
           <div className="banned-grid">
-            {watchlist.map(card => (
+            {watchlist.filter(c => !c.hidden).map(card => (
               <CardTile key={card.name} card={card} isWatchlist onClick={() => openModal(card, true)} T={T} />
             ))}
           </div>

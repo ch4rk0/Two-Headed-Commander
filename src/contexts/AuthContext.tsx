@@ -6,6 +6,7 @@ import { auth, db, googleProvider } from '../firebase';
 interface AuthContextType {
   user: User | null;
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   loading: boolean;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -14,38 +15,44 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-async function checkAllowed(email: string): Promise<boolean> {
+async function checkAccess(email: string): Promise<{ allowed: boolean; isSuperAdmin: boolean }> {
   try {
     const snap = await getDoc(doc(db, 'config', 'allowed_emails'));
-    if (!snap.exists()) return false;
+    if (!snap.exists()) return { allowed: false, isSuperAdmin: false };
     const data = snap.data();
     const list: string[] = data.emails ?? [];
-    return list.includes(email);
+    const superadmin: string = data.superadmin ?? '';
+    return {
+      allowed: list.includes(email),
+      isSuperAdmin: !!superadmin && email === superadmin,
+    };
   } catch {
-    return false;
+    return { allowed: false, isSuperAdmin: false };
   }
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser]       = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState<string | null>(null);
+  const [user, setUser]               = useState<User | null>(null);
+  const [isAdmin, setIsAdmin]         = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [loading, setLoading]         = useState(true);
+  const [error, setError]             = useState<string | null>(null);
 
   useEffect(() => {
     return onAuthStateChanged(auth, async (u) => {
       setUser(u);
       if (u?.email) {
-        const allowed = await checkAllowed(u.email);
+        const { allowed, isSuperAdmin } = await checkAccess(u.email);
         setIsAdmin(allowed);
+        setIsSuperAdmin(isSuperAdmin);
         if (!allowed) {
-          // Signed in but not on whitelist — sign them back out
           await firebaseSignOut(auth);
           setUser(null);
           setError('Access denied. Your Google account is not authorised for this admin panel.');
         }
       } else {
         setIsAdmin(false);
+        setIsSuperAdmin(false);
       }
       setLoading(false);
     });
@@ -64,10 +71,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await firebaseSignOut(auth);
     setUser(null);
     setIsAdmin(false);
+    setIsSuperAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAdmin, loading, signIn, signOut, error }}>
+    <AuthContext.Provider value={{ user, isAdmin, isSuperAdmin, loading, signIn, signOut, error }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useLang } from '../../contexts/LangContext';
 import { useBlogPosts } from '../../hooks/useBlogPosts';
 
 export default function BlogList() {
+  const { L } = useLang();
   const { posts, loading } = useBlogPosts(true);
 
   const togglePublished = async (slug: string, current: boolean) => {
@@ -30,14 +32,14 @@ export default function BlogList() {
         <tbody>
           {posts.map(p => (
             <tr key={p.slug}>
-              <td>{p.title}</td>
+              <td>{L(p.title)}</td>
               <td>{p.date}</td>
               <td>
                 <button
-                  className={`admin-toggle ${(p as any).published ? 'published' : 'draft'}`}
-                  onClick={() => togglePublished(p.slug, (p as any).published)}
+                  className={`admin-toggle ${p.published ? 'published' : 'draft'}`}
+                  onClick={() => togglePublished(p.slug, !!p.published)}
                 >
-                  {(p as any).published ? 'Published' : 'Draft'}
+                  {p.published ? 'Published' : 'Draft'}
                 </button>
               </td>
               <td className="admin-table-actions">
