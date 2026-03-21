@@ -51,6 +51,16 @@
     <!-- LLMs hint -->
     <link rel="alternate" type="text/plain" title="LLMs" href="/llms.txt" />
 
+    <!-- GitHub Pages SPA: restore path encoded by 404.html redirect -->
+    <script>
+      (function () {
+        var p = new URLSearchParams(window.location.search).get('p');
+        if (p) {
+          window.history.replaceState(null, '', p);
+        }
+      })();
+    </script>
+
     <!-- Cookie consent + Analytics (GA loads only after user accepts) -->
     <script src="/cookie-consent.js"></script>
 
