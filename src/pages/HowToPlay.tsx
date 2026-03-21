@@ -1,0 +1,148 @@
+import { useState } from 'react';
+import { useLang } from '../contexts/LangContext';
+import { PageParticles } from '../components/Particles';
+
+const HOW_TO_PLAY_STEPS = [
+  {
+    num: 'I',
+    title: { en: 'Form Your Alliance', fr: 'Formez Votre Alliance' },
+    text: { en: 'Two players form a team. Each player builds their own <strong>100-card Commander deck</strong>, following standard Commander singleton rules — one copy of each card (except basic lands), built around a chosen legendary creature as their Commander.', fr: 'Deux joueurs forment une équipe. Chaque joueur construit son propre <strong>deck Commander de 100 cartes</strong>, en suivant les règles Commander standard — une copie de chaque carte (sauf les terres de base), construite autour d\'une créature légendaire choisie comme commandant.' },
+    callout: { en: '✦ Each teammate selects their own Commander independently', fr: '✦ Chaque coéquipier choisit son propre commandant indépendamment' },
+  },
+  {
+    num: 'II',
+    title: { en: 'Shared Life Total', fr: 'Total de Vie Partagé' },
+    text: { en: 'Each team begins with a <strong>shared life total of 60</strong>, following Two-Headed Giant rules. All damage dealt to either player reduces this shared pool. Life gain by either teammate increases the shared total.', fr: 'Chaque équipe commence avec un <strong>total de vie partagé de 60</strong>, conformément aux règles du Géant à Deux Têtes. Tous les dégâts infligés à l\'un ou l\'autre joueur réduisent ce total commun. Les gains de vie d\'un coéquipier augmentent le total partagé.' },
+    callout: { en: '✦ Poison counters are tracked per player — the team loses when either player reaches 15', fr: '✦ Les marqueurs poison sont comptés par joueur — l\'équipe perd lorsqu\'un joueur atteint 15' },
+  },
+  {
+    num: 'III',
+    title: { en: 'Simultaneous Turns', fr: 'Tours Simultanés' },
+    text: { en: 'Both teammates <strong>take their turn simultaneously</strong>. The team shares a single combat phase — both players may attack and both draw during their draw step. Each player maintains their own mana pool and hand.', fr: 'Les deux coéquipiers <strong>jouent leur tour simultanément</strong>. L\'équipe partage une seule phase de combat — les deux joueurs peuvent attaquer et les deux piochent durant leur phase de pioche. Chaque joueur gère sa propre réserve de mana et sa main.' },
+    callout: { en: '✦ Starting team skip their draw on their first turn', fr: '✦ L\'équipe qui commence passe sa pioche au premier tour' },
+  },
+  {
+    num: 'IV',
+    title: { en: 'Commander Rules Remain', fr: 'Les Règles Commander S\'Appliquent' },
+    text: { en: 'All standard Commander rules apply: the <strong>commander tax</strong> (+2 per prior casting) applies per commander individually, and <strong>commander damage</strong> is tracked per-commander per player (21 combat damage from one commander eliminates that player\'s team).', fr: 'Toutes les règles Commander standard s\'appliquent : la <strong>taxe de commandant</strong> (+2 par lancement précédent) s\'applique par commandant individuellement, et les <strong>dégâts de commandant</strong> sont suivis par commandant par joueur (21 dégâts de combat d\'un même commandant élimine l\'équipe de ce joueur).' },
+    callout: { en: '✦ Color identity rules still apply to each deck separately', fr: '✦ Les règles d\'identité de couleur s\'appliquent à chaque deck séparément' },
+  },
+  {
+    num: 'V',
+    title: { en: 'Winning & Losing', fr: 'Victoire & Défaite' },
+    text: { en: 'A team loses when their <strong>shared life total reaches 0</strong>, when either player receives 21 commander damage from a single commander, when either player accumulates 15 or more poison counters, or when either player must draw from an empty library. Teams win and lose together.', fr: 'Une équipe perd lorsque son <strong>total de vie partagé atteint 0</strong>, lorsqu\'un joueur reçoit 21 dégâts de commandant d\'un seul commandant, lorsqu\'un joueur accumule 15 marqueurs poison ou plus, ou lorsqu\'un joueur doit piocher depuis une bibliothèque vide. Les équipes gagnent et perdent ensemble.' },
+  },
+];
+
+const KEY_DIFFERENCES = [
+  {
+    color: 'purple',
+    title: { en: 'Shared Life: 60, Not 30', fr: 'Vie Partagée : 60, Pas 30' },
+    text: { en: 'Standard 2HG uses 30 life per team. Here, teams start at <strong>60 life</strong> to accommodate Commander\'s longer, more complex games and prevent aggro from ending games before commanders hit the table.', fr: 'Le 2TG standard utilise 30 points de vie par équipe. Ici, les équipes commencent à <strong>60 points de vie</strong> pour s\'adapter aux parties Commander plus longues et complexes, et éviter que l\'agressivité termine les parties avant que les commandants n\'entrent en jeu.' },
+    tag: { en: 'Modified from 2HG', fr: 'Modifié du 2TG' }, tagClass: 'tag-modified',
+  },
+  {
+    color: 'gold',
+    title: { en: 'Four Commanders, Four Threats', fr: 'Quatre Commandants, Quatre Menaces' },
+    text: { en: 'Each player controls their own Commander. Opponents must track and respond to <strong>two separate commanders</strong> per team. Synergistic commander pairs — one threat, one support — are the heart of the format\'s strategy.', fr: 'Chaque joueur contrôle son propre commandant. Les adversaires doivent surveiller et répondre à <strong>deux commandants distincts</strong> par équipe. Les duos de commandants synergiques — une menace, un soutien — sont au cœur de la stratégie du format.' },
+    tag: { en: 'New to this format', fr: 'Nouveau dans ce format' }, tagClass: 'tag-new',
+  },
+  {
+    color: 'teal',
+    title: { en: 'Open Communication', fr: 'Communication Ouverte' },
+    text: { en: 'Teammates may freely discuss strategy, show each other their hands, and coordinate plays openly. There is no hidden information between allies — secrets are only kept from opponents.', fr: 'Les coéquipiers peuvent librement discuter de stratégie, se montrer leurs mains et coordonner leurs actions ouvertement. Il n\'y a pas d\'information cachée entre alliés — les secrets ne sont gardés que des adversaires.' },
+    tag: { en: 'Inherited from 2HG', fr: 'Hérité du 2TG' }, tagClass: 'tag-same',
+  },
+  {
+    color: 'purple',
+    title: { en: 'Infect & Poison', fr: 'Infecter & Poison' },
+    text: { en: 'Poison counters are tracked <strong>per player</strong>, not shared. A team loses when <strong>either</strong> player accumulates 15 or more poison counters — scaled up from the standard 10 to match the higher life total of this format.', fr: 'Les marqueurs poison sont comptés <strong>par joueur</strong>, pas en commun. Une équipe perd lorsque <strong>l\'un des</strong> joueurs accumule 15 marqueurs poison ou plus — augmenté du seuil standard de 10 pour correspondre au total de vie plus élevé de ce format.' },
+    tag: { en: 'Inherited from 2HG', fr: 'Hérité du 2TG' }, tagClass: 'tag-same',
+  },
+];
+
+// Rules modal data — abridged key sections for display
+const RULES_SECTIONS = [
+  { title: 'Starting Life Total', rule: '810.4', text: 'Each team has a shared life total, which starts at 30 life. (Two-Headed Commander uses 60.)' },
+  { title: 'Shared Team Turns', rule: '805.4', text: 'Each team takes turns rather than each player. Each player on a team draws a card during that team\'s draw step. Each player on a team may play a land during each of that team\'s turns.' },
+  { title: 'First Turn', rule: '810.6', text: 'The team who plays first skips the draw step of its first turn.' },
+  { title: 'Team Resources', rule: '810.5', text: 'With the exception of life total and poison counters, a team\'s resources (cards in hand, mana, and so on) are not shared. Teammates may review each other\'s hands and discuss strategies at any time.' },
+  { title: 'Life Totals', rule: '810.9', text: 'Damage, loss of life, and gaining life happen to each player individually. The result is applied to the team\'s shared life total.' },
+  { title: 'Poison Counters', rule: '810.10', text: 'Effects that cause players to get poison counters happen to each player individually. The poison counters are shared by the team.' },
+  { title: 'Team Win/Loss', rule: '810.8a', text: 'Players win and lose the game only as a team, not as individuals. If either player on a team loses the game, the team loses the game.' },
+  { title: 'Poison Loss', rule: '810.8d', text: 'If a team has fifteen or more poison counters, that team loses the game.' },
+];
+
+export default function HowToPlay() {
+  const { T, L } = useLang();
+  const [rulesOpen, setRulesOpen] = useState(false);
+
+  return (
+    <>
+      <PageParticles />
+
+      <section id="how">
+        <div className="container">
+          <div className="sec-label">{T('sec.how-label')}</div>
+          <h2 className="sec-title">{T('sec.how-title')}</h2>
+          <div className="steps">
+            {HOW_TO_PLAY_STEPS.map(s => (
+              <div key={s.num} className="step">
+                <div className="step-num">{s.num}</div>
+                <div className="step-content">
+                  <div className="step-title">{L(s.title)}</div>
+                  <p className="step-text" dangerouslySetInnerHTML={{ __html: L(s.text) }} />
+                  {s.callout && <span className="step-callout">{L(s.callout)}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="differences">
+        <div className="container">
+          <div className="sec-label">{T('sec.diff-label')}</div>
+          <h2 className="sec-title">{T('sec.diff-title')}</h2>
+          <p className="sec-intro">{T('sec.diff-intro')}</p>
+          <div className="diff-grid">
+            {KEY_DIFFERENCES.map((d, i) => (
+              <div key={i} className={`diff-card ${d.color}`}>
+                <div className="diff-title" dangerouslySetInnerHTML={{ __html: L(d.title) }} />
+                <p className="diff-text" dangerouslySetInnerHTML={{ __html: L(d.text) }} />
+                <span className={`diff-tag ${d.tagClass}`}>{L(d.tag)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="rules-cta-wrap">
+        <p className="rules-cta-lead">{T('cta.rules-lead')}</p>
+        <button className="rules-cta-btn" onClick={() => setRulesOpen(true)}>{T('cta.rules-btn')}</button>
+      </div>
+
+      {rulesOpen && (
+        <div id="rules-modal" className="open">
+          <div className="rules-modal-inner">
+            <div className="rules-modal-header">
+              <div>
+                <div className="rules-modal-title">{T('modal.rules-title')}</div>
+                <div className="rules-modal-source">{T('modal.rules-source')}</div>
+              </div>
+              <button id="rules-modal-close" aria-label="Close" onClick={() => setRulesOpen(false)}>✕</button>
+            </div>
+            <div className="rules-modal-body">
+              {RULES_SECTIONS.map(s => (
+                <div key={s.rule} className="rm-section">
+                  <div className="rm-section-title">{s.title}</div>
+                  <div className="rm-rule"><span className="rm-ref">Rule {s.rule}:</span> {s.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

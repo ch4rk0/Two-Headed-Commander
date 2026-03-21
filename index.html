@@ -1,124 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Two-Headed Commander — 2v2 MTG Format</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Two-Headed Commander — 2v2 MTG Format</title>
+    <meta name="description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store." />
+    <meta name="author" content="Two-Headed Commander" />
+    <link rel="canonical" href="https://twoheadedcommander.com/" />
 
-  <!-- SEO -->
-  <meta name="description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store.">
-  <meta name="author" content="Two-Headed Commander">
-  <link rel="canonical" href="https://twoheadedcommander.com/">
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content="Two-Headed Commander" />
+    <meta property="og:title"       content="Two-Headed Commander — 2v2 MTG Format" />
+    <meta property="og:description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store." />
+    <meta property="og:url"         content="https://twoheadedcommander.com/" />
+    <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Two-Headed Commander">
-  <meta property="og:title" content="Two-Headed Commander — 2v2 MTG Format">
-  <meta property="og:description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store.">
-  <meta property="og:url" content="https://twoheadedcommander.com/">
-  <meta property="og:image" content="https://twoheadedcommander.com/favicon/apple-touch-icon.png">
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary" />
+    <meta name="twitter:title"       content="Two-Headed Commander — 2v2 MTG Format" />
+    <meta name="twitter:description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store." />
+    <meta name="twitter:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Two-Headed Commander — 2v2 MTG Format">
-  <meta name="twitter:description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store.">
-  <meta name="twitter:image" content="https://twoheadedcommander.com/favicon/apple-touch-icon.png">
-
-  <!-- Structured data -->
-  <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Two-Headed Commander",
-      "url": "https://twoheadedcommander.com/",
-      "description": "A fan-made Magic: The Gathering format combining Commander and Two-Headed Giant rules for 2v2 team play.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://twoheadedcommander.com/banned-list.html",
-        "query": "banned cards"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Two-Headed Commander",
-      "url": "https://twoheadedcommander.com/",
-      "description": "Two-Headed Commander (2HC) is a fan-made Magic: The Gathering format where two teams of two players compete using Commander decks. Teams share a 60-life total and take simultaneous turns.",
-      "keywords": "Two-Headed Commander, 2HC, Magic the Gathering, MTG format, Commander, Two-Headed Giant, 2v2 MTG, team Commander, EDH variant",
-      "about": {
-        "@type": "Thing",
-        "name": "Two-Headed Commander format",
-        "description": "A 2v2 team Magic: The Gathering format combining 100-card Commander decks with Two-Headed Giant shared life totals and simultaneous turns. Teams start at 60 life. Extra turn cards, fast mana, and powerful tutors are banned to maintain balanced, accessible gameplay."
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Two-Headed Commander",
+        "url": "https://twoheadedcommander.com/",
+        "description": "A fan-made Magic: The Gathering format combining Commander and Two-Headed Giant rules for 2v2 team play.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://twoheadedcommander.com/banned-list",
+          "query": "banned cards"
+        }
       },
-      "sameAs": []
-    }
-  ]
-  </script>
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Two-Headed Commander",
+        "url": "https://twoheadedcommander.com/",
+        "description": "Two-Headed Commander (2HC) is a fan-made Magic: The Gathering format where two teams of two players compete using Commander decks. Teams share a 60-life total and take simultaneous turns.",
+        "keywords": "Two-Headed Commander, 2HC, Magic the Gathering, MTG format, Commander, Two-Headed Giant, 2v2 MTG, team Commander, EDH variant"
+      }
+    ]
+    </script>
 
-  <!-- LLMs hint -->
-  <link rel="alternate" type="text/plain" title="LLMs" href="/llms.txt">
+    <!-- LLMs hint -->
+    <link rel="alternate" type="text/plain" title="LLMs" href="/llms.txt" />
 
-  <!-- Cookie consent + Analytics (GA loads only after user accepts) -->
-  <script src="js/cookie-consent.js"></script>
+    <!-- Cookie consent + Analytics (GA loads only after user accepts) -->
+    <script src="/cookie-consent.js"></script>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Cormorant+SC:wght@400;500;600;700&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
 
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="shortcut icon" href="favicon/favicon.ico">
-  <link rel="manifest" href="favicon/site.webmanifest">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-
-  <nav>
-    <div class="nav-inner">
-      <a class="nav-logo" href="index.html">Two&#8209;Headed <span>Commander</span></a>
-      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="how-to-play.html" data-i18n="nav.how-to-play">How to Play</a></li>
-        <li><a href="run-an-event.html" data-i18n="nav.run-event">Run an Event</a></li>
-        <li><a href="banned-list.html" data-i18n="nav.banned">Banned List</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Page content swapped by router on navigation -->
-  <div id="page-content">
-    <!-- Hero — content injected by initIndex() -->
-    <section class="hero"></section>
-  </div>
-
-  <footer>
-    <div class="footer-logo">Two&#8209;Headed <span>Commander</span></div>
-    <p class="footer-note" data-i18n="footer.note">This is a fan-made format. Magic: The Gathering is property of Wizards of the Coast. Banned list and rulings may be updated as the format evolves — last updated March 2026.</p>
-    <div class="footer-legal">
-      <a href="privacy.html" class="footer-legal-link" data-i18n="footer.privacy">Privacy Policy</a>
-      <span class="footer-legal-sep">·</span>
-      <button onclick="window.showCookiePreferences()" class="footer-legal-link footer-legal-btn" data-i18n="footer.cookies">Cookie Settings</button>
-    </div>
-  </footer>
-
-  <script src="js/i18n.js"></script>
-  <script src="js/banned-cards.js"></script>
-  <script src="js/content.js"></script>
-  <script src="js/cards.js"></script>
-  <script src="js/filters.js"></script>
-  <script src="js/particles.js"></script>
-  <script src="js/router.js"></script>
-
-</body>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Cormorant+SC:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
