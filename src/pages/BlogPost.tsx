@@ -45,10 +45,10 @@ export default function BlogPost() {
         <div className="container blog-post-body">
           <Link to="/blog" className="blog-post-back">← Back to Blog</Link>
           <div className="blog-post-date">{post.date}</div>
-          <h1 className="blog-post-title">{L(post.title as any)}</h1>
+          <h1 className="blog-post-title">{L(post.title)}</h1>
           {post.contentHtml
             ? <div className="blog-post-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
-            : <p className="blog-post-content" style={{ color: 'var(--text2)', fontStyle: 'italic' }}>{L(post.excerpt as any)}</p>
+            : <p className="blog-post-content" style={{ color: 'var(--text2)', fontStyle: 'italic' }}>{L(post.excerpt)}</p>
           }
         </div>
       </article>

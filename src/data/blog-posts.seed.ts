@@ -8,12 +8,15 @@ export interface ContentBlock {
 
 export interface BlogPost {
   slug: string;
-  title: string;
+  title: { en: string; fr: string } | string;
   date: string;
-  excerpt: string;
+  excerpt: { en: string; fr: string } | string;
   coverImage: string;
   coverAlt: string;
-  content: ContentBlock[];
+  content?: ContentBlock[];   // legacy seed format
+  contentHtml?: string;        // TipTap editor format
+  published?: boolean;
+  authorEmail?: string;
 }
 
 export const BLOG_POSTS_SEED: BlogPost[] = [

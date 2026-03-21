@@ -39,8 +39,10 @@ function LoginScreen({ signIn, error }: { signIn: () => void; error: string | nu
 }
 
 export default function AdminLayout() {
-  const { user, isAdmin, loading, signIn, signOut, error } = useAuth();
+  const { user, isAdmin, isSuperAdmin, loading, signIn, signOut, error } = useAuth();
   const [expanded, setExpanded] = useState(true);
+
+  const visibleNav = NAV_ITEMS.filter(item => item.to !== '/admin/users' || isSuperAdmin);
 
   if (loading) return <div className="admin-loading">Loading…</div>;
   if (!user || !isAdmin) return <LoginScreen signIn={signIn} error={error} />;
@@ -52,7 +54,7 @@ export default function AdminLayout() {
       <div className="admin-rail">
         <div className="admin-rail-logo">⚔</div>
         <div className="admin-rail-nav">
-          {NAV_ITEMS.map(item => (
+          {visibleNav.map(item => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -85,7 +87,7 @@ export default function AdminLayout() {
           >◂</button>
         </div>
         <div className="admin-panel-nav">
-          {NAV_ITEMS.map(item => (
+          {visibleNav.map(item => (
             <NavLink
               key={item.to}
               to={item.to}

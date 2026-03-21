@@ -22,7 +22,7 @@ export default function Nav() {
 
         <button
           id="nav-hamburger"
-          className={`hamburger${menuOpen ? ' open' : ''}`}
+          className={`nav-hamburger${menuOpen ? ' open' : ''}`}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(o => !o)}
