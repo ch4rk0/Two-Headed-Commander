@@ -1,0 +1,1 @@
+import{r as s,i as u,d as i,b as f}from"./index-D-ZkFMGn.js";function h(){const[n,r]=s.useState([]),[c,o]=s.useState([]),[d,t]=s.useState(!0);return s.useEffect(()=>u(i(f,"banned_cards","list"),a=>{if(a.exists()){const e=a.data();r(e.cards??[]),o(e.watchlist??[])}t(!1)},()=>t(!1)),[]),{cards:n,watchlist:c,loading:d}}export{h as u};
