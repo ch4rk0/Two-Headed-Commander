@@ -965,7 +965,9 @@ section {
 .manifesto-verdict strong { color: var(--white); }
 
 .skip-to-cards-wrap {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
   margin: .75rem 0 2rem;
 }
 
@@ -2811,6 +2813,27 @@ footer {
 .tiptap-toolbar button { background: none; border: none; color: var(--text2); padding: .3rem .55rem; border-radius: 4px; cursor: pointer; font-size: .85rem; font-weight: 600; transition: background .15s, color .15s; }
 .tiptap-toolbar button:hover,
 .tiptap-toolbar button.active { background: rgba(255,255,255,.1); color: var(--gold); }
+
+/* ── Skeleton loading placeholders ──────────────────────────── */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.skeleton-card {
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,.06) 50%, var(--surface) 75%);
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  min-height: 180px;
+}
+
+.banned-grid-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  padding-bottom: 4rem;
+}
 
 .admin-dashboard-setup { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; max-width: 480px; }
 .admin-dashboard-setup-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: .5rem; }
