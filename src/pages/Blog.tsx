@@ -7,7 +7,17 @@ export default function Blog() {
   const { L } = useLang();
   const { posts, loading } = useBlogPosts(false);
 
-  if (loading) return <div className="page-enter" style={{ padding: '4rem 2rem', textAlign: 'center' }}>Loading…</div>;
+  if (loading) return (
+    <section className="blog-section">
+      <div className="container">
+        <div className="blog-grid">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="skeleton-card" style={{ height: 260 }} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <>

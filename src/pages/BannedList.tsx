@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useLang } from '../contexts/LangContext';
 import { useBannedCards } from '../hooks/useBannedCards';
 import { PageParticles } from '../components/Particles';
@@ -204,6 +204,15 @@ export default function BannedList() {
   const [search, setSearch]     = useState('');
   const [etOpen, setEtOpen]     = useState(false);
   const [modal, setModal]       = useState<ModalState | null>(null);
+  const didMobileScroll = useRef(false);
+
+  // On mobile: jump straight to the filter box once data is ready
+  useEffect(() => {
+    if (loading || didMobileScroll.current) return;
+    if (window.innerWidth >= 768) return;
+    didMobileScroll.current = true;
+    document.getElementById('card-grid-anchor')?.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
+  }, [loading]);
 
   const openModal = useCallback((card: BannedCard | WatchlistCard, isWatchlist: boolean) => {
     setModal({ card, isWatchlist });
@@ -224,7 +233,13 @@ export default function BannedList() {
     c.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <div style={{ padding: '4rem 2rem', textAlign: 'center', color: 'var(--text2)' }}>Loading…</div>;
+  if (loading) return (
+    <div className="banned-grid-skeleton container" style={{ paddingTop: '6rem' }}>
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div key={i} className="skeleton-card" />
+      ))}
+    </div>
+  );
 
   return (
     <>

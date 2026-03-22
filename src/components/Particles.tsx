@@ -21,16 +21,50 @@ interface Particle {
 function rand(a: number, b: number) { return a + Math.random() * (b - a); }
 function pick<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.length)]; }
 
+const reducedMotion = () =>
+  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const isMobile = () =>
+  typeof window !== 'undefined' && window.innerWidth < 768;
+
+/** Draw all particles, batching glow ones to minimise shadowBlur state changes */
+function drawParticles(ctx: CanvasRenderingContext2D, particles: Particle[]) {
+  // Pass 1: non-glow particles (no shadow state needed)
+  ctx.shadowBlur = 0;
+  for (const p of particles) {
+    if (p.glow) continue;
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = `rgb(${p.col})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // Pass 2: glow particles (set shadowBlur once for the batch)
+  ctx.shadowBlur = 7;
+  for (const p of particles) {
+    if (!p.glow) continue;
+    ctx.globalAlpha = p.alpha;
+    ctx.shadowColor = `rgba(${p.col},1)`;
+    ctx.fillStyle = `rgb(${p.col})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.shadowBlur = 0;
+  ctx.globalAlpha = 1;
+}
+
 /** Full-page background sparkles */
 export function PageParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (reducedMotion()) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d')!;
     let W = 0, H = 0;
-    const COUNT = 55;
+    const COUNT = isMobile() ? 28 : 55;
     let particles: Particle[] = [];
     let raf: number;
 
@@ -42,10 +76,9 @@ export function PageParticles() {
                col, glow: Math.random() < 0.2 };
     }
 
-    const c = canvas!;
     function resize() {
-      W = c.width  = window.innerWidth;
-      H = c.height = window.innerHeight;
+      W = canvas!.width  = window.innerWidth;
+      H = canvas!.height = window.innerHeight;
     }
 
     function init() {
@@ -63,17 +96,9 @@ export function PageParticles() {
         if (p.y < -12 || p.x < -20 || p.x > W + 20) {
           particles[i] = makeParticle(false);
           particles[i].x = rand(0, W);
-          continue;
         }
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        if (p.glow) { ctx.shadowBlur = 7; ctx.shadowColor = `rgba(${p.col},1)`; }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgb(${p.col})`;
-        ctx.fill();
-        ctx.restore();
       }
+      drawParticles(ctx, particles);
       raf = requestAnimationFrame(tick);
     }
 
@@ -91,6 +116,7 @@ export function HeroParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (reducedMotion()) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const hero = canvas.closest('section.hero') as HTMLElement | null;
@@ -98,7 +124,7 @@ export function HeroParticles() {
     const ctx = canvas.getContext('2d')!;
     const h = hero!;
     let W = 0, H = 0;
-    const COUNT = 95;
+    const COUNT = isMobile() ? 45 : 95;
     let particles: Particle[] = [];
     let tickRAF: number, parallaxRAF: number;
 
@@ -130,17 +156,9 @@ export function HeroParticles() {
         if (p.y < -12 || p.x < -20 || p.x > W + 20) {
           particles[i] = makeParticle(false);
           particles[i].x = rand(0, W);
-          continue;
         }
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        if (p.glow) { ctx.shadowBlur = 9; ctx.shadowColor = `rgba(${p.col},1)`; }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgb(${p.col})`;
-        ctx.fill();
-        ctx.restore();
       }
+      drawParticles(ctx, particles);
       tickRAF = requestAnimationFrame(tick);
     }
 
