@@ -37,12 +37,13 @@ export default function Blog() {
         <meta property="og:url"         content="https://twoheadedcommander.com/blog" />
         <meta property="og:title"       content="Blog — Two-Headed Commander" />
         <meta property="og:description" content="Ideas, perspectives, and format thinking — presented as starting points, not conclusions." />
+        <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
       </Helmet>
       <PageParticles />
       <section className="blog-section">
         <div className="container">
           <div className="sec-label">Reflections</div>
-          <h2 className="sec-title">Blog</h2>
+          <h1 className="sec-title">Blog</h1>
           <p className="sec-intro">Ideas, perspectives, and format thinking — presented as starting points, not conclusions.</p>
           <div className="blog-grid">
             {posts.map((post, idx) => {

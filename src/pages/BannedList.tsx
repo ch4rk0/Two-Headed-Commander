@@ -251,6 +251,7 @@ export default function BannedList() {
         <meta property="og:url" content="https://twoheadedcommander.com/banned-list" />
         <meta property="og:title" content="Banned List — Two-Headed Commander" />
         <meta property="og:description" content="The official Two-Headed Commander banned list — cards banned as commanders or entirely, with full reasoning and ban philosophy." />
+        <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
       </Helmet>
       <PageParticles />
 
@@ -259,7 +260,7 @@ export default function BannedList() {
       <section id="banned">
         <div className="container">
           <div className="sec-label">{T('sec.banned-label')}</div>
-          <h2 className="sec-title">{T('sec.banned-title')}</h2>
+          <h1 className="sec-title">{T('sec.banned-title')}</h1>
 
           <div className="skip-to-cards-wrap">
             <button className="skip-to-cards-btn" onClick={() => document.getElementById('card-grid-anchor')?.scrollIntoView({ behavior: 'smooth' })}>{T('btn.skip-cards')}</button>
