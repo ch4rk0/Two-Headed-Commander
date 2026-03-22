@@ -87,13 +87,14 @@ export default function HowToPlay() {
         <meta property="og:url" content="https://twoheadedcommander.com/how-to-play" />
         <meta property="og:title" content="How to Play — Two-Headed Commander" />
         <meta property="og:description" content="Learn the rules of Two-Headed Commander — shared life totals, simultaneous turns, commander rules, and what makes this 2v2 MTG format unique." />
+        <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
       </Helmet>
       <PageParticles />
 
       <section id="how">
         <div className="container">
           <div className="sec-label">{T('sec.how-label')}</div>
-          <h2 className="sec-title">{T('sec.how-title')}</h2>
+          <h1 className="sec-title">{T('sec.how-title')}</h1>
           <div className="steps">
             {HOW_TO_PLAY_STEPS.map(s => (
               <div key={s.num} className="step">

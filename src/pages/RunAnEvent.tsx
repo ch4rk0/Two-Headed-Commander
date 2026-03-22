@@ -46,12 +46,13 @@ export default function RunAnEvent() {
         <meta property="og:url" content="https://twoheadedcommander.com/run-an-event" />
         <meta property="og:title" content="Run an Event — Two-Headed Commander" />
         <meta property="og:description" content="Everything you need to run a Two-Headed Commander event at your local game store — format structure, timing rules, deck registration, and Swiss pairings." />
+        <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
       </Helmet>
       <PageParticles />
       <section id="lgs">
         <div className="container">
           <div className="sec-label">{T('sec.lgs-label')}</div>
-          <h2 className="sec-title">{T('sec.lgs-title')}</h2>
+          <h1 className="sec-title">{T('sec.lgs-title')}</h1>
           <p className="sec-intro">{T('sec.lgs-intro')}</p>
 
           <div className="lgs-grid">

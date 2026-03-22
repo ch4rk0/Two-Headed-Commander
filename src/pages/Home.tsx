@@ -18,7 +18,10 @@ export default function Home() {
         <title>Two-Headed Commander — 2v2 MTG Format</title>
         <meta name="description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store." />
         <link rel="canonical" href="https://twoheadedcommander.com/" />
-        <meta property="og:url" content="https://twoheadedcommander.com/" />
+        <meta property="og:title"       content="Two-Headed Commander — 2v2 MTG Format" />
+        <meta property="og:description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store." />
+        <meta property="og:url"         content="https://twoheadedcommander.com/" />
+        <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
       </Helmet>
       <PageParticles />
       <section className="hero">
