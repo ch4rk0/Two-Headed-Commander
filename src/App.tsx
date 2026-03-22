@@ -11,6 +11,7 @@ const RunAnEvent   = lazy(() => import('./pages/RunAnEvent'));
 const BannedList   = lazy(() => import('./pages/BannedList'));
 const Blog         = lazy(() => import('./pages/Blog'));
 const BlogPost     = lazy(() => import('./pages/BlogPost'));
+const Privacy      = lazy(() => import('./pages/Privacy'));
 
 // Admin pages — heavy (TipTap, editors) — never sent to public visitors
 const AdminLayout    = lazy(() => import('./pages/admin/AdminLayout'));
@@ -56,6 +57,7 @@ function PublicLayout() {
             <Route path="/banned-list"  element={<BannedList />} />
             <Route path="/blog"         element={<Blog />} />
             <Route path="/blog/:slug"   element={<BlogPost />} />
+            <Route path="/privacy"      element={<Privacy />} />
           </Routes>
         </Suspense>
       </div>

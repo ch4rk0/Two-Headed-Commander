@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useLang } from '../contexts/LangContext';
 import { PageParticles } from '../components/Particles';
 
@@ -79,6 +80,14 @@ export default function HowToPlay() {
 
   return (
     <>
+      <Helmet>
+        <title>How to Play — Two-Headed Commander</title>
+        <meta name="description" content="Learn the rules of Two-Headed Commander — shared life totals, simultaneous turns, commander rules, and what makes this 2v2 MTG format unique." />
+        <link rel="canonical" href="https://twoheadedcommander.com/how-to-play" />
+        <meta property="og:url" content="https://twoheadedcommander.com/how-to-play" />
+        <meta property="og:title" content="How to Play — Two-Headed Commander" />
+        <meta property="og:description" content="Learn the rules of Two-Headed Commander — shared life totals, simultaneous turns, commander rules, and what makes this 2v2 MTG format unique." />
+      </Helmet>
       <PageParticles />
 
       <section id="how">

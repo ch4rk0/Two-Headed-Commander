@@ -125,6 +125,7 @@ export default function BlogPost() {
         <meta property="og:title"       content={title} />
         <meta property="og:description" content={excerpt} />
         <meta property="og:url"         content={`${siteUrl}/blog/${post.slug}`} />
+        <link rel="canonical"           href={`${siteUrl}/blog/${post.slug}`} />
         {post.coverImage && <meta property="og:image" content={post.coverImage} />}
         <meta property="article:published_time" content={post.date} />
         <meta name="twitter:card"        content="summary_large_image" />

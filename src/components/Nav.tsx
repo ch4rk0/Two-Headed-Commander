@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useLang } from '../contexts/LangContext';
+import { useBlogPosts } from '../hooks/useBlogPosts';
 
 export default function Nav() {
   const { T, lang, setLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { posts } = useBlogPosts();
+  const hasBlog = posts.length > 0;
 
   // Close menu on resize
   useEffect(() => {
@@ -46,6 +49,13 @@ export default function Nav() {
               {T('nav.banned')}
             </NavLink>
           </li>
+          {hasBlog && (
+            <li>
+              <NavLink to="/blog" className={({ isActive }) => isActive ? 'nav-active' : ''} onClick={() => setMenuOpen(false)}>
+                {T('nav.blog')}
+              </NavLink>
+            </li>
+          )}
           <li className="nav-lang-item">
             <button
               id="lang-toggle"
