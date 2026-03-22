@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useLang } from '../contexts/LangContext';
 import { useBannedCards } from '../hooks/useBannedCards';
 import { PageParticles } from '../components/Particles';
@@ -243,6 +244,14 @@ export default function BannedList() {
 
   return (
     <>
+      <Helmet>
+        <title>Banned List — Two-Headed Commander</title>
+        <meta name="description" content="The official Two-Headed Commander banned list — cards banned as commanders or entirely, with full reasoning and ban philosophy." />
+        <link rel="canonical" href="https://twoheadedcommander.com/banned-list" />
+        <meta property="og:url" content="https://twoheadedcommander.com/banned-list" />
+        <meta property="og:title" content="Banned List — Two-Headed Commander" />
+        <meta property="og:description" content="The official Two-Headed Commander banned list — cards banned as commanders or entirely, with full reasoning and ban philosophy." />
+      </Helmet>
       <PageParticles />
 
       {modal && <CardModal state={modal} onClose={closeModal} T={T} L={L} lang={lang} />}

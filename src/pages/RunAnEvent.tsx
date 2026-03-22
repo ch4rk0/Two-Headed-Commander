@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { useLang } from '../contexts/LangContext';
 import { PageParticles } from '../components/Particles';
 
@@ -38,6 +39,14 @@ export default function RunAnEvent() {
 
   return (
     <>
+      <Helmet>
+        <title>Run an Event — Two-Headed Commander</title>
+        <meta name="description" content="Everything you need to run a Two-Headed Commander event at your local game store — format structure, timing rules, deck registration, and Swiss pairings." />
+        <link rel="canonical" href="https://twoheadedcommander.com/run-an-event" />
+        <meta property="og:url" content="https://twoheadedcommander.com/run-an-event" />
+        <meta property="og:title" content="Run an Event — Two-Headed Commander" />
+        <meta property="og:description" content="Everything you need to run a Two-Headed Commander event at your local game store — format structure, timing rules, deck registration, and Swiss pairings." />
+      </Helmet>
       <PageParticles />
       <section id="lgs">
         <div className="container">
@@ -47,7 +56,7 @@ export default function RunAnEvent() {
 
           <div className="lgs-grid">
             {LGS_TILES.map((t, i) => (
-              <div key={i} className="lgs-card" style={{ backgroundImage: `url('${t.image}')` }}>
+              <div key={i} className="lgs-card" style={{ backgroundImage: `url('${t.image}')` }} role="img" aria-label={L(t.title)}>
                 <div className="lgs-card-content">
                   <div className="lgs-title">{L(t.title)}</div>
                   <p className="lgs-text">{L(t.text)}</p>

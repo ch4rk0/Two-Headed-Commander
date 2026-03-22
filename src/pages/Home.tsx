@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useLang } from '../contexts/LangContext';
 import { HeroParticles, PageParticles } from '../components/Particles';
 
@@ -13,6 +14,12 @@ export default function Home() {
   const { T } = useLang();
   return (
     <>
+      <Helmet>
+        <title>Two-Headed Commander — 2v2 MTG Format</title>
+        <meta name="description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store." />
+        <link rel="canonical" href="https://twoheadedcommander.com/" />
+        <meta property="og:url" content="https://twoheadedcommander.com/" />
+      </Helmet>
       <PageParticles />
       <section className="hero">
         <div className="hero-bg-anim" />

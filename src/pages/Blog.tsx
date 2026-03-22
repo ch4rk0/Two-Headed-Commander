@@ -33,6 +33,8 @@ export default function Blog() {
       <Helmet>
         <title>Blog — Two-Headed Commander</title>
         <meta name="description" content="Ideas, perspectives, and format thinking — presented as starting points, not conclusions." />
+        <link rel="canonical" href="https://twoheadedcommander.com/blog" />
+        <meta property="og:url"         content="https://twoheadedcommander.com/blog" />
         <meta property="og:title"       content="Blog — Two-Headed Commander" />
         <meta property="og:description" content="Ideas, perspectives, and format thinking — presented as starting points, not conclusions." />
       </Helmet>
@@ -50,7 +52,7 @@ export default function Blog() {
                 <Link key={post.slug} to={`/blog/${post.slug}`} className={`blog-card${isFeatured ? ' featured' : ''}`}>
                   {post.coverImage ? (
                     <div className="blog-card-cover">
-                      <img src={post.coverImage} alt={post.coverAlt ?? ''} />
+                      <img src={post.coverImage} alt={post.coverAlt || L(post.title)} />
                     </div>
                   ) : (
                     <div className="blog-card-cover blog-card-cover-empty" />
