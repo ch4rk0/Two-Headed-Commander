@@ -49,7 +49,7 @@ export default function BlogList() {
             </tr>
           ))}
           {posts.length === 0 && (
-            <tr><td colSpan={4} className="admin-empty">No posts yet. <Link to="/admin/blog/new">Create one →</Link></td></tr>
+            <tr><td colSpan={4} className="admin-empty">No posts yet. <Link to="/admin/blog/new">Create one</Link></td></tr>
           )}
         </tbody>
       </table>

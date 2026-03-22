@@ -3,6 +3,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase';
 import { useBannedCards } from '../../hooks/useBannedCards';
+import { useAuth } from '../../contexts/AuthContext';
 import type { BannedCard, BanReason } from '../../data/banned-cards.seed';
 
 const CATS = [
@@ -136,7 +137,7 @@ function CardForm({ initial, isNew, allCards, onSave, onCancel }: CardFormProps)
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
             >
-              {uploading ? 'Uploading…' : '↑ Upload image'}
+              {uploading ? 'Uploading…' : 'Upload image'}
             </button>
           </div>
 
@@ -225,13 +226,19 @@ type View = { mode: 'list' } | { mode: 'edit'; card: BannedCard } | { mode: 'new
 
 export default function BanListEditor() {
   const { cards, loading } = useBannedCards();
+  const { user } = useAuth();
   const [view, setView]     = useState<View>({ mode: 'list' });
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
 
   const saveCard = async (updated: BannedCard) => {
     const r = getReason(updated.reason);
-    const card = { ...updated, reason: (r.en || r.fr) ? r : '' };
+    const card = {
+      ...updated,
+      reason: (r.en || r.fr) ? r : '',
+      updatedBy: user?.email ?? 'unknown',
+      updatedAt: today(),
+    };
     const newCards = view.mode === 'new'
       ? [...cards, card]
       : cards.map(c => c.name === card.name ? card : c);
@@ -289,6 +296,7 @@ export default function BanListEditor() {
             <th>Name</th>
             <th>Category</th>
             <th>Date Added</th>
+            <th>Last Updated</th>
             <th>Pill</th>
             <th>Visibility</th>
             <th style={{ width: 130 }}></th>
@@ -310,6 +318,11 @@ export default function BanListEditor() {
               <td><span className="admin-ban-cat">{card.cat}</span></td>
               <td style={{ fontSize: '.8rem', color: 'var(--text2)', whiteSpace: 'nowrap' }}>
                 {card.dateAdded ?? '—'}
+              </td>
+              <td style={{ fontSize: '.75rem', color: 'var(--text2)' }}>
+                {card.updatedBy ? (
+                  <><span title={card.updatedBy}>{card.updatedBy.split('@')[0]}</span><br />{card.updatedAt}</>
+                ) : '—'}
               </td>
               <td><span className={'ban-pill ' + card.pill} style={{ fontSize: '.7rem' }}>{card.pill}</span></td>
               <td>

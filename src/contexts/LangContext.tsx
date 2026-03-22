@@ -197,7 +197,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const L = useCallback((field: string | { en: string; fr: string } | undefined | null): string => {
     if (!field) return '';
     if (typeof field === 'string') return field;
-    return field[lang] ?? field.en ?? '';
+    return field[lang] || field.en || field.fr || '';
   }, [lang]);
 
   return (

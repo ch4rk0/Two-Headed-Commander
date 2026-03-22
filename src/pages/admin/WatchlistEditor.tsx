@@ -3,13 +3,12 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase';
 import { useBannedCards } from '../../hooks/useBannedCards';
+import { useAuth } from '../../contexts/AuthContext';
 import type { WatchlistCard, WatchDiscuss } from '../../data/banned-cards.seed';
-
-const CATS = ['combo', 'stax', 'ramp', 'extra-turn', 'land', 'tutor', 'wipe', 'other'];
 
 const today = () => new Date().toISOString().slice(0, 10);
 
-const emptyCard = (): Partial<WatchlistCard> => ({ cat: 'combo', hidden: false, dateAdded: today(), discuss: { en: '', fr: '' } });
+const emptyCard = (): Partial<WatchlistCard> => ({ cat: 'other', hidden: false, dateAdded: today(), discuss: { en: '', fr: '' } });
 
 const getDiscuss = (d: WatchDiscuss | undefined): { en: string; fr: string } => {
   if (!d) return { en: '', fr: '' };
@@ -21,6 +20,7 @@ type View = { mode: 'list' } | { mode: 'edit'; card: WatchlistCard } | { mode: '
 
 export default function WatchlistEditor() {
   const { watchlist, loading } = useBannedCards();
+  const { user } = useAuth();
   const [view, setView] = useState<View>({ mode: 'list' });
   const [form, setForm] = useState<Partial<WatchlistCard>>(emptyCard());
   const [saving, setSaving] = useState(false);
@@ -77,10 +77,12 @@ export default function WatchlistEditor() {
       const card: WatchlistCard = {
         name: form.name!,
         type: form.type!,
-        cat: form.cat ?? 'combo',
+        cat: form.cat ?? 'other',
         discuss: (d.en || d.fr) ? d : '',
         hidden: form.hidden ?? false,
         dateAdded: form.dateAdded ?? today(),
+        updatedBy: user?.email ?? 'unknown',
+        updatedAt: today(),
         ...(form.image ? { image: form.image } : {}),
       };
       let updated: WatchlistCard[];
@@ -115,8 +117,8 @@ export default function WatchlistEditor() {
             <tr>
               <th style={{ width: 48 }}></th>
               <th>Name / Type</th>
-              <th>Category</th>
               <th>Date Added</th>
+              <th>Last Updated</th>
               <th>Visible</th>
               <th></th>
             </tr>
@@ -139,8 +141,12 @@ export default function WatchlistEditor() {
                   <strong>{card.name}</strong><br />
                   <small style={{ color: 'var(--muted)' }}>{card.type}</small>
                 </td>
-                <td>{card.cat}</td>
-                <td>{card.dateAdded ?? '—'}</td>
+                <td style={{ fontSize: '.8rem', color: 'var(--text2)', whiteSpace: 'nowrap' }}>{card.dateAdded ?? '—'}</td>
+                <td style={{ fontSize: '.75rem', color: 'var(--text2)' }}>
+                  {card.updatedBy ? (
+                    <><span title={card.updatedBy}>{card.updatedBy.split('@')[0]}</span><br />{card.updatedAt}</>
+                  ) : '—'}
+                </td>
                 <td>
                   <button
                     className={`admin-btn-sm${card.hidden ? ' danger' : ''}`}
@@ -220,12 +226,6 @@ export default function WatchlistEditor() {
           <div className="admin-field-row">
             <label>Type *</label>
             <input className="admin-input" placeholder="e.g. Instant" value={form.type ?? ''} onChange={e => setF('type', e.target.value)} />
-          </div>
-          <div className="admin-field-row">
-            <label>Category</label>
-            <select className="admin-input" value={form.cat ?? 'combo'} onChange={e => setF('cat', e.target.value)}>
-              {CATS.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
           </div>
           <div className="admin-field-row">
             <label>Date Added</label>
