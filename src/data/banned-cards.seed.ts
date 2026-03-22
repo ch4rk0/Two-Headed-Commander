@@ -11,6 +11,8 @@ export interface BannedCard {
   image?: string;     // custom image URL override (otherwise derived from name)
   hidden?: boolean;   // if true, not shown on the public ban list
   dateAdded?: string; // ISO date string e.g. "2026-03-21"
+  updatedBy?: string; // email of last admin to save this card
+  updatedAt?: string; // ISO date string of last save
 }
 
 export interface WatchlistCard {
@@ -21,6 +23,8 @@ export interface WatchlistCard {
   image?: string;
   hidden?: boolean;
   dateAdded?: string;
+  updatedBy?: string; // email of last admin to save this card
+  updatedAt?: string; // ISO date string of last save
 }
 
 export const BANNED_CARDS_SEED: BannedCard[] = [

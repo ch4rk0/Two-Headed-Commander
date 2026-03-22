@@ -13,8 +13,8 @@ export interface BlogPost {
   excerpt: { en: string; fr: string } | string;
   coverImage: string;
   coverAlt: string;
-  content?: ContentBlock[];   // legacy seed format
-  contentHtml?: string;        // TipTap editor format
+  content?: ContentBlock[];                         // legacy seed format
+  contentHtml?: string | { en: string; fr: string }; // TipTap: string = legacy EN-only, object = bilingual
   published?: boolean;
   authorEmail?: string;
 }
