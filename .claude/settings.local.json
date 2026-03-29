@@ -24,7 +24,9 @@
       "Bash(event \")",
       "Bash(for f:*)",
       "Bash(do sed:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(cp \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/vertical logo.png\" \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/public/images/logo-vertical.png\")",
+      "Bash(cp \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/horizontal logo.png\" \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/public/images/logo-horizontal.png\")"
     ]
   }
 }
