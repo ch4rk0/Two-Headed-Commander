@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { Helmet } from 'react-helmet-async';
+import DOMPurify from 'dompurify';
 import { db } from '../firebase';
 import { useLang } from '../contexts/LangContext';
 import { PageParticles } from '../components/Particles';
@@ -149,7 +150,7 @@ export default function BlogPost() {
           <div className="blog-post-readtime">{mins} min read</div>
           <h1 className="blog-post-title">{title}</h1>
           {content
-            ? <div ref={contentRef} className="blog-post-content" dangerouslySetInnerHTML={{ __html: content }} />
+            ? <div ref={contentRef} className="blog-post-content" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content, { USE_PROFILES: { html: true } }) }} />
             : <p className="blog-post-content" style={{ color: 'var(--text2)', fontStyle: 'italic' }}>{excerpt}</p>
           }
         </div>
