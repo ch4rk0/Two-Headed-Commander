@@ -1,1 +1,0 @@
-import{r as t,t as u,d as i,c as f}from"./index-CQlu0r4n.js";function h(){const[n,c]=t.useState([]),[r,o]=t.useState([]),[d,s]=t.useState(!0);return t.useEffect(()=>u(i(f,"banned_cards","list"),a=>{if(a.exists()){const e=a.data();c(e.cards??[]),o(e.watchlist??[])}s(!1)},()=>s(!1)),[]),{cards:n,watchlist:r,loading:d}}export{h as u};
