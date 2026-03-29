@@ -31,8 +31,7 @@ export default function Home() {
         <img src="/images/characters/human-elf.png"   alt="" className="hero-char hero-char-right" />
         <div className="hero-content">
           <h1 className="hero-title">
-            Two&#8209;Headed<br />
-            <span className="line2">Commander</span>
+            <img src="/images/logo-vertical.png" alt="Two-Headed Commander" className="hero-logo-img" />
           </h1>
           <div className="hero-rule-badge">
             {HERO_BADGES.map((b, i) => (

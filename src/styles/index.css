@@ -192,13 +192,16 @@ nav {
 }
 
 .nav-logo {
-  font-family: 'Uncial Antiqua', serif;
-  font-size: 1.05rem;
-  color: var(--gold);
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
-.nav-logo span { color: var(--purple2); }
+.nav-logo-img {
+  height: 32px;
+  width: auto;
+  display: block;
+}
 
 .nav-links {
   display: flex;
@@ -334,24 +337,20 @@ nav {
 }
 
 .hero-title {
-  font-family: 'Uncial Antiqua', serif;
-  font-size: clamp(3.2rem, 9vw, 7.5rem);
-  line-height: .95;
-  color: var(--white);
-  text-shadow: 0 0 60px rgba(140, 100, 220, .5), 3px 3px 0 rgba(0, 0, 0, .9);
   margin-bottom: .4rem;
-  letter-spacing: .02em;
   opacity: 0;
   animation: riseIn .9s ease .7s forwards;
 }
 
-.hero-title .line2 {
-  color: var(--gold);
+.hero-logo-img {
+  height: clamp(160px, 26vw, 340px);
+  width: auto;
   display: block;
-  font-size: .65em;
-  letter-spacing: .08em;
-  text-shadow: 0 0 60px rgba(200, 168, 75, .5), 3px 3px 0 rgba(0, 0, 0, .9);
+  margin: 0 auto;
+  filter: drop-shadow(0 0 40px rgba(140, 100, 220, .5)) drop-shadow(3px 3px 0 rgba(0,0,0,.9));
 }
+
+
 
 /* The 4 stat badges (2 players / 60 life / 100 cards / 4 commanders) */
 .hero-rule-badge {
@@ -2340,7 +2339,7 @@ footer {
   .lang-toggle-btn   { display: block; padding: 1.4rem 2rem; font-size: 1.1rem; letter-spacing: .2em; width: 100%; }
   .nav-links li:first-child { border-top: 1px solid var(--border); }
   .nav-links li a    { display: block; padding: 1.4rem 2rem; font-size: 1.1rem; letter-spacing: .2em; }
-  .hero-title        { font-size: 3rem; }
+  .hero-logo-img     { height: 130px; }
   .banned-grid       { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
   .step              { grid-template-columns: 50px 1fr; }
   .hero-rule-badge   { flex-wrap: wrap; justify-content: center; }

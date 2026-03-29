@@ -20,7 +20,7 @@ export default function Nav() {
     <nav>
       <div className="nav-inner">
         <Link to="/" className="nav-logo">
-          Two&#8209;Headed <span>Commander</span>
+          <img src="/images/logo-horizontal.png" alt="Two-Headed Commander" className="nav-logo-img" />
         </Link>
 
         <button
