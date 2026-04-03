@@ -31,7 +31,7 @@ const HOW_TO_PLAY_STEPS = [
   {
     num: 'V',
     title: { en: 'Winning & Losing', fr: 'Victoire & Défaite' },
-    text: { en: 'A team loses when their <strong>shared life total reaches 0</strong>, when either player receives 21 commander damage from a single commander, when either player accumulates 15 or more poison counters, or when either player must draw from an empty library. Teams win and lose together.', fr: 'Une équipe perd lorsque son <strong>total de vie partagé atteint 0</strong>, lorsqu\'un joueur reçoit 21 dégâts de commandant d\'un seul commandant, lorsqu\'un joueur accumule 15 marqueurs poison ou plus, ou lorsqu\'un joueur doit piocher depuis une bibliothèque vide. Les équipes gagnent et perdent ensemble.' },
+    text: { en: 'A team loses when their <strong>shared life total reaches 0</strong>, when either player receives 21 commander damage from a single commander, when the team\'s <strong>shared poison total reaches 15</strong>, or when either player must draw from an empty library. Teams win and lose together.', fr: 'Une équipe perd lorsque son <strong>total de vie partagé atteint 0</strong>, lorsqu\'un joueur reçoit 21 dégâts de commandant d\'un seul commandant, lorsque le <strong>total de poison partagé de l\'équipe atteint 15</strong>, ou lorsqu\'un joueur doit piocher depuis une bibliothèque vide. Les équipes gagnent et perdent ensemble.' },
   },
 ];
 
@@ -57,7 +57,7 @@ const KEY_DIFFERENCES = [
   {
     color: 'purple',
     title: { en: 'Infect & Poison', fr: 'Infecter & Poison' },
-    text: { en: 'Poison counters are tracked <strong>per player</strong>, not shared. A team loses when <strong>either</strong> player accumulates 15 or more poison counters — scaled up from the standard 10 to match the higher life total of this format.', fr: 'Les marqueurs poison sont comptés <strong>par joueur</strong>, pas en commun. Une équipe perd lorsque <strong>l\'un des</strong> joueurs accumule 15 marqueurs poison ou plus — augmenté du seuil standard de 10 pour correspondre au total de vie plus élevé de ce format.' },
+    text: { en: 'Poison counters are <strong>shared by the team</strong>. The team loses when their shared poison total reaches 15 — scaled up from the standard 10 to match the higher life total of this format.', fr: 'Les marqueurs poison sont <strong>partagés par l\'équipe</strong>. L\'équipe perd lorsque leur total de poison partagé atteint 15 — augmenté du seuil standard de 10 pour correspondre au total de vie plus élevé de ce format.' },
     tag: { en: 'Inherited from 2HG', fr: 'Hérité du 2TG' }, tagClass: 'tag-same',
   },
 ];
