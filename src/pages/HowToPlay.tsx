@@ -14,7 +14,7 @@ const HOW_TO_PLAY_STEPS = [
     num: 'II',
     title: { en: 'Shared Life Total', fr: 'Total de Vie Partagé' },
     text: { en: 'Each team begins with a <strong>shared life total of 60</strong>, following Two-Headed Giant rules. All damage dealt to either player reduces this shared pool. Life gain by either teammate increases the shared total.', fr: 'Chaque équipe commence avec un <strong>total de vie partagé de 60</strong>, conformément aux règles du Géant à Deux Têtes. Tous les dégâts infligés à l\'un ou l\'autre joueur réduisent ce total commun. Les gains de vie d\'un coéquipier augmentent le total partagé.' },
-    callout: { en: '✦ Poison counters are tracked per player — the team loses when either player reaches 15', fr: '✦ Les marqueurs poison sont comptés par joueur — l\'équipe perd lorsqu\'un joueur atteint 15' },
+    callout: { en: '✦ Poison counters are shared by the team — the team loses when their shared total reaches 15', fr: '✦ Les marqueurs poison sont partagés par l\'équipe — l\'équipe perd lorsque leur total partagé atteint 15' },
   },
   {
     num: 'III',
