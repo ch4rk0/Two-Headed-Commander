@@ -4,9 +4,10 @@ import { execSync } from 'child_process'
 
 function getBuildDate(): string {
   try {
-    return execSync('git log -1 --format=%cd --date=format:"%B %Y"').toString().trim();
+    const iso = execSync('git log -1 --format=%cI').toString().trim();
+    return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   } catch {
-    return new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    return new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   }
 }
 
