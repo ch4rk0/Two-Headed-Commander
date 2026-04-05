@@ -184,7 +184,11 @@ function detectLang(): Lang {
 }
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(detectLang);
+  const [lang, setLangState] = useState<Lang>(() => {
+    const detected = detectLang();
+    document.documentElement.lang = detected;
+    return detected;
+  });
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);

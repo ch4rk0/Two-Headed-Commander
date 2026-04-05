@@ -344,6 +344,9 @@ export default function BannedList() {
             ))}
           </div>
           <div className="search-row">
+            <label htmlFor="card-search" style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
+              {T('search.placeholder')}
+            </label>
             <input type="text" id="card-search" placeholder={T('search.placeholder')} value={search} onChange={e => setSearch(e.target.value)} autoComplete="off" />
           </div>
           <p className="ban-count">

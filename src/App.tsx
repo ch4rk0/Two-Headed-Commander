@@ -48,7 +48,7 @@ function PublicLayout() {
   return (
     <>
       <Nav />
-      <div id="page-content">
+      <main id="page-content">
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/"             element={<Home />} />
@@ -60,7 +60,7 @@ function PublicLayout() {
             <Route path="/privacy"      element={<Privacy />} />
           </Routes>
         </Suspense>
-      </div>
+      </main>
       <Footer />
     </>
   );

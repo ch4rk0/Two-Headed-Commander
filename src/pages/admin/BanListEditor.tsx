@@ -306,7 +306,7 @@ export default function BanListEditor() {
           {visible.map(card => (
             <tr key={card.name} style={{ opacity: card.hidden ? .4 : 1 }}>
               <td>
-                <img className="admin-ban-thumb" alt=""
+                <img className="admin-ban-thumb" alt={card.name}
                   src={card.image || localImg(card.name)}
                   onError={e => { e.currentTarget.src = scryfallImg(card.name); e.currentTarget.onerror = null; }}
                 />

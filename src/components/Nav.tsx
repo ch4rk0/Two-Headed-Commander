@@ -9,11 +9,16 @@ export default function Nav() {
   const { posts } = useBlogPosts();
   const hasBlog = posts.length > 0;
 
-  // Close menu on resize
+  // Close menu on resize or Escape key
   useEffect(() => {
     const close = () => setMenuOpen(false);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
     window.addEventListener('resize', close);
-    return () => window.removeEventListener('resize', close);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('resize', close);
+      document.removeEventListener('keydown', onKey);
+    };
   }, []);
 
   return (

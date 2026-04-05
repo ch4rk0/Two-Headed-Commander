@@ -71,7 +71,7 @@ export default function RunAnEvent() {
 
           <div className="lgs-grid">
             {LGS_TILES.map((t, i) => (
-              <div key={i} className="lgs-card" style={{ backgroundImage: `url('${t.image}')` }} role="img" aria-label={L(t.title)}>
+              <div key={i} className="lgs-card" style={{ backgroundImage: `url('${t.image}')` }}>
                 <div className="lgs-card-content">
                   <div className="lgs-title">{L(t.title)}</div>
                   <p className="lgs-text">{L(t.text)}</p>

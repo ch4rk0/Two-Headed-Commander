@@ -108,7 +108,7 @@ export function PageParticles() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
   }, []);
 
-  return <canvas ref={canvasRef} id="page-particles" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }} />;
+  return <canvas ref={canvasRef} id="page-particles" aria-hidden="true" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }} />;
 }
 
 /** Hero canvas sparkles + mouse parallax */
@@ -196,5 +196,5 @@ export function HeroParticles() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} id="hero-particles" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />;
+  return <canvas ref={canvasRef} id="hero-particles" aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />;
 }
