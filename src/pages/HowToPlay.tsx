@@ -88,6 +88,21 @@ export default function HowToPlay() {
         <meta property="og:title" content="How to Play — Two-Headed Commander" />
         <meta property="og:description" content="Learn the rules of Two-Headed Commander — shared life totals, simultaneous turns, commander rules, and what makes this 2v2 MTG format unique." />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
+        <meta property="og:image:alt"   content="Two-Headed Commander logo" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Play Two-Headed Commander",
+          "description": "Learn the rules of Two-Headed Commander — shared life totals, simultaneous turns, commander rules, and what makes this 2v2 MTG format unique.",
+          "url": "https://twoheadedcommander.com/how-to-play",
+          "step": [
+            { "@type": "HowToStep", "position": 1, "name": "Form Your Alliance", "text": "Two players form a team. Each player builds their own 100-card Commander deck, following standard Commander singleton rules, built around a chosen legendary creature as their Commander." },
+            { "@type": "HowToStep", "position": 2, "name": "Shared Life Total", "text": "Each team begins with a shared life total of 60, following Two-Headed Giant rules. All damage dealt to either player reduces this shared pool." },
+            { "@type": "HowToStep", "position": 3, "name": "Simultaneous Turns", "text": "Both teammates take their turn simultaneously. The team shares a single combat phase — both players may attack and both draw during their draw step." },
+            { "@type": "HowToStep", "position": 4, "name": "Commander Rules Remain", "text": "All standard Commander rules apply: the commander tax (+2 per prior casting) applies per commander individually, and commander damage is tracked per-commander per player." },
+            { "@type": "HowToStep", "position": 5, "name": "Winning & Losing", "text": "A team loses when their shared life total reaches 0, when either player receives 21 commander damage from a single commander, when the shared poison total reaches 15, or when either player must draw from an empty library." }
+          ]
+        })}</script>
       </Helmet>
       <PageParticles />
 

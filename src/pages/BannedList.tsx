@@ -252,6 +252,7 @@ export default function BannedList() {
         <meta property="og:title" content="Banned List — Two-Headed Commander" />
         <meta property="og:description" content="The official Two-Headed Commander banned list — cards banned as commanders or entirely, with full reasoning and ban philosophy." />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
+        <meta property="og:image:alt"   content="Two-Headed Commander logo" />
       </Helmet>
       <PageParticles />
 

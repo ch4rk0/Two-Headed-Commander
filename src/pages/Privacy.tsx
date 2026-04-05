@@ -12,6 +12,7 @@ export default function Privacy() {
         <meta property="og:description" content="Privacy policy for Two-Headed Commander — how we use Google Analytics and what data we collect." />
         <meta property="og:url"         content="https://twoheadedcommander.com/privacy" />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
+        <meta property="og:image:alt"   content="Two-Headed Commander logo" />
       </Helmet>
       <PageParticles />
       <div className="container" style={{ paddingTop: '6rem', paddingBottom: '4rem', maxWidth: 740, margin: '0 auto' }}>

@@ -22,6 +22,7 @@ export default function Home() {
         <meta property="og:description" content="Two-Headed Commander is a fan-made MTG format — 2 players, 4 commanders, 60 shared life. Discover the rules, ban list, and how to run events at your local game store." />
         <meta property="og:url"         content="https://twoheadedcommander.com/" />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
+        <meta property="og:image:alt"   content="Two-Headed Commander logo" />
       </Helmet>
       <PageParticles />
       <section className="hero">

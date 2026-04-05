@@ -47,6 +47,20 @@ export default function RunAnEvent() {
         <meta property="og:title" content="Run an Event — Two-Headed Commander" />
         <meta property="og:description" content="Everything you need to run a Two-Headed Commander event at your local game store — format structure, timing rules, deck registration, and Swiss pairings." />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
+        <meta property="og:image:alt"   content="Two-Headed Commander logo" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SportsEvent",
+          "name": "Two-Headed Commander Event",
+          "description": "A Two-Headed Commander tournament: 3 rounds of Swiss pairings, random teams, 50-minute rounds with 2 registered decks per player.",
+          "url": "https://twoheadedcommander.com/run-an-event",
+          "organizer": {
+            "@type": "Organization",
+            "name": "Two-Headed Commander",
+            "url": "https://twoheadedcommander.com/"
+          },
+          "sport": "Magic: The Gathering"
+        })}</script>
       </Helmet>
       <PageParticles />
       <section id="lgs">
