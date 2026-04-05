@@ -45,7 +45,7 @@ export default function Privacy() {
         </p>
 
         <p style={{ color: 'var(--text2)', lineHeight: 1.8, marginTop: '2rem', fontSize: '.85rem', opacity: .6 }}>
-          Last updated: March 2026
+          Last updated: {__BUILD_DATE__}
         </p>
       </div>
     </>

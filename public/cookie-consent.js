@@ -53,6 +53,7 @@
         '<p class="cookie-body">' + tFn('cookie.desc') + '</p>' +
         '<p class="cookie-body">' + tFn('cookie.footer-note') + '</p>' +
         '<a href="privacy.html" class="cookie-link">' + tFn('cookie.privacy') + '</a>' +
+        (window.__BUILD_DATE__ ? '<p class="cookie-updated">Last updated: ' + window.__BUILD_DATE__ + '</p>' : '') +
         '<div class="cookie-actions">' +
           '<button id="cookie-decline" class="cookie-btn cookie-btn-decline">' + tFn('cookie.decline') + '</button>' +
           '<button id="cookie-accept"  class="cookie-btn cookie-btn-accept">'  + tFn('cookie.accept')  + '</button>' +
