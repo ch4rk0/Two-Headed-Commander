@@ -11,7 +11,29 @@ function getBuildDate(): string {
   }
 }
 
-const buildDate = getBuildDate();
+function getBuildVersion(): string {
+  try {
+    const iso = execSync('git log -1 --format=%cI').toString().trim();
+    const d = new Date(iso);
+    const yy  = String(d.getFullYear()).slice(2);
+    const mm  = String(d.getMonth() + 1).padStart(2, '0');
+    const dd  = String(d.getDate()).padStart(2, '0');
+    const hh  = String(d.getHours()).padStart(2, '0');
+    const min = String(d.getMinutes()).padStart(2, '0');
+    return `${yy}.${mm}.${dd}${hh}${min}`;
+  } catch {
+    const d = new Date();
+    const yy  = String(d.getFullYear()).slice(2);
+    const mm  = String(d.getMonth() + 1).padStart(2, '0');
+    const dd  = String(d.getDate()).padStart(2, '0');
+    const hh  = String(d.getHours()).padStart(2, '0');
+    const min = String(d.getMinutes()).padStart(2, '0');
+    return `${yy}.${mm}.${dd}${hh}${min}`;
+  }
+}
+
+const buildDate    = getBuildDate();
+const buildVersion = getBuildVersion();
 
 export default defineConfig({
   plugins: [
@@ -31,7 +53,8 @@ export default defineConfig({
   base: '/',
   build: { outDir: 'dist' },
   define: {
-    __BUILD_DATE__: JSON.stringify(buildDate),
+    __BUILD_DATE__:    JSON.stringify(buildDate),
+    __BUILD_VERSION__: JSON.stringify(buildVersion),
   },
   test: {
     environment: 'jsdom',

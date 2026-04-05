@@ -2155,6 +2155,15 @@ footer {
   line-height: 1.75;
 }
 
+.footer-version {
+  margin-top: 1.25rem;
+  font-size: .65rem;
+  color: var(--text3);
+  opacity: .35;
+  letter-spacing: .08em;
+  font-family: monospace;
+}
+
 
 /* ── PRIVACY POLICY PAGE ─────────────────────────────────────── */
 

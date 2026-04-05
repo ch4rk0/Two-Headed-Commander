@@ -13,6 +13,7 @@ export default function Footer() {
           {T('footer.cookies')}
         </button>
       </div>
+      <p className="footer-version">{__BUILD_VERSION__}</p>
     </footer>
   );
 }
