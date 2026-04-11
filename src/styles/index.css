@@ -1889,11 +1889,16 @@ section {
   letter-spacing: .05em;
 }
 .dl-total { font-size: .72rem; color: var(--text3); }
-.dl-body {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-  padding: .75rem 1rem;
+.dl-layout {
+  display: flex;
   background: var(--surface);
+}
+.dl-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  padding: .75rem 1rem;
 }
 .dl-section { padding: .5rem .5rem .75rem; }
 .dl-section-hd {
@@ -1911,7 +1916,40 @@ section {
 .dl-count { color: var(--text3); font-variant-numeric: tabular-nums; }
 .dl-cards { display: flex; flex-direction: column; gap: .05rem; }
 .dl-card { display: flex; }
-.dl-card .card-ref { font-size: .8rem; line-height: 1.6; }
+/* No underline inside deck — names are dense, underlines hurt readability */
+.dl-card .card-ref {
+  font-size: .8rem;
+  line-height: 1.65;
+  border-bottom: none;
+  color: var(--text);
+}
+.dl-card .card-ref:hover { color: var(--gold); }
+/* Persistent card preview pane */
+.dl-preview-pane {
+  width: 168px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: .75rem;
+  gap: .5rem;
+}
+.dl-preview-img {
+  width: 100%;
+  border-radius: 6px;
+  display: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,.55);
+}
+.dl-preview-hint {
+  font-size: .68rem;
+  color: var(--text3);
+  text-align: center;
+  opacity: .6;
+  line-height: 1.4;
+}
+@media (max-width: 520px) { .dl-preview-pane { display: none; } }
 
 /* ── DECK LIST (editor block) ────────────────────────────────── */
 .editor-deck-block {

@@ -98,7 +98,17 @@ export default function BlogPost() {
           if (imgUrl) cardCache.current.set(cardName, imgUrl);
         } catch { return; }
       }
-      if (imgUrl) setCardTooltip({ x: e.clientX, y: e.clientY, imgUrl });
+      if (imgUrl) {
+        setCardTooltip({ x: e.clientX, y: e.clientY, imgUrl });
+        // Persist last hovered card in the deck block's preview pane
+        const deckBlock = target.closest('.deck-list') as HTMLElement | null;
+        if (deckBlock) {
+          const img  = deckBlock.querySelector('.dl-preview-img') as HTMLImageElement | null;
+          const hint = deckBlock.querySelector('.dl-preview-hint') as HTMLElement | null;
+          if (img) { img.src = imgUrl; img.style.display = 'block'; }
+          if (hint) hint.style.display = 'none';
+        }
+      }
     };
 
     const onLeave = (e: MouseEvent) => {

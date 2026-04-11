@@ -204,14 +204,13 @@ function CardInsertDialog({ selectedText, onInsert, onClose }: {
   );
 }
 
-// ── Deck list types & parser ──────────────────────────────────────
+// ── Deck list types, parser & helpers ────────────────────────────
 interface DeckCard    { qty: number; name: string; }
 interface DeckSection { name: string; cards: DeckCard[]; }
 
 function parseDeckList(text: string, commanderOverride: string): DeckSection[] {
   const sections: DeckSection[] = [];
   let current: DeckSection | null = null;
-
   const pushSection = (name: string) => { current = { name, cards: [] }; sections.push(current); };
 
   if (commanderOverride.trim())
@@ -220,22 +219,12 @@ function parseDeckList(text: string, commanderOverride: string): DeckSection[] {
   for (const raw of text.split('\n')) {
     const line = raw.trim();
     if (!line) continue;
+    if (line.startsWith('//')) { const name = line.slice(2).trim(); if (name) pushSection(name); continue; }
 
-    // Section header: "// Creatures"
-    if (line.startsWith('//')) {
-      const name = line.slice(2).trim();
-      if (name) pushSection(name);
-      continue;
-    }
-
-    // Card line: "1 Name" or "1x Name" optionally trailed by "(SET) 123" or "*TAG*"
     const cardMatch = line.match(/^(\d+)x?\s+(.+?)(?:\s+\([A-Z0-9]{2,6}\)\s*\d*.*)?$/);
     if (cardMatch) {
       const qty = parseInt(cardMatch[1]);
-      const name = cardMatch[2]
-        .replace(/\s+\([A-Z0-9]{2,6}\)\s+\d+.*$/, '')
-        .replace(/\s+\*\w+\*\s*/g, '')
-        .trim();
+      const name = cardMatch[2].replace(/\s+\([A-Z0-9]{2,6}\)\s+\d+.*$/, '').replace(/\s+\*\w+\*\s*/g, '').trim();
       if (!name) continue;
       if (commanderOverride.trim() && name.toLowerCase() === commanderOverride.trim().toLowerCase()) continue;
       if (!current) pushSection('Main Deck');
@@ -243,7 +232,6 @@ function parseDeckList(text: string, commanderOverride: string): DeckSection[] {
       continue;
     }
 
-    // Plain section name: "Creatures (30)" or "Lands"
     const secMatch = line.match(/^([A-Za-z][A-Za-z &,'\-]*)(?:\s*\(\d+\))?\s*:?\s*$/);
     if (secMatch) {
       const name = secMatch[1].trim();
@@ -252,7 +240,6 @@ function parseDeckList(text: string, commanderOverride: string): DeckSection[] {
       if (name.length >= 2) pushSection(name);
     }
   }
-
   return sections.filter(s => s.cards.length > 0);
 }
 
@@ -260,17 +247,122 @@ function deckTotal(sections: DeckSection[]) {
   return sections.reduce((s, sec) => s + sec.cards.reduce((cs, c) => cs + c.qty, 0), 0);
 }
 
+// Reconstruct paste-able text from sections (for editing existing decks)
+function sectionsToText(sections: DeckSection[]): string {
+  return sections.map(s =>
+    `// ${s.name}\n${s.cards.map(c => `${c.qty} ${c.name}`).join('\n')}`
+  ).join('\n\n');
+}
+
+// ── DeckInsertDialog ──────────────────────────────────────────────
+// Defined before DeckListView so the NodeView can render it for editing
+function DeckInsertDialog({ onInsert, onClose, initialTitle = '', initialSections = [] }: {
+  onInsert: (title: string, sections: DeckSection[]) => void;
+  onClose: () => void;
+  initialTitle?: string;
+  initialSections?: DeckSection[];
+}) {
+  const isEdit = initialSections.length > 0;
+  const initCommander = initialSections.find(s => s.name === 'Commander')?.cards[0]?.name ?? '';
+
+  const [title, setTitle]         = useState(initialTitle);
+  const [commander, setCommander] = useState(initCommander);
+  const [deckText, setDeckText]   = useState(() => sectionsToText(initialSections));
+  const [sections, setSections]   = useState<DeckSection[]>(initialSections);
+  const [parsed, setParsed]       = useState(isEdit);
+
+  const parse = () => { setSections(parseDeckList(deckText, commander)); setParsed(true); };
+  const total = deckTotal(sections);
+
+  return (
+    <div className="card-insert-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="deck-insert-dialog">
+        <div className="card-insert-title">{isEdit ? 'Edit Deck List' : 'Insert Deck List'}</div>
+
+        <div className="card-insert-row">
+          <label>Deck title</label>
+          <input className="admin-input" value={title} onChange={e => setTitle(e.target.value)}
+            placeholder="e.g. Pantlaza Dino Tribal" />
+        </div>
+
+        <div className="card-insert-row">
+          <label>Commander <span style={{ opacity: .5, fontSize: '.8em' }}>(if not in the list below)</span></label>
+          <input className="admin-input" value={commander} onChange={e => setCommander(e.target.value)}
+            placeholder="e.g. Pantlaza, Sun-Favored" />
+        </div>
+
+        <div className="card-insert-row">
+          <label>Deck list <span style={{ opacity: .5, fontSize: '.8em' }}>— Moxfield, MTGO or Arena format</span></label>
+          <textarea className="admin-input deck-textarea"
+            value={deckText}
+            onChange={e => { setDeckText(e.target.value); setParsed(false); }}
+            onKeyDown={e => { if (e.key === 'Escape') onClose(); }}
+            placeholder={"// Commander\n1 Pantlaza, Sun-Favored\n\n// Creatures\n1 Llanowar Elves\n..."}
+            rows={10} />
+        </div>
+
+        <button className="admin-btn-sm" onClick={parse} disabled={!deckText.trim()}>Preview</button>
+
+        {parsed && sections.length === 0 && (
+          <div className="card-insert-error">No cards recognised — check the format.</div>
+        )}
+        {parsed && sections.length > 0 && (
+          <div className="deck-preview">
+            <div className="deck-preview-hd">{title || 'Deck List'} — {total} cards</div>
+            {sections.map((s, i) => {
+              const count   = s.cards.reduce((sum, c) => sum + c.qty, 0);
+              const preview = s.cards.slice(0, 3).map(c => c.name).join(', ');
+              const more    = s.cards.length > 3 ? ` +${s.cards.length - 3}` : '';
+              return (
+                <div key={i} className="deck-preview-row">
+                  <strong>{s.name}</strong>
+                  <span className="deck-preview-count"> ({count})</span>
+                  <span className="deck-preview-names"> — {preview}{more}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="card-insert-actions">
+          <button className="admin-btn-sm" onClick={onClose}>Cancel</button>
+          <button className="admin-btn-primary" disabled={sections.length === 0}
+            onClick={() => onInsert(title, sections)}>
+            {isEdit ? 'Save' : 'Insert'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── DeckListView (editor compact preview) ─────────────────────────
-function DeckListView({ node, deleteNode }: NodeViewProps) {
+function DeckListView({ node, deleteNode, updateAttributes }: NodeViewProps) {
+  const [editing, setEditing] = useState(false);
   const sections: DeckSection[] = node.attrs.sections ?? [];
   const title: string           = node.attrs.title   ?? '';
   const total = deckTotal(sections);
+
   return (
     <NodeViewWrapper>
+      {editing && (
+        <DeckInsertDialog
+          initialTitle={title}
+          initialSections={sections}
+          onInsert={(newTitle, newSections) => {
+            updateAttributes({ title: newTitle, sections: newSections });
+            setEditing(false);
+          }}
+          onClose={() => setEditing(false)}
+        />
+      )}
       <div className="editor-deck-block" contentEditable={false}>
         <div className="editor-gallery-badge">
           <span>Deck List · {title || 'untitled'} · {total} cards</span>
-          <button className="editor-gallery-delete" onClick={deleteNode} title="Remove deck list">×</button>
+          <div style={{ display: 'flex', gap: '.3rem' }}>
+            <button className="editor-gallery-delete" onClick={() => setEditing(true)} title="Edit deck list">✎</button>
+            <button className="editor-gallery-delete" onClick={deleteNode} title="Remove deck list">×</button>
+          </div>
         </div>
         <div className="editor-deck-preview">
           {sections.map((s, i) => (
@@ -341,89 +433,18 @@ const DeckList = Node.create({
         ['span', { class: 'dl-title' }, title],
         ['span', { class: 'dl-total' }, `${total} cards`],
       ],
-      ['div', { class: 'dl-body' }, ...sectionSpecs],
+      ['div', { class: 'dl-layout' },
+        ['div', { class: 'dl-body' }, ...sectionSpecs],
+        ['div', { class: 'dl-preview-pane' },
+          ['img', { class: 'dl-preview-img', src: '', alt: 'Hovered card' }],
+          ['span', { class: 'dl-preview-hint' }, 'Hover a card to preview'],
+        ],
+      ],
     ] as unknown as [string, ...unknown[]];
   },
 
   addNodeView() { return ReactNodeViewRenderer(DeckListView); },
 });
-
-// ── DeckInsertDialog ──────────────────────────────────────────────
-function DeckInsertDialog({ onInsert, onClose }: {
-  onInsert: (title: string, sections: DeckSection[]) => void;
-  onClose: () => void;
-}) {
-  const [title, setTitle]         = useState('');
-  const [commander, setCommander] = useState('');
-  const [deckText, setDeckText]   = useState('');
-  const [sections, setSections]   = useState<DeckSection[]>([]);
-  const [parsed, setParsed]       = useState(false);
-
-  const parse = () => { setSections(parseDeckList(deckText, commander)); setParsed(true); };
-  const total = deckTotal(sections);
-
-  return (
-    <div className="card-insert-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="deck-insert-dialog">
-        <div className="card-insert-title">Insert Deck List</div>
-
-        <div className="card-insert-row">
-          <label>Deck title</label>
-          <input className="admin-input" value={title} onChange={e => setTitle(e.target.value)}
-            placeholder="e.g. Pantlaza Dino Tribal" />
-        </div>
-
-        <div className="card-insert-row">
-          <label>Commander <span style={{ opacity: .5, fontSize: '.8em' }}>(if not included in the list below)</span></label>
-          <input className="admin-input" value={commander} onChange={e => setCommander(e.target.value)}
-            placeholder="e.g. Pantlaza, Sun-Favored" />
-        </div>
-
-        <div className="card-insert-row">
-          <label>Deck list <span style={{ opacity: .5, fontSize: '.8em' }}>— paste from Moxfield, MTGO or Arena</span></label>
-          <textarea className="admin-input deck-textarea"
-            value={deckText}
-            onChange={e => { setDeckText(e.target.value); setParsed(false); }}
-            onKeyDown={e => { if (e.key === 'Escape') onClose(); }}
-            placeholder={"// Commander\n1 Pantlaza, Sun-Favored\n\n// Creatures\n1 Llanowar Elves\n1 Sol Ring\n..."}
-            rows={10} />
-        </div>
-
-        <button className="admin-btn-sm" onClick={parse} disabled={!deckText.trim()}>Preview</button>
-
-        {parsed && sections.length === 0 && (
-          <div className="card-insert-error">No cards recognised — check the format.</div>
-        )}
-
-        {parsed && sections.length > 0 && (
-          <div className="deck-preview">
-            <div className="deck-preview-hd">{title || 'Deck List'} — {total} cards</div>
-            {sections.map((s, i) => {
-              const count   = s.cards.reduce((sum, c) => sum + c.qty, 0);
-              const preview = s.cards.slice(0, 3).map(c => c.name).join(', ');
-              const more    = s.cards.length > 3 ? ` +${s.cards.length - 3}` : '';
-              return (
-                <div key={i} className="deck-preview-row">
-                  <strong>{s.name}</strong>
-                  <span className="deck-preview-count"> ({count})</span>
-                  <span className="deck-preview-names"> — {preview}{more}</span>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        <div className="card-insert-actions">
-          <button className="admin-btn-sm" onClick={onClose}>Cancel</button>
-          <button className="admin-btn-primary" disabled={sections.length === 0}
-            onClick={() => onInsert(title, sections)}>
-            Insert
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Toolbar ──────────────────────────────────────────────────────
 interface ToolbarProps {
