@@ -336,31 +336,34 @@ function DeckInsertDialog({ onInsert, onClose, initialTitle = '', initialSection
   );
 }
 
+// Module-level callback so DeckListView (rendered by Tiptap) can
+// trigger a dialog in the parent BlogEditor without nesting it inside
+// the NodeViewWrapper (where ProseMirror would swallow events).
+let _openDeckEdit: ((
+  title: string,
+  sections: DeckSection[],
+  onSave: (t: string, s: DeckSection[]) => void
+) => void) | null = null;
+
 // ── DeckListView (editor compact preview) ─────────────────────────
 function DeckListView({ node, deleteNode, updateAttributes }: NodeViewProps) {
-  const [editing, setEditing] = useState(false);
   const sections: DeckSection[] = node.attrs.sections ?? [];
   const title: string           = node.attrs.title   ?? '';
   const total = deckTotal(sections);
 
+  const handleEdit = () => {
+    _openDeckEdit?.(title, sections, (newTitle, newSections) => {
+      updateAttributes({ title: newTitle, sections: newSections });
+    });
+  };
+
   return (
     <NodeViewWrapper>
-      {editing && (
-        <DeckInsertDialog
-          initialTitle={title}
-          initialSections={sections}
-          onInsert={(newTitle, newSections) => {
-            updateAttributes({ title: newTitle, sections: newSections });
-            setEditing(false);
-          }}
-          onClose={() => setEditing(false)}
-        />
-      )}
       <div className="editor-deck-block" contentEditable={false}>
         <div className="editor-gallery-badge">
           <span>Deck List · {title || 'untitled'} · {total} cards</span>
           <div style={{ display: 'flex', gap: '.3rem' }}>
-            <button className="editor-gallery-delete" onClick={() => setEditing(true)} title="Edit deck list">✎</button>
+            <button className="editor-gallery-delete" onClick={handleEdit} title="Edit deck list">✎</button>
             <button className="editor-gallery-delete" onClick={deleteNode} title="Remove deck list">×</button>
           </div>
         </div>
@@ -639,6 +642,11 @@ export default function BlogEditor() {
   const [saved, setSaved]           = useState(false);
   const [cardDialog, setCardDialog] = useState<{ selectedText: string } | null>(null);
   const [deckDialog, setDeckDialog] = useState(false);
+  const [editingDeck, setEditingDeck] = useState<{
+    title: string;
+    sections: DeckSection[];
+    onSave: (t: string, s: DeckSection[]) => void;
+  } | null>(null);
 
   const editorEn = useEditor({
     extensions: [
@@ -680,6 +688,12 @@ export default function BlogEditor() {
   }, [slug, editorEn, editorFr]);
 
   useEffect(() => { setCoverImgError(false); }, [meta.coverImage]);
+
+  // Register the module-level callback so DeckListView can open the edit dialog
+  useEffect(() => {
+    _openDeckEdit = (title, sections, onSave) => setEditingDeck({ title, sections, onSave });
+    return () => { _openDeckEdit = null; };
+  }, []);
 
   // ── Image upload (single) ────────────────────────────────────
   const uploadImage = async (file: File) => {
@@ -820,6 +834,14 @@ const previewTitle  = activeLang === 'fr' ? (meta.titleFr || meta.titleEn) : met
         <DeckInsertDialog
           onInsert={insertDeckList}
           onClose={() => setDeckDialog(false)}
+        />
+      )}
+      {editingDeck && (
+        <DeckInsertDialog
+          initialTitle={editingDeck.title}
+          initialSections={editingDeck.sections}
+          onInsert={(title, sections) => { editingDeck.onSave(title, sections); setEditingDeck(null); }}
+          onClose={() => setEditingDeck(null)}
         />
       )}
 
