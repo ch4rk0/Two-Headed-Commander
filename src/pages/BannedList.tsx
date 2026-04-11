@@ -233,8 +233,8 @@ export default function BannedList() {
       if (a.cat === 'banned-commander' && b.cat === 'banned-commander') return 0;
       if (a.cat === 'banned-commander') return -1;
       if (b.cat === 'banned-commander') return 1;
-      const dateA = a.updatedAt ?? a.dateAdded ?? '';
-      const dateB = b.updatedAt ?? b.dateAdded ?? '';
+      const dateA = a.dateAdded ?? '';
+      const dateB = b.dateAdded ?? '';
       return dateB.localeCompare(dateA);
     });
   const etCards = cards.filter(c => c.cat === 'extra-turn' && !c.hidden);
