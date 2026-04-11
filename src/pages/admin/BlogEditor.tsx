@@ -242,7 +242,7 @@ function Toolbar({ editor, onImage, onGallery, onCards, onCardRef, uploading, up
 
 // ── Cover Crop Modal ─────────────────────────────────────────────
 const CANVAS_W = 480;
-const CANVAS_H = 270;
+const CANVAS_H = 150; // 16:5 — matches blog-post-hero aspect-ratio
 
 function CoverCropModal({ file, onApply, onCancel }: {
   file: File; onApply: (blob: Blob) => void; onCancel: () => void;
@@ -310,7 +310,7 @@ function CoverCropModal({ file, onApply, onCancel }: {
     }
     ctx.font = 'bold 10px monospace'; ctx.fillStyle = 'rgba(0,0,0,0.55)';
     ctx.fillRect(0, CANVAS_H - 20, 108, 20); ctx.fillStyle = 'rgba(212,176,90,0.9)';
-    ctx.textAlign = 'left'; ctx.fillText('  CROP FRAME · 1200×630', 0, CANVAS_H - 7);
+    ctx.textAlign = 'left'; ctx.fillText('  CROP FRAME · 1200×375', 0, CANVAS_H - 7);
   }, [img, zoom, offset]);
 
   const startDrag = (mx: number, my: number) => { dragging.current = true; dragStart.current = { mx, my, ox: offset.x, oy: offset.y }; };
@@ -323,7 +323,7 @@ function CoverCropModal({ file, onApply, onCancel }: {
 
   const apply = () => {
     if (!img) return;
-    const OUT_W = 1200, OUT_H = 630, scale = OUT_W / CANVAS_W;
+    const OUT_W = 1200, OUT_H = 375, scale = OUT_W / CANVAS_W;
     const offscreen = document.createElement('canvas');
     offscreen.width = OUT_W; offscreen.height = OUT_H;
     const ctx = offscreen.getContext('2d')!;
@@ -630,7 +630,7 @@ const previewTitle  = activeLang === 'fr' ? (meta.titleFr || meta.titleEn) : met
           ) : (
             <div className="admin-editor-meta-cover-empty" onClick={() => coverInputRef.current?.click()}>
               <span>Upload cover image</span>
-              <span style={{ opacity: .55, fontSize: '.68rem' }}>1200 × 630 recommended</span>
+              <span style={{ opacity: .55, fontSize: '.68rem' }}>1200 × 375 recommended</span>
             </div>
           )}
           <button className="admin-btn-sm" style={{ width: '100%' }}
