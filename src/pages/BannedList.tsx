@@ -231,8 +231,8 @@ export default function BannedList() {
     .filter(c => c.cat !== 'extra-turn' && !c.hidden)
     .sort((a, b) => {
       if (a.cat === 'commander' && b.cat === 'commander') return 0;
-      if (a.cat === 'commander') return 1;
-      if (b.cat === 'commander') return -1;
+      if (a.cat === 'commander') return -1;
+      if (b.cat === 'commander') return 1;
       const dateA = a.updatedAt ?? a.dateAdded ?? '';
       const dateB = b.updatedAt ?? b.dateAdded ?? '';
       return dateB.localeCompare(dateA);
