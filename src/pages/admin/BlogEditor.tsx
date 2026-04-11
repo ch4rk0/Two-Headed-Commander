@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Node } from '@tiptap/core';
+import { Node, Mark, mergeAttributes } from '@tiptap/core';
 import { useEditor, EditorContent, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 import type { NodeViewProps, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -121,13 +121,96 @@ const Gallery = Node.create({
   },
 });
 
+// ── CardTooltip Mark ─────────────────────────────────────────────
+const CardTooltip = Mark.create({
+  name: 'cardTooltip',
+  addAttributes() {
+    return {
+      cardName: {
+        default: null,
+        parseHTML: el => el.getAttribute('data-card'),
+        renderHTML: attrs => ({ 'data-card': attrs.cardName, class: 'card-ref' }),
+      },
+    };
+  },
+  parseHTML() { return [{ tag: 'span[data-card]' }]; },
+  renderHTML({ HTMLAttributes }) {
+    return ['span', mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+// ── Card Insert Dialog ────────────────────────────────────────────
+function CardInsertDialog({ selectedText, onInsert, onClose }: {
+  selectedText: string;
+  onInsert: (cardName: string, displayText: string) => void;
+  onClose: () => void;
+}) {
+  const [cardName, setCardName]       = useState(selectedText);
+  const [displayText, setDisplayText] = useState(selectedText);
+  const [preview, setPreview]         = useState<string | null>(null);
+  const [checking, setChecking]       = useState(false);
+  const [error, setError]             = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => { inputRef.current?.focus(); }, []);
+
+  const check = async () => {
+    if (!cardName.trim()) return;
+    setChecking(true); setError(''); setPreview(null);
+    try {
+      const res = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(cardName.trim())}`);
+      if (!res.ok) { setError('Card not found'); return; }
+      const data = await res.json();
+      setPreview(data.image_uris?.small ?? data.card_faces?.[0]?.image_uris?.small ?? null);
+      if (!displayText || displayText === selectedText) setDisplayText(data.name);
+      setCardName(data.name); // normalize to exact name
+    } catch { setError('Network error'); }
+    finally { setChecking(false); }
+  };
+
+  return (
+    <div className="card-insert-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="card-insert-dialog">
+        <div className="card-insert-title">Insert Card Reference</div>
+        <div className="card-insert-row">
+          <label>Card name</label>
+          <div style={{ display: 'flex', gap: '.5rem' }}>
+            <input ref={inputRef} className="admin-input" value={cardName}
+              onChange={e => { setCardName(e.target.value); setPreview(null); setError(''); }}
+              onKeyDown={e => { if (e.key === 'Enter') check(); if (e.key === 'Escape') onClose(); }}
+              placeholder="e.g. Sol Ring" />
+            <button className="admin-btn-sm" onClick={check} disabled={checking}>
+              {checking ? '…' : 'Check'}
+            </button>
+          </div>
+        </div>
+        <div className="card-insert-row">
+          <label>Display text</label>
+          <input className="admin-input" value={displayText}
+            onChange={e => setDisplayText(e.target.value)}
+            placeholder="Defaults to card name" />
+        </div>
+        {error && <div className="card-insert-error">{error}</div>}
+        {preview && <img className="card-insert-preview" src={preview} alt={cardName} />}
+        <div className="card-insert-actions">
+          <button className="admin-btn-sm" onClick={onClose}>Cancel</button>
+          <button className="admin-btn-primary" disabled={!cardName.trim()}
+            onClick={() => onInsert(cardName.trim(), displayText.trim() || cardName.trim())}>
+            Insert
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Toolbar ──────────────────────────────────────────────────────
 interface ToolbarProps {
   editor: Editor | null;
-  onImage: () => void; onGallery: () => void; onCards: () => void;
+  onImage: () => void; onGallery: () => void; onCards: () => void; onCardRef: () => void;
   uploading: boolean; uploadMsg: string;
 }
-function Toolbar({ editor, onImage, onGallery, onCards, uploading, uploadMsg }: ToolbarProps) {
+function Toolbar({ editor, onImage, onGallery, onCards, onCardRef, uploading, uploadMsg }: ToolbarProps) {
   if (!editor) return null;
   const btn = (label: string, active: boolean, onClick: () => void, title?: string) => (
     <button onClick={onClick} className={active ? 'active' : ''} title={title ?? label}>{label}</button>
@@ -152,6 +235,7 @@ function Toolbar({ editor, onImage, onGallery, onCards, uploading, uploadMsg }: 
       <button onClick={onImage} disabled={uploading} title="Insert single image at cursor">{insertLabel}</button>
       <button onClick={onGallery} disabled={uploading} title="Insert photo gallery at cursor">Gallery</button>
       <button onClick={onCards} disabled={uploading} title="Upload card images as a card gallery">Cards</button>
+      <button onClick={onCardRef} className={editor?.isActive('cardTooltip') ? 'active' : ''} title="Insert card hover reference">Card ref</button>
     </div>
   );
 }
@@ -281,6 +365,7 @@ const EXTENSIONS = [
   StarterKit,
   Image,
   Gallery,
+  CardTooltip,
   Link.configure({ openOnClick: false }),
 ];
 
@@ -308,6 +393,7 @@ export default function BlogEditor() {
   const [uploading, setUploading]   = useState(false);
   const [uploadMsg, setUploadMsg]   = useState('');
   const [saved, setSaved]           = useState(false);
+  const [cardDialog, setCardDialog] = useState<{ selectedText: string } | null>(null);
 
   const editorEn = useEditor({
     extensions: [
@@ -410,6 +496,33 @@ export default function BlogEditor() {
     } finally { setUploading(false); setUploadMsg(''); }
   };
 
+  // ── Card reference ───────────────────────────────────────────
+  const openCardDialog = () => {
+    const selectedText = activeEditor?.state.selection.empty
+      ? ''
+      : activeEditor?.state.doc.textBetween(
+          activeEditor.state.selection.from,
+          activeEditor.state.selection.to,
+        ) ?? '';
+    setCardDialog({ selectedText });
+  };
+
+  const insertCardRef = (cardName: string, displayText: string) => {
+    if (!activeEditor) return;
+    const { from, to } = activeEditor.state.selection;
+    activeEditor
+      .chain()
+      .focus()
+      .deleteRange({ from, to })
+      .insertContent({
+        type: 'text',
+        text: displayText,
+        marks: [{ type: 'cardTooltip', attrs: { cardName } }],
+      })
+      .run();
+    setCardDialog(null);
+  };
+
   // ── Save ─────────────────────────────────────────────────────
   const save = async () => {
     if (!meta.titleEn) return alert('EN title is required');
@@ -440,6 +553,13 @@ const previewTitle  = activeLang === 'fr' ? (meta.titleFr || meta.titleEn) : met
     <div className="admin-editor">
 
       {cropFile && <CoverCropModal file={cropFile} onApply={applyCrop} onCancel={() => setCropFile(null)} />}
+      {cardDialog && (
+        <CardInsertDialog
+          selectedText={cardDialog.selectedText}
+          onInsert={insertCardRef}
+          onClose={() => setCardDialog(null)}
+        />
+      )}
 
       {/* Hidden file inputs */}
       <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }}
@@ -551,6 +671,7 @@ const previewTitle  = activeLang === 'fr' ? (meta.titleFr || meta.titleEn) : met
           onImage={() => imgRef.current?.click()}
           onGallery={() => galleryRef.current?.click()}
           onCards={() => cardsRef.current?.click()}
+          onCardRef={openCardDialog}
           uploading={uploading} uploadMsg={uploadMsg} />
 
         {/* EN editor */}

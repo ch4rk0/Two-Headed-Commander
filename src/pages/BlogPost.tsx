@@ -31,6 +31,8 @@ export default function BlogPost() {
   const [loading, setLoading] = useState(true);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState('');
+  const [cardTooltip, setCardTooltip] = useState<{ x: number; y: number; imgUrl: string } | null>(null);
+  const cardCache = useRef<Map<string, string>>(new Map());
   const contentRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
@@ -76,6 +78,40 @@ export default function BlogPost() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [lightboxSrc]);
+
+  // Card hover tooltip
+  useEffect(() => {
+    const div = contentRef.current;
+    if (!div) return;
+
+    const onMove = async (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('[data-card]') as HTMLElement | null;
+      if (!target) { setCardTooltip(null); return; }
+      const cardName = target.dataset.card!;
+      let imgUrl = cardCache.current.get(cardName);
+      if (!imgUrl) {
+        try {
+          const res = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(cardName)}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          imgUrl = data.image_uris?.normal ?? data.card_faces?.[0]?.image_uris?.normal ?? '';
+          if (imgUrl) cardCache.current.set(cardName, imgUrl);
+        } catch { return; }
+      }
+      if (imgUrl) setCardTooltip({ x: e.clientX, y: e.clientY, imgUrl });
+    };
+
+    const onLeave = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest('[data-card]')) setCardTooltip(null);
+    };
+
+    div.addEventListener('mousemove', onMove);
+    div.addEventListener('mouseleave', onLeave);
+    return () => {
+      div.removeEventListener('mousemove', onMove);
+      div.removeEventListener('mouseleave', onLeave);
+    };
+  }, [post]);
 
   // Resolve bilingual content body
   const resolveContent = (html?: string | { en: string; fr: string }): string => {
@@ -162,6 +198,16 @@ export default function BlogPost() {
         <div className="lightbox" onClick={() => setLightboxSrc(null)}>
           <button className="lightbox-close" onClick={() => setLightboxSrc(null)} aria-label="Close">×</button>
           <img src={lightboxSrc} alt={lightboxAlt} onClick={e => e.stopPropagation()} />
+        </div>
+      )}
+
+      {cardTooltip && (
+        <div
+          className="card-hover-tooltip"
+          style={{ left: cardTooltip.x + 16, top: cardTooltip.y + 16 }}
+          aria-hidden="true"
+        >
+          <img src={cardTooltip.imgUrl} alt="" />
         </div>
       )}
     </>
