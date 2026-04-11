@@ -226,8 +226,18 @@ export default function BannedList() {
   }, []);
 
   // cards excluding extra-turn (shown separately in manifesto)
-  const displayCards = cards.filter(c => c.cat !== 'extra-turn' && !c.hidden);
-  const etCards      = cards.filter(c => c.cat === 'extra-turn' && !c.hidden);
+  // Non-commander cards sorted newest-first by updatedAt then dateAdded
+  const displayCards = cards
+    .filter(c => c.cat !== 'extra-turn' && !c.hidden)
+    .sort((a, b) => {
+      if (a.cat === 'commander' && b.cat === 'commander') return 0;
+      if (a.cat === 'commander') return 1;
+      if (b.cat === 'commander') return -1;
+      const dateA = a.updatedAt ?? a.dateAdded ?? '';
+      const dateB = b.updatedAt ?? b.dateAdded ?? '';
+      return dateB.localeCompare(dateA);
+    });
+  const etCards = cards.filter(c => c.cat === 'extra-turn' && !c.hidden);
 
   const visible = displayCards.filter(c =>
     (filter === 'all' || c.cat === filter) &&
