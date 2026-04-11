@@ -128,11 +128,13 @@ export default function BlogPost() {
         <meta property="og:url"         content={`${siteUrl}/blog/${post.slug}`} />
         <link rel="canonical"           href={`${siteUrl}/blog/${post.slug}`} />
         {post.coverImage && <meta property="og:image" content={post.coverImage} />}
+        {post.coverImage && <meta property="og:image:alt" content={post.coverAlt ?? title} />}
         <meta property="article:published_time" content={post.date} />
         <meta name="twitter:card"        content="summary_large_image" />
         <meta name="twitter:title"       content={title} />
         <meta name="twitter:description" content={excerpt} />
         {post.coverImage && <meta name="twitter:image" content={post.coverImage} />}
+        {post.coverImage && <meta name="twitter:image:alt" content={post.coverAlt ?? title} />}
       </Helmet>
 
       <div ref={progressRef} id="read-progress" />
