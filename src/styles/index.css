@@ -1866,6 +1866,116 @@ section {
 }
 .card-hover-tooltip img { display: block; width: 100%; height: auto; }
 
+/* ── DECK LIST (blog post view) ──────────────────────────────── */
+.deck-list {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 2rem 0;
+  font-size: .85rem;
+}
+.dl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .6rem 1rem;
+  background: rgba(212,176,90,.07);
+  border-bottom: 1px solid var(--border);
+}
+.dl-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: .95rem;
+  color: var(--gold);
+  letter-spacing: .05em;
+}
+.dl-total { font-size: .72rem; color: var(--text3); }
+.dl-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  padding: .75rem 1rem;
+  background: var(--surface);
+}
+.dl-section { padding: .5rem .5rem .75rem; }
+.dl-section-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'Cormorant SC', serif;
+  font-size: .78rem;
+  letter-spacing: .04em;
+  color: var(--purple2);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  padding-bottom: .3rem;
+  margin-bottom: .4rem;
+}
+.dl-count { color: var(--text3); font-variant-numeric: tabular-nums; }
+.dl-cards { display: flex; flex-direction: column; gap: .05rem; }
+.dl-card { display: flex; }
+.dl-card .card-ref { font-size: .8rem; line-height: 1.6; }
+
+/* ── DECK LIST (editor block) ────────────────────────────────── */
+.editor-deck-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .65rem 1rem .75rem;
+}
+.editor-deck-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin-top: .5rem;
+}
+.editor-deck-pill {
+  background: rgba(140,100,220,.1);
+  border: 1px solid rgba(140,100,220,.25);
+  border-radius: 4px;
+  padding: .1rem .45rem;
+  font-size: .72rem;
+  color: var(--text2);
+}
+
+/* ── DECK INSERT DIALOG ──────────────────────────────────────── */
+.deck-insert-dialog {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.deck-textarea {
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: .78rem;
+  resize: vertical;
+  min-height: 180px;
+}
+.deck-preview {
+  background: rgba(0,0,0,.25);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.deck-preview-hd {
+  font-family: 'Cormorant SC', serif;
+  color: var(--gold);
+  font-size: .9rem;
+  margin-bottom: .2rem;
+}
+.deck-preview-row { font-size: .8rem; color: var(--text2); }
+.deck-preview-count { color: var(--text3); }
+.deck-preview-names { opacity: .65; }
+
 /* ── CARD INSERT DIALOG ──────────────────────────────────────── */
 .card-insert-overlay {
   position: fixed; inset: 0; z-index: 9000;

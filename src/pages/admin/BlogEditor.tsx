@@ -204,13 +204,234 @@ function CardInsertDialog({ selectedText, onInsert, onClose }: {
   );
 }
 
+// ── Deck list types & parser ──────────────────────────────────────
+interface DeckCard    { qty: number; name: string; }
+interface DeckSection { name: string; cards: DeckCard[]; }
+
+function parseDeckList(text: string, commanderOverride: string): DeckSection[] {
+  const sections: DeckSection[] = [];
+  let current: DeckSection | null = null;
+
+  const pushSection = (name: string) => { current = { name, cards: [] }; sections.push(current); };
+
+  if (commanderOverride.trim())
+    pushSection('Commander'), current!.cards.push({ qty: 1, name: commanderOverride.trim() });
+
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+
+    // Section header: "// Creatures"
+    if (line.startsWith('//')) {
+      const name = line.slice(2).trim();
+      if (name) pushSection(name);
+      continue;
+    }
+
+    // Card line: "1 Name" or "1x Name" optionally trailed by "(SET) 123" or "*TAG*"
+    const cardMatch = line.match(/^(\d+)x?\s+(.+?)(?:\s+\([A-Z0-9]{2,6}\)\s*\d*.*)?$/);
+    if (cardMatch) {
+      const qty = parseInt(cardMatch[1]);
+      const name = cardMatch[2]
+        .replace(/\s+\([A-Z0-9]{2,6}\)\s+\d+.*$/, '')
+        .replace(/\s+\*\w+\*\s*/g, '')
+        .trim();
+      if (!name) continue;
+      if (commanderOverride.trim() && name.toLowerCase() === commanderOverride.trim().toLowerCase()) continue;
+      if (!current) pushSection('Main Deck');
+      current!.cards.push({ qty, name });
+      continue;
+    }
+
+    // Plain section name: "Creatures (30)" or "Lands"
+    const secMatch = line.match(/^([A-Za-z][A-Za-z &,'\-]*)(?:\s*\(\d+\))?\s*:?\s*$/);
+    if (secMatch) {
+      const name = secMatch[1].trim();
+      if (name.toLowerCase() === 'commander' && commanderOverride.trim()) continue;
+      if (/^(deck|sideboard|maybeboard)$/i.test(name)) { pushSection('Main Deck'); continue; }
+      if (name.length >= 2) pushSection(name);
+    }
+  }
+
+  return sections.filter(s => s.cards.length > 0);
+}
+
+function deckTotal(sections: DeckSection[]) {
+  return sections.reduce((s, sec) => s + sec.cards.reduce((cs, c) => cs + c.qty, 0), 0);
+}
+
+// ── DeckListView (editor compact preview) ─────────────────────────
+function DeckListView({ node, deleteNode }: NodeViewProps) {
+  const sections: DeckSection[] = node.attrs.sections ?? [];
+  const title: string           = node.attrs.title   ?? '';
+  const total = deckTotal(sections);
+  return (
+    <NodeViewWrapper>
+      <div className="editor-deck-block" contentEditable={false}>
+        <div className="editor-gallery-badge">
+          <span>Deck List · {title || 'untitled'} · {total} cards</span>
+          <button className="editor-gallery-delete" onClick={deleteNode} title="Remove deck list">×</button>
+        </div>
+        <div className="editor-deck-preview">
+          {sections.map((s, i) => (
+            <span key={i} className="editor-deck-pill">
+              {s.name} ({s.cards.reduce((sum, c) => sum + c.qty, 0)})
+            </span>
+          ))}
+        </div>
+      </div>
+    </NodeViewWrapper>
+  );
+}
+
+// ── DeckList Tiptap node ──────────────────────────────────────────
+const DeckList = Node.create({
+  name: 'deckList',
+  group: 'block',
+  atom: true,
+
+  addAttributes() {
+    return {
+      title: {
+        default: '',
+        parseHTML: el => (el as HTMLElement).getAttribute('data-title') ?? '',
+        renderHTML: attrs => ({ 'data-title': attrs.title }),
+      },
+      sections: {
+        default: [],
+        parseHTML: el => {
+          try { return JSON.parse((el as HTMLElement).getAttribute('data-sections') ?? '[]'); }
+          catch { return []; }
+        },
+        renderHTML: attrs => ({ 'data-sections': JSON.stringify(attrs.sections) }),
+      },
+    };
+  },
+
+  parseHTML() { return [{ tag: 'div[data-deck-list]' }]; },
+
+  renderHTML({ node }) {
+    const sections: DeckSection[] = node.attrs.sections ?? [];
+    const title: string = node.attrs.title || 'Deck List';
+    const total = deckTotal(sections);
+
+    const sectionSpecs = sections.map(sec => {
+      const count = sec.cards.reduce((s, c) => s + c.qty, 0);
+      const cardSpecs = sec.cards.map(card =>
+        ['div', { class: 'dl-card' },
+          ['span', { class: 'card-ref', 'data-card': card.name }, card.name],
+        ] as [string, ...unknown[]]
+      );
+      return ['div', { class: 'dl-section' },
+        ['div', { class: 'dl-section-hd' },
+          ['span', {}, sec.name],
+          ['span', { class: 'dl-count' }, String(count)],
+        ],
+        ['div', { class: 'dl-cards' }, ...cardSpecs],
+      ] as [string, ...unknown[]];
+    });
+
+    return ['div', {
+      class: 'deck-list',
+      'data-deck-list': 'true',
+      'data-title': node.attrs.title,
+      'data-sections': JSON.stringify(sections),
+    },
+      ['div', { class: 'dl-header' },
+        ['span', { class: 'dl-title' }, title],
+        ['span', { class: 'dl-total' }, `${total} cards`],
+      ],
+      ['div', { class: 'dl-body' }, ...sectionSpecs],
+    ] as unknown as [string, ...unknown[]];
+  },
+
+  addNodeView() { return ReactNodeViewRenderer(DeckListView); },
+});
+
+// ── DeckInsertDialog ──────────────────────────────────────────────
+function DeckInsertDialog({ onInsert, onClose }: {
+  onInsert: (title: string, sections: DeckSection[]) => void;
+  onClose: () => void;
+}) {
+  const [title, setTitle]         = useState('');
+  const [commander, setCommander] = useState('');
+  const [deckText, setDeckText]   = useState('');
+  const [sections, setSections]   = useState<DeckSection[]>([]);
+  const [parsed, setParsed]       = useState(false);
+
+  const parse = () => { setSections(parseDeckList(deckText, commander)); setParsed(true); };
+  const total = deckTotal(sections);
+
+  return (
+    <div className="card-insert-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="deck-insert-dialog">
+        <div className="card-insert-title">Insert Deck List</div>
+
+        <div className="card-insert-row">
+          <label>Deck title</label>
+          <input className="admin-input" value={title} onChange={e => setTitle(e.target.value)}
+            placeholder="e.g. Pantlaza Dino Tribal" />
+        </div>
+
+        <div className="card-insert-row">
+          <label>Commander <span style={{ opacity: .5, fontSize: '.8em' }}>(if not included in the list below)</span></label>
+          <input className="admin-input" value={commander} onChange={e => setCommander(e.target.value)}
+            placeholder="e.g. Pantlaza, Sun-Favored" />
+        </div>
+
+        <div className="card-insert-row">
+          <label>Deck list <span style={{ opacity: .5, fontSize: '.8em' }}>— paste from Moxfield, MTGO or Arena</span></label>
+          <textarea className="admin-input deck-textarea"
+            value={deckText}
+            onChange={e => { setDeckText(e.target.value); setParsed(false); }}
+            onKeyDown={e => { if (e.key === 'Escape') onClose(); }}
+            placeholder={"// Commander\n1 Pantlaza, Sun-Favored\n\n// Creatures\n1 Llanowar Elves\n1 Sol Ring\n..."}
+            rows={10} />
+        </div>
+
+        <button className="admin-btn-sm" onClick={parse} disabled={!deckText.trim()}>Preview</button>
+
+        {parsed && sections.length === 0 && (
+          <div className="card-insert-error">No cards recognised — check the format.</div>
+        )}
+
+        {parsed && sections.length > 0 && (
+          <div className="deck-preview">
+            <div className="deck-preview-hd">{title || 'Deck List'} — {total} cards</div>
+            {sections.map((s, i) => {
+              const count   = s.cards.reduce((sum, c) => sum + c.qty, 0);
+              const preview = s.cards.slice(0, 3).map(c => c.name).join(', ');
+              const more    = s.cards.length > 3 ? ` +${s.cards.length - 3}` : '';
+              return (
+                <div key={i} className="deck-preview-row">
+                  <strong>{s.name}</strong>
+                  <span className="deck-preview-count"> ({count})</span>
+                  <span className="deck-preview-names"> — {preview}{more}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="card-insert-actions">
+          <button className="admin-btn-sm" onClick={onClose}>Cancel</button>
+          <button className="admin-btn-primary" disabled={sections.length === 0}
+            onClick={() => onInsert(title, sections)}>
+            Insert
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Toolbar ──────────────────────────────────────────────────────
 interface ToolbarProps {
   editor: Editor | null;
-  onImage: () => void; onGallery: () => void; onCards: () => void; onCardRef: () => void;
+  onImage: () => void; onGallery: () => void; onCards: () => void; onCardRef: () => void; onDeck: () => void;
   uploading: boolean; uploadMsg: string;
 }
-function Toolbar({ editor, onImage, onGallery, onCards, onCardRef, uploading, uploadMsg }: ToolbarProps) {
+function Toolbar({ editor, onImage, onGallery, onCards, onCardRef, onDeck, uploading, uploadMsg }: ToolbarProps) {
   if (!editor) return null;
   const btn = (label: string, active: boolean, onClick: () => void, title?: string) => (
     <button onClick={onClick} className={active ? 'active' : ''} title={title ?? label}>{label}</button>
@@ -236,6 +457,7 @@ function Toolbar({ editor, onImage, onGallery, onCards, onCardRef, uploading, up
       <button onClick={onGallery} disabled={uploading} title="Insert photo gallery at cursor">Gallery</button>
       <button onClick={onCards} disabled={uploading} title="Upload card images as a card gallery">Cards</button>
       <button onClick={onCardRef} className={editor?.isActive('cardTooltip') ? 'active' : ''} title="Insert card hover reference">Card ref</button>
+      <button onClick={onDeck} title="Insert commander deck list">Deck</button>
     </div>
   );
 }
@@ -365,6 +587,7 @@ const EXTENSIONS = [
   StarterKit,
   Image,
   Gallery,
+  DeckList,
   Link.configure({ openOnClick: false }),
 ];
 
@@ -393,6 +616,7 @@ export default function BlogEditor() {
   const [uploadMsg, setUploadMsg]   = useState('');
   const [saved, setSaved]           = useState(false);
   const [cardDialog, setCardDialog] = useState<{ selectedText: string } | null>(null);
+  const [deckDialog, setDeckDialog] = useState(false);
 
   const editorEn = useEditor({
     extensions: [
@@ -524,6 +748,15 @@ export default function BlogEditor() {
     setCardDialog(null);
   };
 
+  // ── Deck list insert ─────────────────────────────────────────
+  const insertDeckList = (title: string, sections: DeckSection[]) => {
+    activeEditor?.chain().focus().insertContent({
+      type: 'deckList',
+      attrs: { title, sections },
+    }).run();
+    setDeckDialog(false);
+  };
+
   // ── Save ─────────────────────────────────────────────────────
   const save = async () => {
     if (!meta.titleEn) return alert('EN title is required');
@@ -559,6 +792,12 @@ const previewTitle  = activeLang === 'fr' ? (meta.titleFr || meta.titleEn) : met
           selectedText={cardDialog.selectedText}
           onInsert={insertCardRef}
           onClose={() => setCardDialog(null)}
+        />
+      )}
+      {deckDialog && (
+        <DeckInsertDialog
+          onInsert={insertDeckList}
+          onClose={() => setDeckDialog(false)}
         />
       )}
 
@@ -673,6 +912,7 @@ const previewTitle  = activeLang === 'fr' ? (meta.titleFr || meta.titleEn) : met
           onGallery={() => galleryRef.current?.click()}
           onCards={() => cardsRef.current?.click()}
           onCardRef={openCardDialog}
+          onDeck={() => setDeckDialog(true)}
           uploading={uploading} uploadMsg={uploadMsg} />
 
         {/* EN editor */}
