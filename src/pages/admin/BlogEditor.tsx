@@ -411,6 +411,7 @@ const DeckList = Node.create({
       const count = sec.cards.reduce((s, c) => s + c.qty, 0);
       const cardSpecs = sec.cards.map(card =>
         ['div', { class: 'dl-card' },
+          ['span', { class: 'dl-qty' }, String(card.qty)],
           ['span', { class: 'card-ref', 'data-card': card.name }, card.name],
         ] as [string, ...unknown[]]
       );

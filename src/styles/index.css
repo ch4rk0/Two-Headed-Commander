@@ -1915,7 +1915,8 @@ section {
 }
 .dl-count { color: var(--text3); font-variant-numeric: tabular-nums; }
 .dl-cards { display: flex; flex-direction: column; gap: .05rem; }
-.dl-card { display: flex; }
+.dl-card { display: flex; gap: .35rem; align-items: baseline; }
+.dl-qty { font-size: .72rem; color: var(--text3); min-width: 1rem; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 /* No underline inside deck — names are dense, underlines hurt readability */
 .dl-card .card-ref {
   font-size: .8rem;
