@@ -365,7 +365,6 @@ const EXTENSIONS = [
   StarterKit,
   Image,
   Gallery,
-  CardTooltip,
   Link.configure({ openOnClick: false }),
 ];
 
@@ -398,12 +397,14 @@ export default function BlogEditor() {
   const editorEn = useEditor({
     extensions: [
       ...EXTENSIONS,
+      CardTooltip,
       Placeholder.configure({ placeholder: 'Start writing your post in English…' }),
     ],
   });
   const editorFr = useEditor({
     extensions: [
       ...EXTENSIONS,
+      CardTooltip.configure(),
       Placeholder.configure({ placeholder: 'Commencez à écrire votre article en français…' }),
     ],
   });
