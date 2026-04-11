@@ -26,7 +26,12 @@
       "Bash(do sed:*)",
       "Bash(done)",
       "Bash(cp \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/vertical logo.png\" \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/public/images/logo-vertical.png\")",
-      "Bash(cp \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/horizontal logo.png\" \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/public/images/logo-horizontal.png\")"
+      "Bash(cp \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/horizontal logo.png\" \"c:/Users/Admin/Documents/GitHub/Two-Headed-Commander/public/images/logo-horizontal.png\")",
+      "Bash(gh run:*)",
+      "Bash(node -e \"require\\('./node_modules/vitest/config'\\)\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(npx tsc:*)",
+      "Bash(npm audit:*)"
     ]
   }
 }
