@@ -1650,7 +1650,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-width: 860px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 3rem 2rem 0;   /* breathing room below hero; horizontal padding here, not on article */
 }
@@ -1862,7 +1862,7 @@ section {
   border-radius: 8px;
   box-shadow: 0 8px 32px rgba(0,0,0,.7);
   overflow: hidden;
-  width: 200px;
+  width: 260px;
 }
 .card-hover-tooltip img { display: block; width: 100%; height: auto; }
 
@@ -1870,10 +1870,11 @@ section {
 .deck-list {
   border: 1px solid var(--border);
   border-radius: 8px;
-  overflow: hidden;
   margin: 2rem 0;
   font-size: .85rem;
 }
+.dl-body         { border-radius: 0 0 0 8px; }
+.dl-preview-pane { border-radius: 0 0 8px 0; }
 .dl-header {
   display: flex;
   justify-content: space-between;
@@ -1927,15 +1928,18 @@ section {
 .dl-card .card-ref:hover { color: var(--gold); }
 /* Persistent card preview pane */
 .dl-preview-pane {
-  width: 168px;
+  width: 300px;
   flex-shrink: 0;
   border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: .75rem;
   gap: .5rem;
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
 }
 .dl-preview-img {
   width: 100%;
