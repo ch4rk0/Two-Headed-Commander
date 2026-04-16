@@ -31,6 +31,7 @@ const EMPTY_CARD: BannedCard = {
 function localImg(name: string) {
   return '/images/cards/' + name.replace(/[^a-zA-Z0-9\-_' ]/g, '_').replace(/\s+/g, '_') + '.jpg';
 }
+
 function getReason(r: BanReason): { en: string; fr: string } {
   if (!r || typeof r === 'string') return { en: '', fr: '' };
   return r;
@@ -291,7 +292,6 @@ export default function BanListEditor() {
       <table className="admin-table">
         <thead>
           <tr>
-            <th style={{ width: 48 }}></th>
             <th>Name</th>
             <th>Category</th>
             <th>Date Added</th>
@@ -304,13 +304,6 @@ export default function BanListEditor() {
         <tbody>
           {visible.map(card => (
             <tr key={card.name} style={{ opacity: card.hidden ? .4 : 1 }}>
-              <td>
-                <img className="admin-ban-thumb" alt={card.name}
-                  src={card.image || localImg(card.name)}
-                  loading="lazy"
-                  onError={async e => { e.currentTarget.onerror = null; const url = await getCardImageUrl(card.name); if (url) e.currentTarget.src = url; }}
-                />
-              </td>
               <td>
                 <div style={{ fontWeight: 600, fontSize: '.875rem' }}>{card.name}</div>
                 <div style={{ fontSize: '.75rem', color: 'var(--text2)' }}>{card.type}</div>
