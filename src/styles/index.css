@@ -1250,6 +1250,31 @@ section {
 .pill-both  { background: rgba(200,  60,  80, .22); color: var(--red2);    border: 1px solid rgba(200,  60,  80, .45); }
 .pill-2hc   { background: rgba( 40, 180, 220, .20); color: #80d8f8;        border: 1px solid rgba( 40, 180, 220, .45); }
 .pill-watch { background: rgba(210, 176,  90, .18); color: var(--gold2);   border: 1px solid rgba(210, 176,  90, .45); }
+.pill-new   { background: rgba(220,  50,  50, .22); color: #ff7070;        border: 1px solid rgba(220,  50,  50, .55); }
+
+/* "NEW BAN" stamp — always-visible bold rotated overlay for newly banned cards */
+.new-ban-stamp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-family: 'Cormorant SC', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #ff4040;
+  border: 2px solid #ff4040;
+  padding: .25rem .65rem;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  background: rgba(0, 0, 0, .35);
+  box-shadow: 0 0 18px rgba(220, 0, 0, .5), inset 0 0 8px rgba(220, 0, 0, .15);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .9);
+  opacity: .9;
+  z-index: 2;
+}
 
 /* ── Modal text styles (used inside the card detail modal) ────── */
 
@@ -3108,6 +3133,18 @@ footer {
 .admin-table th { text-align: left; padding: .55rem .75rem; color: var(--text2); font-size: .75rem; letter-spacing: .05em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
 .admin-table td { padding: .6rem .75rem; border-bottom: 1px solid rgba(255,255,255,.05); color: var(--text); vertical-align: middle; }
 .admin-table-actions { display: flex; gap: .5rem; align-items: center; }
+
+/* ── Sortable table headers ──────────────────────────── */
+.sortable-th { cursor: pointer; user-select: none; white-space: nowrap; }
+.sortable-th:hover { color: var(--accent); }
+.sort-indicator { margin-left: .25rem; font-size: .65rem; opacity: .9; }
+.sort-indicator.inactive { opacity: .3; }
+
+/* ── Vote count badges in ban list table ─────────────── */
+.admin-vote-counts { display: flex; gap: .45rem; align-items: center; font-size: .78rem; white-space: nowrap; }
+.vote-count-up      { color: #4caf82; font-weight: 600; }
+.vote-count-neutral { color: var(--text2); }
+.vote-count-down    { color: #ff7070; font-weight: 600; }
 
 /* ── Ban list thumbnail in table ─────────────────────── */
 .admin-ban-thumb {

@@ -186,6 +186,9 @@ function CardTile({ card, isWatchlist, onClick, T }: { card: BannedCard | Watchl
             else img.closest('.ban-card-img-wrap')?.classList.add('img-error');
           }}
         />
+        {pillClass === 'pill-new' && (
+          <div className="new-ban-stamp" aria-hidden="true">{pillLabel}</div>
+        )}
         <div className="ban-card-overlay">
           <span className={`ban-pill ${pillClass}`}>{pillLabel}</span>
         </div>
