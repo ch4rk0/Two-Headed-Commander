@@ -4,6 +4,7 @@ import { useLang } from '../contexts/LangContext';
 import { useBannedCards } from '../hooks/useBannedCards';
 import { PageParticles } from '../components/Particles';
 import type { BannedCard, WatchlistCard } from '../data/banned-cards.seed';
+import { getCardImageUrl } from '../scryfallCache';
 
 // ── Data ──────────────────────────────────────────────────────────────────
 
@@ -91,10 +92,6 @@ function localImg(name: string) {
   return '/images/cards/' + name.replace(/[^a-zA-Z0-9\-_' ]/g, '_').replace(/\s+/g, '_') + '.jpg';
 }
 
-function scryfallImg(name: string) {
-  return `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}&format=image&version=normal`;
-}
-
 function scryfallLink(name: string) {
   return `https://scryfall.com/search?q=!${encodeURIComponent('"' + name + '"')}`;
 }
@@ -119,7 +116,7 @@ function CardModal({ state, onClose, T, L, lang }: { state: ModalState; onClose:
             id="modal-img"
             src={localImg(card.name)}
             alt={card.name}
-            onError={e => { const img = e.currentTarget; img.src = scryfallImg(card.name); img.onerror = null; }}
+            onError={async e => { const img = e.currentTarget; img.onerror = null; const url = await getCardImageUrl(card.name); if (url) img.src = url; }}
           />
         </div>
         <div className="modal-info">
@@ -181,10 +178,12 @@ function CardTile({ card, isWatchlist, onClick, T }: { card: BannedCard | Watchl
           src={localImg(card.name)}
           alt={card.name}
           loading="lazy"
-          onError={e => {
+          onError={async e => {
             const img = e.currentTarget;
-            img.src = scryfallImg(card.name);
             img.onerror = () => img.closest('.ban-card-img-wrap')?.classList.add('img-error');
+            const url = await getCardImageUrl(card.name);
+            if (url) img.src = url;
+            else img.closest('.ban-card-img-wrap')?.classList.add('img-error');
           }}
         />
         <div className="ban-card-overlay">

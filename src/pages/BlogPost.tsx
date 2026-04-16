@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify';
 import { db } from '../firebase';
 import { useLang } from '../contexts/LangContext';
 import { PageParticles } from '../components/Particles';
+import { getCardImageUrl } from '../scryfallCache';
 
 interface PostData {
   slug: string;
@@ -32,7 +33,6 @@ export default function BlogPost() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState('');
   const [cardTooltip, setCardTooltip] = useState<{ x: number; y: number; imgUrl: string } | null>(null);
-  const cardCache = useRef<Map<string, string>>(new Map());
   const contentRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
@@ -88,29 +88,19 @@ export default function BlogPost() {
       const target = (e.target as HTMLElement).closest('[data-card]') as HTMLElement | null;
       if (!target) { setCardTooltip(null); return; }
       const cardName = target.dataset.card!;
-      let imgUrl = cardCache.current.get(cardName);
-      if (!imgUrl) {
-        try {
-          const res = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(cardName)}`);
-          if (!res.ok) return;
-          const data = await res.json();
-          imgUrl = data.image_uris?.normal ?? data.card_faces?.[0]?.image_uris?.normal ?? '';
-          if (imgUrl) cardCache.current.set(cardName, imgUrl);
-        } catch { return; }
-      }
-      if (imgUrl) {
-        const deckBlock = target.closest('.deck-list') as HTMLElement | null;
-        if (deckBlock) {
-          // Inside a deck list: update the persistent preview pane, no floating tooltip
-          setCardTooltip(null);
-          const img  = deckBlock.querySelector('.dl-preview-img') as HTMLImageElement | null;
-          const hint = deckBlock.querySelector('.dl-preview-hint') as HTMLElement | null;
-          if (img) { img.src = imgUrl; img.style.display = 'block'; }
-          if (hint) hint.style.display = 'none';
-        } else {
-          // Inline card reference: use the floating tooltip
-          setCardTooltip({ x: e.clientX, y: e.clientY, imgUrl });
-        }
+      const imgUrl = await getCardImageUrl(cardName);
+      if (!imgUrl) return;
+      const deckBlock = target.closest('.deck-list') as HTMLElement | null;
+      if (deckBlock) {
+        // Inside a deck list: update the persistent preview pane, no floating tooltip
+        setCardTooltip(null);
+        const img  = deckBlock.querySelector('.dl-preview-img') as HTMLImageElement | null;
+        const hint = deckBlock.querySelector('.dl-preview-hint') as HTMLElement | null;
+        if (img) { img.src = imgUrl; img.style.display = 'block'; }
+        if (hint) hint.style.display = 'none';
+      } else {
+        // Inline card reference: use the floating tooltip
+        setCardTooltip({ x: e.clientX, y: e.clientY, imgUrl });
       }
     };
 
