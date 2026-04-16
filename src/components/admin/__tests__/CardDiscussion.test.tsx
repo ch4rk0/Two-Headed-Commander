@@ -33,14 +33,16 @@ const mockUpdateDoc  = vi.mocked(updateDoc);
 const mockUseAuth    = vi.mocked(useAuth);
 
 function snapshotWith(data: Record<string, unknown> | null) {
-  mockOnSnapshot.mockImplementation((_ref, cb: (snap: unknown) => void) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mockOnSnapshot.mockImplementation((_ref: unknown, cb: (snap: unknown) => void) => {
     if (data === null) {
       cb({ exists: () => false });
     } else {
       cb({ exists: () => true, data: () => data });
     }
     return () => {};
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
 }
 
 describe('CardDiscussion', () => {

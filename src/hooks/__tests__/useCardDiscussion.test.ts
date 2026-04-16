@@ -10,10 +10,10 @@ const mockDoc        = vi.fn(() => 'mock-ref');
 vi.mock('../../firebase', () => ({ db: {} }));
 
 vi.mock('firebase/firestore', () => ({
-  doc:        (...args: unknown[]) => mockDoc(...args),
-  onSnapshot: (...args: unknown[]) => mockOnSnapshot(...args),
-  updateDoc:  (...args: unknown[]) => mockUpdateDoc(...args),
-  setDoc:     (...args: unknown[]) => mockSetDoc(...args),
+  doc:        (...args: unknown[]) => mockDoc(...(args as [])),
+  onSnapshot: mockOnSnapshot,
+  updateDoc:  (...args: unknown[]) => mockUpdateDoc(...(args as [])),
+  setDoc:     (...args: unknown[]) => mockSetDoc(...(args as [])),
   FieldPath:  class FieldPath {
     segments: string[];
     constructor(...segments: string[]) { this.segments = segments; }
