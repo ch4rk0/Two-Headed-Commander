@@ -6,6 +6,7 @@ import { useBannedCards } from '../../hooks/useBannedCards';
 import { useAuth } from '../../contexts/AuthContext';
 import type { BannedCard, BanReason } from '../../data/banned-cards.seed';
 import { getCardImageUrl } from '../../scryfallCache';
+import CardDiscussion from '../../components/admin/CardDiscussion';
 
 const CATS = [
   'banned-commander','extra-turn','tutor','fast-mana',
@@ -216,6 +217,13 @@ function CardForm({ initial, isNew, allCards, onSave, onCancel }: CardFormProps)
           </div>
         </div>
       </div>
+
+      {!isNew && (
+        <>
+          <hr className="card-discussion-divider" />
+          <CardDiscussion cardName={initial.name} />
+        </>
+      )}
     </div>
   );
 }

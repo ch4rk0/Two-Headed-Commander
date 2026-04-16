@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Ban list & watchlist — public read, admin write
+    match /banned_cards/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null
+                  && request.auth.token.email in get(/databases/$(database)/documents/config/allowed_emails).data.emails;
+    }
+
+    // Blog posts — published posts are public; drafts readable by any signed-in admin
+    match /blog_posts/{postId} {
+      allow read: if resource.data.published == true
+                  || (request.auth != null
+                      && request.auth.token.email in get(/databases/$(database)/documents/config/allowed_emails).data.emails);
+      allow write: if request.auth != null
+                  && request.auth.token.email in get(/databases/$(database)/documents/config/allowed_emails).data.emails;
+    }
+
+    // Config — only admins
+    match /config/{doc} {
+      allow read, write: if request.auth != null
+                        && request.auth.token.email in get(/databases/$(database)/documents/config/allowed_emails).data.emails;
+    }
+
+    // Card discussions — admin only
+    match /card_discussions/{cardName} {
+      allow read, write: if request.auth != null
+                        && request.auth.token.email in get(/databases/$(database)/documents/config/allowed_emails).data.emails;
+    }
+  }
+}

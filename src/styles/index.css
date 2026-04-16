@@ -3559,6 +3559,37 @@ footer {
 .admin-dashboard-setup-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: .5rem; }
 .admin-dashboard-setup-desc { font-size: .875rem; color: var(--text2); line-height: 1.6; margin-bottom: 1rem; }
 
+/* ── Card Discussion ─────────────────────────────────── */
+.card-discussion-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0 1.5rem;
+}
+.card-discussion { max-width: 900px; }
+.card-discussion-header { margin-bottom: 1rem; }
+.card-discussion-title { font-family: 'Cormorant SC', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: .04em; margin: 0; }
+
+.card-discussion-votes { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.25rem; }
+.card-discussion-votes-label { font-size: .78rem; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; flex-shrink: 0; }
+.card-discussion-vote-btns { display: flex; gap: .5rem; }
+.card-vote-btn { display: flex; align-items: center; gap: .35rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: .35rem .75rem; font-size: .85rem; cursor: pointer; color: var(--text2); transition: background .15s, border-color .15s, color .15s; }
+.card-vote-btn:hover { background: rgba(255,255,255,.06); color: var(--text); }
+.card-vote-btn.active.up      { background: rgba(80,160,80,.18); border-color: rgba(80,160,80,.5); color: #8ecf8e; }
+.card-vote-btn.active.neutral { background: rgba(180,160,100,.18); border-color: rgba(180,160,100,.5); color: var(--gold); }
+.card-vote-btn.active.down    { background: rgba(180,60,60,.18); border-color: rgba(180,60,60,.5); color: #e07070; }
+.card-vote-count { font-size: .8rem; font-weight: 600; }
+
+.card-discussion-notes { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 1rem; }
+.card-discussion-note { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: .75rem 1rem; }
+.card-discussion-note-header { display: flex; align-items: center; gap: .6rem; margin-bottom: .4rem; flex-wrap: wrap; }
+.card-discussion-note-author { font-size: .82rem; font-weight: 600; color: var(--gold); }
+.card-discussion-note-date { font-size: .75rem; color: var(--text2); }
+.card-discussion-note-edited { font-size: .72rem; color: var(--text2); font-style: italic; }
+.card-discussion-note-actions { display: flex; gap: .4rem; margin-left: auto; }
+.card-discussion-note-text { font-size: .875rem; color: var(--text); line-height: 1.6; margin: 0; white-space: pre-wrap; }
+.card-discussion-edit { display: flex; flex-direction: column; }
+.card-discussion-add { display: flex; flex-direction: column; gap: .5rem; }
+
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 700px) {
   .admin-shell { flex-direction: column; height: auto; overflow: visible; }
