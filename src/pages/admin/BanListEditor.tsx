@@ -5,6 +5,7 @@ import { db, storage } from '../../firebase';
 import { useBannedCards } from '../../hooks/useBannedCards';
 import { useAuth } from '../../contexts/AuthContext';
 import type { BannedCard, BanReason } from '../../data/banned-cards.seed';
+import { getCardImageUrl } from '../../scryfallCache';
 
 const CATS = [
   'banned-commander','extra-turn','tutor','fast-mana',
@@ -29,9 +30,6 @@ const EMPTY_CARD: BannedCard = {
 
 function localImg(name: string) {
   return '/images/cards/' + name.replace(/[^a-zA-Z0-9\-_' ]/g, '_').replace(/\s+/g, '_') + '.jpg';
-}
-function scryfallImg(name: string) {
-  return `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}&format=image&version=normal`;
 }
 function getReason(r: BanReason): { en: string; fr: string } {
   if (!r || typeof r === 'string') return { en: '', fr: '' };
@@ -111,11 +109,12 @@ function CardForm({ initial, isNew, allCards, onSave, onCancel }: CardFormProps)
               <img
                 src={imgSrc}
                 alt={card.name}
-                onError={e => {
+                onError={async e => {
                   if (!imgFailed) {
                     setImgFailed(true);
-                    e.currentTarget.src = scryfallImg(card.name);
                     e.currentTarget.onerror = null;
+                    const url = await getCardImageUrl(card.name);
+                    if (url) e.currentTarget.src = url;
                   }
                 }}
               />
@@ -308,7 +307,8 @@ export default function BanListEditor() {
               <td>
                 <img className="admin-ban-thumb" alt={card.name}
                   src={card.image || localImg(card.name)}
-                  onError={e => { e.currentTarget.src = scryfallImg(card.name); e.currentTarget.onerror = null; }}
+                  loading="lazy"
+                  onError={async e => { e.currentTarget.onerror = null; const url = await getCardImageUrl(card.name); if (url) e.currentTarget.src = url; }}
                 />
               </td>
               <td>
