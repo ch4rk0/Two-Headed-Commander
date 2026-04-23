@@ -36,7 +36,8 @@ const PILLS = [
   { value: 'pill-2hg',  label: '2HG (Two-Headed Giant)' },
   { value: 'pill-both', label: 'Both EDH & 2HG' },
   { value: 'pill-2hc',  label: '2HC specific' },
-  { value: 'pill-new',  label: 'Newly banned' },
+  { value: 'pill-new',      label: 'Newly banned' },
+  { value: 'pill-unbanned', label: 'Newly unbanned' },
 ];
 
 function today() { return new Date().toISOString().slice(0, 10); }

@@ -85,7 +85,7 @@ const ORIGIN_FR: Record<string, string> = {
 
 const PILL_KEY: Record<string, string> = {
   'pill-edh': 'pill.edh', 'pill-2hg': 'pill.2hg', 'pill-both': 'pill.both',
-  'pill-2hc': 'pill.2hc', 'pill-new': 'pill.new',
+  'pill-2hc': 'pill.2hc', 'pill-new': 'pill.new', 'pill-unbanned': 'pill.unbanned',
 };
 
 function localImg(name: string) {
@@ -188,6 +188,9 @@ function CardTile({ card, isWatchlist, onClick, T }: { card: BannedCard | Watchl
         />
         {pillClass === 'pill-new' && (
           <div className="new-ban-stamp" aria-hidden="true">{pillLabel}</div>
+        )}
+        {pillClass === 'pill-unbanned' && (
+          <div className="unbanned-stamp" aria-hidden="true">{pillLabel}</div>
         )}
         <div className="ban-card-overlay">
           <span className={`ban-pill ${pillClass}`}>{pillLabel}</span>

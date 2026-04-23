@@ -1250,7 +1250,8 @@ section {
 .pill-both  { background: rgba(200,  60,  80, .22); color: var(--red2);    border: 1px solid rgba(200,  60,  80, .45); }
 .pill-2hc   { background: rgba( 40, 180, 220, .20); color: #80d8f8;        border: 1px solid rgba( 40, 180, 220, .45); }
 .pill-watch { background: rgba(210, 176,  90, .18); color: var(--gold2);   border: 1px solid rgba(210, 176,  90, .45); }
-.pill-new   { background: rgba(220,  50,  50, .22); color: #ff7070;        border: 1px solid rgba(220,  50,  50, .55); }
+.pill-new      { background: rgba(220,  50,  50, .22); color: #ff7070;  border: 1px solid rgba(220,  50,  50, .55); }
+.pill-unbanned { background: rgba( 50, 200,  80, .20); color: #6fdf7f;  border: 1px solid rgba( 50, 200,  80, .55); }
 
 /* "NEW BAN" stamp — always-visible bold rotated overlay for newly banned cards */
 .new-ban-stamp {
@@ -1271,6 +1272,30 @@ section {
   pointer-events: none;
   background: rgba(0, 0, 0, .35);
   box-shadow: 0 0 18px rgba(220, 0, 0, .5), inset 0 0 8px rgba(220, 0, 0, .15);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .9);
+  opacity: .9;
+  z-index: 2;
+}
+
+/* "UNBANNED" stamp — green counterpart to new-ban-stamp for newly unbanned cards */
+.unbanned-stamp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-family: 'Cormorant SC', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #40dd60;
+  border: 2px solid #40dd60;
+  padding: .25rem .65rem;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  background: rgba(0, 0, 0, .35);
+  box-shadow: 0 0 18px rgba(0, 200, 60, .5), inset 0 0 8px rgba(0, 200, 60, .15);
   text-shadow: 0 1px 8px rgba(0, 0, 0, .9);
   opacity: .9;
   z-index: 2;
