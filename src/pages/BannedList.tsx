@@ -268,6 +268,22 @@ export default function BannedList() {
         <meta property="og:description" content="The official Two-Headed Commander banned list — cards banned as commanders or entirely, with full reasoning and ban philosophy." />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
         <meta property="og:image:alt"   content="Two-Headed Commander logo" />
+        <link rel="alternate" hrefLang="en"        href="https://twoheadedcommander.com/banned-list" />
+        <link rel="alternate" hrefLang="fr"        href="https://twoheadedcommander.com/banned-list" />
+        <link rel="alternate" hrefLang="x-default" href="https://twoheadedcommander.com/banned-list" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "Two-Headed Commander Banned List",
+          "description": "The official Two-Headed Commander banned list — cards banned as commanders or entirely, with full reasoning and ban philosophy.",
+          "url": "https://twoheadedcommander.com/banned-list",
+          "numberOfItems": displayCards.length + etCards.length,
+          "itemListElement": [...displayCards, ...etCards].map((card, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": card.name,
+          })),
+        })}</script>
       </Helmet>
       <PageParticles />
 
@@ -288,7 +304,7 @@ export default function BannedList() {
             <div className="manifesto-header">
               <div className="manifesto-icon">⚖</div>
               <div>
-                <div className="manifesto-heading">{T('sec.manifesto-title')}</div>
+                <h2 className="manifesto-heading">{T('sec.manifesto-title')}</h2>
                 <div className="manifesto-sub">{T('sec.manifesto-sub')}</div>
               </div>
             </div>
@@ -297,7 +313,7 @@ export default function BannedList() {
                 {BAN_PHILOSOPHY.map((p, i) => <p key={i} className="ban-phil-text" dangerouslySetInnerHTML={{ __html: L(p) }} />)}
               </div>
               <div>
-                <div className="ban-criteria-title">{T('sec.criteria-title')}</div>
+                <h3 className="ban-criteria-title">{T('sec.criteria-title')}</h3>
                 <ol className="ban-criteria-list">
                   {BAN_CRITERIA.map((c, i) => <li key={i}>{L(c)}</li>)}
                 </ol>
@@ -310,13 +326,13 @@ export default function BannedList() {
             <div className="manifesto-header">
               <div className="manifesto-icon">⏳</div>
               <div>
-                <div className="manifesto-heading">{T('sec.et-title')}</div>
+                <h2 className="manifesto-heading">{T('sec.et-title')}</h2>
                 <div className="manifesto-sub">{T('sec.et-sub')}</div>
               </div>
             </div>
             <div className="manifesto-body">
               <div>
-                <div className="manifesto-col-title green">{L(ET_MANIFESTO.prosTitle)}</div>
+                <h3 className="manifesto-col-title green">{L(ET_MANIFESTO.prosTitle)}</h3>
                 {ET_MANIFESTO.pros.map((p, i) => (
                   <div key={i} className="manifesto-point">
                     <span className="manifesto-bullet">✦</span>
@@ -325,7 +341,7 @@ export default function BannedList() {
                 ))}
               </div>
               <div>
-                <div className="manifesto-col-title red">{L(ET_MANIFESTO.consTitle)}</div>
+                <h3 className="manifesto-col-title red">{L(ET_MANIFESTO.consTitle)}</h3>
                 {ET_MANIFESTO.cons.map((c, i) => (
                   <div key={i} className="manifesto-point">
                     <span className="manifesto-bullet">✖</span>

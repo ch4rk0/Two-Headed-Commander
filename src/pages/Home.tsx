@@ -23,6 +23,9 @@ export default function Home() {
         <meta property="og:url"         content="https://twoheadedcommander.com/" />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
         <meta property="og:image:alt"   content="Two-Headed Commander logo" />
+        <link rel="alternate" hrefLang="en"        href="https://twoheadedcommander.com/" />
+        <link rel="alternate" hrefLang="fr"        href="https://twoheadedcommander.com/" />
+        <link rel="alternate" hrefLang="x-default" href="https://twoheadedcommander.com/" />
       </Helmet>
       <PageParticles />
       <section className="hero">

@@ -38,6 +38,9 @@ export default function Blog() {
         <meta property="og:title"       content="Blog — Two-Headed Commander" />
         <meta property="og:description" content="Ideas, perspectives, and format thinking — presented as starting points, not conclusions." />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
+        <link rel="alternate" hrefLang="en"        href="https://twoheadedcommander.com/blog" />
+        <link rel="alternate" hrefLang="fr"        href="https://twoheadedcommander.com/blog" />
+        <link rel="alternate" hrefLang="x-default" href="https://twoheadedcommander.com/blog" />
       </Helmet>
       <PageParticles />
       <section className="blog-section">

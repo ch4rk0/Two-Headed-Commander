@@ -13,6 +13,9 @@ export default function Privacy() {
         <meta property="og:url"         content="https://twoheadedcommander.com/privacy" />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
         <meta property="og:image:alt"   content="Two-Headed Commander logo" />
+        <link rel="alternate" hrefLang="en"        href="https://twoheadedcommander.com/privacy" />
+        <link rel="alternate" hrefLang="fr"        href="https://twoheadedcommander.com/privacy" />
+        <link rel="alternate" hrefLang="x-default" href="https://twoheadedcommander.com/privacy" />
       </Helmet>
       <PageParticles />
       <div className="container" style={{ paddingTop: '6rem', paddingBottom: '4rem', maxWidth: 740, margin: '0 auto' }}>

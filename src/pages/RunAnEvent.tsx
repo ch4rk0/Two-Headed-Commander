@@ -48,6 +48,9 @@ export default function RunAnEvent() {
         <meta property="og:description" content="Everything you need to run a Two-Headed Commander event at your local game store — format structure, timing rules, deck registration, and Swiss pairings." />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
         <meta property="og:image:alt"   content="Two-Headed Commander logo" />
+        <link rel="alternate" hrefLang="en"        href="https://twoheadedcommander.com/run-an-event" />
+        <link rel="alternate" hrefLang="fr"        href="https://twoheadedcommander.com/run-an-event" />
+        <link rel="alternate" hrefLang="x-default" href="https://twoheadedcommander.com/run-an-event" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "SportsEvent",
@@ -73,7 +76,7 @@ export default function RunAnEvent() {
             {LGS_TILES.map((t, i) => (
               <div key={i} className="lgs-card" style={{ backgroundImage: `url('${t.image}')` }}>
                 <div className="lgs-card-content">
-                  <div className="lgs-title">{L(t.title)}</div>
+                  <h2 className="lgs-title">{L(t.title)}</h2>
                   <p className="lgs-text">{L(t.text)}</p>
                 </div>
               </div>
@@ -83,13 +86,13 @@ export default function RunAnEvent() {
           <div className="event-block">
             <div className="event-header">
               <div>
-                <div className="event-header-title">{T('sec.event-title')}</div>
+                <h2 className="event-header-title">{T('sec.event-title')}</h2>
                 <div className="event-header-sub">{T('sec.event-sub')}</div>
               </div>
             </div>
             <div className="event-body">
               <div>
-                <div className="event-col-title">{T('sec.col-how')}</div>
+                <h3 className="event-col-title">{T('sec.col-how')}</h3>
                 <div className="event-steps">
                   {EVENT_STEPS.map((step, i) => (
                     <div key={i} className="event-step">
@@ -100,7 +103,7 @@ export default function RunAnEvent() {
                 </div>
               </div>
               <div>
-                <div className="event-col-title">{T('sec.col-timing')}</div>
+                <h3 className="event-col-title">{T('sec.col-timing')}</h3>
                 <div className="timing-grid">
                   {TIMING_ROWS.map((r, i) => (
                     <div key={i} className="timing-row">

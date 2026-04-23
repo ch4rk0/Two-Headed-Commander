@@ -174,6 +174,9 @@ export default function BlogPost() {
         <meta name="twitter:description" content={excerpt} />
         {post.coverImage && <meta name="twitter:image" content={post.coverImage} />}
         {post.coverImage && <meta name="twitter:image:alt" content={post.coverAlt ?? title} />}
+        <link rel="alternate" hrefLang="en"        href={`${siteUrl}/blog/${post.slug}`} />
+        <link rel="alternate" hrefLang="fr"        href={`${siteUrl}/blog/${post.slug}`} />
+        <link rel="alternate" hrefLang="x-default" href={`${siteUrl}/blog/${post.slug}`} />
       </Helmet>
 
       <div ref={progressRef} id="read-progress" />

@@ -706,6 +706,7 @@ section {
 .event-header-title {
   font-family: 'Uncial Antiqua', serif;
   font-size: 1.6rem;
+  font-weight: 400;
   color: var(--white);
 }
 
@@ -728,6 +729,7 @@ section {
 .event-col-title {
   font-family: 'Cormorant SC', serif;
   font-size: .78rem;
+  font-weight: 600;
   letter-spacing: .3em;
   text-transform: uppercase;
   color: var(--gold);
@@ -844,6 +846,7 @@ section {
 .ban-criteria-title {
   font-family: 'Cormorant SC', serif;
   font-size: .72rem;
+  font-weight: 600;
   letter-spacing: .3em;
   text-transform: uppercase;
   color: var(--gold);
@@ -910,6 +913,7 @@ section {
 .manifesto-heading {
   font-family: 'Uncial Antiqua', serif;
   font-size: 1.5rem;
+  font-weight: 400;
   color: var(--white);
   line-height: 1.15;
   margin-bottom: .4rem;
@@ -933,6 +937,7 @@ section {
 .manifesto-col-title {
   font-family: 'Cormorant SC', serif;
   font-size: .72rem;
+  font-weight: 600;
   letter-spacing: .3em;
   text-transform: uppercase;
   margin-bottom: 1rem;

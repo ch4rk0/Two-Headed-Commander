@@ -89,6 +89,9 @@ export default function HowToPlay() {
         <meta property="og:description" content="Learn the rules of Two-Headed Commander — shared life totals, simultaneous turns, commander rules, and what makes this 2v2 MTG format unique." />
         <meta property="og:image"       content="https://twoheadedcommander.com/favicon/apple-touch-icon.png" />
         <meta property="og:image:alt"   content="Two-Headed Commander logo" />
+        <link rel="alternate" hrefLang="en"        href="https://twoheadedcommander.com/how-to-play" />
+        <link rel="alternate" hrefLang="fr"        href="https://twoheadedcommander.com/how-to-play" />
+        <link rel="alternate" hrefLang="x-default" href="https://twoheadedcommander.com/how-to-play" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "HowTo",
