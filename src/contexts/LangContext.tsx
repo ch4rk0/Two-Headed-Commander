@@ -158,7 +158,9 @@ const LANG_STRINGS: Record<Lang, Record<string, string>> = {
     try {
       const s = localStorage.getItem('thc_lang');
       if (s === 'en' || s === 'fr') return s as Lang;
-    } catch {}
+    } catch {
+      // localStorage unavailable (e.g. private browsing) — fall back below
+    }
     return (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';
   })();
   (window as unknown as Record<string, unknown>).T = (key: string) =>
@@ -180,7 +182,9 @@ function detectLang(): Lang {
   try {
     const stored = localStorage.getItem('thc_lang');
     if (stored === 'en' || stored === 'fr') return stored;
-  } catch {}
+  } catch {
+    // localStorage unavailable (e.g. private browsing) — fall back below
+  }
   const browser = (navigator.language || 'en').toLowerCase();
   return browser.startsWith('fr') ? 'fr' : 'en';
 }
@@ -194,7 +198,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
-    try { localStorage.setItem('thc_lang', l); } catch {}
+    try { localStorage.setItem('thc_lang', l); } catch { /* localStorage unavailable */ }
     document.documentElement.lang = l;
   }, []);
 

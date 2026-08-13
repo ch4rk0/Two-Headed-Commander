@@ -213,8 +213,10 @@ function parseDeckList(text: string, commanderOverride: string): DeckSection[] {
   let current: DeckSection | null = null;
   const pushSection = (name: string) => { current = { name, cards: [] }; sections.push(current); };
 
-  if (commanderOverride.trim())
-    pushSection('Commander'), current!.cards.push({ qty: 1, name: commanderOverride.trim() });
+  if (commanderOverride.trim()) {
+    pushSection('Commander');
+    current!.cards.push({ qty: 1, name: commanderOverride.trim() });
+  }
 
   for (const raw of text.split('\n')) {
     const line = raw.trim();
@@ -232,7 +234,7 @@ function parseDeckList(text: string, commanderOverride: string): DeckSection[] {
       continue;
     }
 
-    const secMatch = line.match(/^([A-Za-z][A-Za-z &,'\-]*)(?:\s*\(\d+\))?\s*:?\s*$/);
+    const secMatch = line.match(/^([A-Za-z][A-Za-z &,'-]*)(?:\s*\(\d+\))?\s*:?\s*$/);
     if (secMatch) {
       const name = secMatch[1].trim();
       if (name.toLowerCase() === 'commander' && commanderOverride.trim()) continue;

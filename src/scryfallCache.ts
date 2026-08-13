@@ -17,7 +17,7 @@ function readStore(): CacheStore {
 }
 
 function writeStore(store: CacheStore) {
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify(store)); } catch {}
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(store)); } catch { /* localStorage unavailable */ }
 }
 
 // In-flight deduplication

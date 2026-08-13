@@ -103,7 +103,7 @@ interface ModalState {
   isWatchlist: boolean;
 }
 
-function CardModal({ state, onClose, T, L, lang }: { state: ModalState; onClose: () => void; T: (k: string) => string; L: (f: any) => string; lang: string }) {
+function CardModal({ state, onClose, T, L, lang }: { state: ModalState; onClose: () => void; T: (k: string) => string; L: (f: string | { en: string; fr: string } | undefined | null) => string; lang: string }) {
   const { card, isWatchlist } = state;
   const bc = card as BannedCard;
 

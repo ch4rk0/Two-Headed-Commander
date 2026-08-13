@@ -9,7 +9,7 @@ export default function Footer() {
       <p className="footer-note">{T('footer.note')}</p>
       <div className="footer-legal">
         <Link to="/privacy" className="footer-legal-link">{T('footer.privacy')}</Link>
-        <button className="footer-legal-link footer-legal-btn" onClick={() => (window as any).showCookiePreferences?.()}>
+        <button className="footer-legal-link footer-legal-btn" onClick={() => window.showCookiePreferences?.()}>
           {T('footer.cookies')}
         </button>
       </div>
